@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalização do Pedido — Débora Facchinetti | Ambiente Seguro</title>
+  <meta name="description" content="Finalize seu pedido de livros infantis da escritora Débora Facchinetti com segurança e dedicatória personalizada.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* ==========================================================================
+       CHECKOUT REDESIGN — DÉBORA FACCHINETTI
+       Ambiente acolhedor, confiável, lúdico e profissional
+       ========================================================================== */
+
+    .checkout-page-section {
+      padding: 2.5rem 0 5rem;
+    }
+
+    /* 1. CABEÇALHO DA PÁGINA */
+    .checkout-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2.75rem;
+    }
+
+    .checkout-secure-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #EBF8EE;
+      color: #1B5E20;
+      border: 1.5px solid #8CE0A5;
+      padding: 0.4rem 1.1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 0 3px 0 rgba(37, 162, 68, 0.18);
+      margin-bottom: 0.85rem;
+    }
+
+    .checkout-page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 3.8vw, 2.85rem);
+      color: var(--ink-title);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.85rem;
+    }
+
+    .checkout-lead {
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .checkout-wpp-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #FDFBF7;
+      border: 1.5px solid #EAE3D2;
+      border-radius: var(--radius-pill);
+      padding: 0.65rem 1.35rem;
+      font-size: 0.88rem;
+      color: var(--ink-body);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+      text-align: left;
+    }
+
+    .checkout-wpp-banner i {
+      color: #25D366;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    /* 2. LAYOUT EM GRID */
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1fr 410px;
+      gap: 2.25rem;
+      align-items: start;
+    }
+
+    /* FORM COLUMN */
+    .checkout-form-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    /* CARDS */
+    .checkout-card {
+      background: #FFFFFF;
+      border: 1.5px solid #EAE3D2;
+      border-radius: 20px;
+      padding: 1.85rem 2rem;
+      box-shadow: 0 6px 20px rgba(43, 35, 31, 0.04);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .checkout-card:focus-within {
+      border-color: #8CE0A5;
+      box-shadow: 0 8px 26px rgba(37, 162, 68, 0.08);
+    }
+
+    .checkout-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.65rem;
+      padding-bottom: 1.1rem;
+      border-bottom: 1.5px dashed #F0E8DC;
+    }
+
+    .step-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #25A244 0%, #1A7531 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(37, 162, 68, 0.3);
+    }
+
+    .step-badge-gold {
+      background: linear-gradient(135deg, #FFB703 0%, #B26A00 100%);
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
+    }
+
+    .checkout-card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      margin: 0;
+      line-height: 1.25;
+    }
+
+    .checkout-card-sub {
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      margin-top: 0.15rem;
+      line-height: 1.35;
+    }
+
+    .card-header-badge {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0077A8;
+      background: #E8F5FD;
+      border: 1px solid #B8E2F8;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* FORM ELEMENTS & INPUTS */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .form-grid-cep-rua {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-grid-bairro-cidade-uf {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 90px;
+      gap: 1.25rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.25rem;
+    }
+
+    .form-field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-label {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .field-label .required {
+      color: var(--coral-main);
+      margin-left: 0.2rem;
+    }
+
+    .cep-status {
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+    }
+
+    .cep-status.loading {
+      color: #B26A00;
+    }
+
+    .cep-status.success {
+      color: #1B5E20;
+    }
+
+    .cep-status.error {
+      color: #C92A2F;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .field-icon {
+      position: absolute;
+      left: 1.05rem;
+      color: #9C8F87;
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .checkout-input,
+    .checkout-select {
+      width: 100%;
+      height: 48px;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      background: #FFFCF7;
+      border: 1.5px solid #E5DDCF;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      color: var(--ink-title);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .checkout-input:hover,
+    .checkout-select:hover {
+      border-color: #D3C7B5;
+      background: #FFFFFF;
+    }
+
+    .checkout-input:focus,
+    .checkout-select:focus {
+      outline: none;
+      border-color: #25A244;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3.5px rgba(37, 162, 68, 0.16);
+    }
+
+    .input-wrapper:focus-within .field-icon {
+      color: #25A244;
+    }
+
+    .checkout-select {
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23756760'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.3rem;
+      padding-right: 2rem;
+    }
+
+    /* CARD 3: EMOTIONAL AUTÓGRAFO */
+    .card-emotional {
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF8 100%);
+      border-color: #F4E2B8;
+    }
+
+    .card-emotional:focus-within {
+      border-color: #FFB703;
+      box-shadow: 0 8px 26px rgba(255, 183, 3, 0.12);
+    }
+
+    .card-emotional .input-wrapper:focus-within .field-icon {
+      color: #B26A00;
+    }
+
+    .card-emotional .checkout-input:focus {
+      border-color: #FFB703;
+      box-shadow: 0 0 0 3.5px rgba(255, 183, 3, 0.2);
+    }
+
+    .dedication-intro {
+      font-size: 0.92rem;
+      color: var(--ink-body);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dedication-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: #FFF9E6;
+      border: 1.5px dashed #FFD666;
+      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+      margin-top: 0.85rem;
+      font-size: 0.86rem;
+      color: #8C5800;
+      line-height: 1.45;
+    }
+
+    .dedication-badge i {
+      font-size: 1.1rem;
+      color: #FFB703;
+      flex-shrink: 0;
+    }
+
+    /* CARD 4: FORMA DE PAGAMENTO */
+    .payment-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .payment-option-card {
+      position: relative;
+      background: #FFFCF7;
+      border: 2px solid #E5DDCF;
+      border-radius: 14px;
+      padding: 1.15rem 0.85rem;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .payment-option-card:hover {
+      border-color: #8CE0A5;
+      background: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    .payment-option-card.active {
+      border-color: #25A244;
+      background: #F4FBF6;
+      box-shadow: 0 4px 14px rgba(37, 162, 68, 0.16);
+      transform: translateY(-2px);
+    }
+
+    .payment-option-card .payment-icon {
+      font-size: 1.6rem;
+      color: #756760;
+      transition: color 0.2s ease;
+    }
+
+    .payment-option-card.active .payment-icon {
+      color: #25A244;
+    }
+
+    .payment-option-card .payment-name {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      line-height: 1.2;
+    }
+
+    .payment-option-card .payment-timing {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink-muted);
+      border-radius: var(--radius-pill);
+      padding: 0.15rem 0.5rem;
+      background: #EDE7DC;
+    }
+
+    .payment-option-card.active .payment-timing {
+      background: #DCFCE7;
+      color: #166534;
+    }
+
+    .payment-option-card .payment-check-mark {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #25A244;
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+    }
+
+    .payment-option-card.active .payment-check-mark {
+      display: flex;
+    }
+
+    .payment-details-box {
+      background: #F0F9FF;
+      border: 1.5px solid #BAE6FD;
+      border-radius: 14px;
+      padding: 1.15rem 1.35rem;
+      font-size: 0.88rem;
+      color: #0369A1;
+      line-height: 1.55;
+    }
+
+    .payment-details-box strong {
+      color: #0C4A6E;
+    }
+
+    /* 7. BOTÃO FINAL E AÇÕES */
+    .checkout-actions-block {
+      background: #FFFFFF;
+      border: 1.5px solid #EAE3D2;
+      border-radius: 20px;
+      padding: 1.85rem 2rem;
+      box-shadow: 0 8px 28px rgba(43, 35, 31, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .checkout-total-preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-bottom: 1.1rem;
+      border-bottom: 1px dashed #EAE3D2;
+    }
+
+    .checkout-total-label {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink-body);
+    }
+
+    .checkout-total-value {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1A7531;
+    }
+
+    .checkout-benefit-pill {
+      width: 100%;
+      background: #FEF9C3;
+      border: 1px solid #FDE047;
+      color: #854D0E;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 0.5rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-checkout-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #25A244 0%, #1A7531 100%);
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      padding: 1.1rem 2rem;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 6px 0 #135824, 0 12px 24px rgba(37, 162, 68, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: none;
+    }
+
+    .btn-checkout-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #135824, 0 16px 28px rgba(37, 162, 68, 0.4);
+    }
+
+    .btn-checkout-submit:active {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #135824, 0 6px 14px rgba(37, 162, 68, 0.3);
+    }
+
+    .checkout-footer-notes {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+    }
+
+    .btn-return-cart {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--ink-body);
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s ease;
+    }
+
+    .btn-return-cart:hover {
+      color: #25A244;
+    }
+
+    .checkout-security-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #166534;
+      font-weight: 600;
+    }
+
+    /* RIGHT COLUMN: RESUMO DO PEDIDO */
+    .checkout-summary-column {
+      position: sticky;
+      top: 100px;
+    }
+
+    .checkout-summary-card {
+      background: #FFFFFF;
+      border: 1.5px solid #EAE3D2;
+      border-radius: 20px;
+      padding: 1.75rem;
+      box-shadow: 0 8px 24px rgba(43, 35, 31, 0.05);
+    }
+
+    .summary-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1rem;
+      margin-bottom: 1.15rem;
+      border-bottom: 1.5px solid #F0E8DC;
+    }
+
+    .summary-card-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin: 0;
+    }
+
+    .summary-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      max-height: 360px;
+      overflow-y: auto;
+      padding-right: 0.35rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Custom scrollbar for summary */
+    .summary-items-list::-webkit-scrollbar {
+      width: 5px;
+    }
+    .summary-items-list::-webkit-scrollbar-thumb {
+      background: #E5DDCF;
+      border-radius: 4px;
+    }
+
+    /* Item Card in Summary */
+    .summary-item-card {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: #FFFCF7;
+      border: 1px solid #EFE8DC;
+      border-radius: 12px;
+      padding: 0.7rem 0.85rem;
+      transition: background 0.2s ease;
+    }
+
+    .summary-item-card:hover {
+      background: #FFFFFF;
+    }
+
+    .summary-book-thumb {
+      width: 44px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+
+    .summary-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .summary-item-title {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      line-height: 1.25;
+      margin: 0 0 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .summary-item-qty {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+    }
+
+    .summary-item-price {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1A7531;
+      flex-shrink: 0;
+    }
+
+    /* Combo Card in Summary */
+    .summary-combo-card {
+      background: #FDFBF7;
+      border: 1.5px solid #25A244;
+      border-radius: 14px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .summary-combo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .summary-combo-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      background: #DCFCE7;
+      color: #166534;
+      padding: 0.2rem 0.65rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .summary-combo-savings {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #15803D;
+      background: #F0FDF4;
+      border: 1px solid #86EFAC;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .summary-combo-main {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .summary-combo-thumbs {
+      display: flex;
+      align-items: center;
+    }
+
+    .summary-combo-thumbs img {
+      width: 40px;
+      height: 54px;
+      object-fit: cover;
+      border-radius: 5px;
+      border: 1px solid #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+    }
+
+    .summary-combo-thumbs img:nth-child(2) {
+      margin-left: -14px;
+    }
+
+    .summary-combo-gift {
+      font-size: 0.76rem;
+      background: #FFF8E1;
+      border: 1px dashed #FFE082;
+      color: #8D6E18;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Summary Totals Block */
+    .summary-totals-block {
+      border-top: 1.5px dashed #F0E8DC;
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      color: var(--ink-muted);
+    }
+
+    .summary-row .row-val {
+      font-weight: 700;
+      color: var(--ink-title);
+    }
+
+    .summary-row.row-discount {
+      color: #15803D;
+    }
+
+    .summary-row.row-discount .discount-val {
+      color: #15803D;
+    }
+
+    .summary-row .free-shipping {
+      color: #166534;
+      background: #DCFCE7;
+      padding: 0.15rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+
+    .summary-row.row-total {
+      margin-top: 0.5rem;
+      padding-top: 0.85rem;
+      border-top: 2px dashed #EAE3D2;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ink-title);
+    }
+
+    .summary-row.row-total .total-val {
+      color: #1A7531;
+      font-family: var(--font-display);
+    }
+
+    /* Bonus Card (R$ 299) */
+    .checkout-bonus-box {
+      margin-top: 1rem;
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 1.5px solid #86EFAC;
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .checkout-bonus-title {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #166534;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .checkout-bonus-text {
+      font-size: 0.8rem;
+      color: #14532D;
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+    }
+
+    .bonus-select-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #166534;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .bonus-select-dropdown {
+      width: 100%;
+      font-size: 0.84rem;
+      padding: 0.45rem 0.65rem;
+      border: 1.5px solid #86EFAC;
+      border-radius: 8px;
+      background: #FFFFFF;
+      color: #166534;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Trust items at bottom of summary */
+    .summary-trust-items {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px dashed #F0E8DC;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      line-height: 1.35;
+    }
+
+    .trust-item i {
+      color: #25A244;
+      font-size: 0.95rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* SUCCESS MODAL STYLING */
+    .checkout-success-modal {
+      border: none;
+      border-radius: 24px;
+      padding: 0;
+      background: transparent;
+      max-width: 580px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .checkout-success-modal::backdrop {
+      background: rgba(43, 35, 31, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content-wrap {
+      background: #FFFFFF;
+      border: 2px solid #EAE3D2;
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .modal-success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #25D366;
+      color: #FFFFFF;
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+    }
+
+    .modal-headline {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      margin-bottom: 0.65rem;
+    }
+
+    .modal-subtext {
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-summary-box {
+      background: #FFFCF7;
+      border: 1px dashed #E5DDCF;
+      border-radius: 14px;
+      padding: 1.15rem;
+      text-align: left;
+      font-size: 0.84rem;
+      color: var(--ink-body);
+      margin-bottom: 1.5rem;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-modal-wpp {
+      flex: 1;
+      background: #25D366;
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-weight: 700;
+      padding: 0.9rem 1.5rem;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .btn-modal-wpp:hover {
+      background: #1EBE5D;
+    }
+
+    .btn-modal-store {
+      padding: 0.9rem 1.5rem;
+      border: 1.5px solid #E5DDCF;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--ink-body);
+      font-size: 1rem;
+    }
+
+    .btn-modal-store:hover {
+      background: #F8F5EE;
+    }
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 991px) {
+      .checkout-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      /* On mobile, place summary ABOVE form so user instantly knows what they are buying! */
+      .checkout-summary-column {
+        order: 1;
+        position: static;
+        width: 100%;
+      }
+
+      .checkout-form-column {
+        order: 2;
+        width: 100%;
+      }
+
+      .checkout-card {
+        padding: 1.35rem 1.25rem;
+      }
+
+      .form-grid-cep-rua {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .form-grid-bairro-cidade-uf {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .payment-options-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .payment-option-card {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+        padding: 0.9rem 1rem;
+      }
+
+      .payment-option-card .payment-timing {
+        margin-left: auto;
+      }
+
+      .modal-btn-row {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .checkout-page-title {
+        font-size: 1.75rem;
+        line-height: 1.22;
+      }
+
+      .checkout-wpp-banner {
+        border-radius: 16px;
+      }
+
+      .checkout-card {
+        padding: 1.25rem 1rem;
+      }
+
+      .checkout-actions-block {
+        padding: 1.5rem 1.15rem;
+      }
+
+      .btn-checkout-submit {
+        width: 100%;
+        min-height: 52px;
+        font-size: 1.05rem;
+        padding: 1rem 1.25rem;
+      }
+
+      .checkout-footer-notes {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE HEADER -->
+  <header class="site-header" id="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="Débora Facchinetti — Início">
+        <div class="brand-mark"><i class="fa-solid fa-feather-pointed"></i></div>
+        <div class="brand-text-wrap">
+          <span class="brand-name">Débora Facchinetti</span>
+          <span class="brand-tagline">Literatura & Educação</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+      </nav>
+      <div class="nav-actions">
+        <span class="checkout-secure-badge" style="margin-bottom: 0;">
+          <i class="fa-solid fa-lock"></i> Compra Segura
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CHECKOUT SECTION -->
+  <section class="checkout-page-section">
+    <div class="container">
+      
+      <!-- 1. CABEÇALHO DA PÁGINA -->
+      <div class="checkout-header">
+        <div class="checkout-secure-badge">
+          <i class="fa-solid fa-shield-halved"></i> Ambiente Seguro
+        </div>
+        <h1 class="checkout-page-title">Finalização do Pedido</h1>
+        <p class="checkout-lead">
+          Preencha seus dados para concluir a compra dos seus livros. Após o pagamento, o pedido seguirá para confirmação e envio.
+        </p>
+        <div class="checkout-wpp-banner">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>Após a confirmação do pagamento, você será direcionado para o WhatsApp da autora para acompanhamento do pedido.</span>
+        </div>
+      </div>
+
+      <!-- MAIN CHECKOUT GRID -->
+      <div class="checkout-grid" id="checkoutGrid">
+        
+        <!-- LEFT COLUMN: ETAPAS 1 A 4 + BOTÃO FINAL -->
+        <div class="checkout-form-column">
+          <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+            
+            <!-- ETAPA 1: DADOS DO COMPRADOR -->
+            <div class="checkout-card" style="margin-bottom: 1.75rem;">
+              <div class="checkout-card-header">
+                <span class="step-badge">1</span>
+                <div>
+                  <h2 class="checkout-card-title">Dados do Comprador</h2>
+                  <p class="checkout-card-sub">Informe quem está comprando para emissão e contato</p>
+                </div>
+              </div>
+
+              <div class="checkout-card-body">
+                <div class="form-field">
+                  <label class="field-label" for="custName">
+                    Nome Completo <span class="required">*</span>
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="field-icon fa-solid fa-user"></i>
+                    <input type="text" id="custName" name="name" class="checkout-input" 
+                           placeholder="Ex: Maria Clara Silva" autocomplete="name" required>
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-field">
+                    <label class="field-label" for="custPhone">
+                      WhatsApp / Telefone <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-brands fa-whatsapp"></i>
+                      <input type="tel" id="custPhone" name="tel" class="checkout-input" 
+                             placeholder="(86) 98888-0000" autocomplete="tel" inputmode="tel" 
+                             oninput="formatPhoneInput(this)" required>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="field-label" for="custEmail">
+                      E-mail <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-solid fa-envelope"></i>
+                      <input type="email" id="custEmail" name="email" class="checkout-input" 
+                             placeholder="seuemail@exemplo.com" autocomplete="email" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ETAPA 2: ENDEREÇO DE ENTREGA -->
+            <div class="checkout-card" style="margin-bottom: 1.75rem;">
+              <div class="checkout-card-header">
+                <span class="step-badge">2</span>
+                <div>
+                  <h2 class="checkout-card-title">Endereço para Entrega</h2>
+                  <p class="checkout-card-sub">Onde seus exemplares serão entregues com todo carinho</p>
+                </div>
+              </div>
+
+              <div class="checkout-card-body">
+                <!-- Linha 1: CEP | Rua e Número -->
+                <div class="form-grid-cep-rua">
+                  <div class="form-field">
+                    <label class="field-label" for="custCep">
+                      <span>CEP <span class="required">*</span></span>
+                      <span id="cepFeedback" class="cep-status"></span>
+                    </label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-solid fa-location-dot"></i>
+                      <input type="text" id="custCep" name="postal-code" class="checkout-input" 
+                             placeholder="64000-000" autocomplete="postal-code" inputmode="numeric" 
+                             maxlength="9" oninput="formatCepInput(this)" onblur="searchCep(this.value)" required>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="field-label" for="custAddress">
+                      Rua / Logradouro e Número <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-solid fa-house"></i>
+                      <input type="text" id="custAddress" name="address-line1" class="checkout-input" 
+                             placeholder="Ex: Av. Principal, 123 - Apto 402" autocomplete="address-line1" required>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Linha 2: Bairro | Cidade | Estado -->
+                <div class="form-grid-bairro-cidade-uf">
+                  <div class="form-field">
+                    <label class="field-label" for="custBairro">Bairro</label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-solid fa-map-pin"></i>
+                      <input type="text" id="custBairro" name="address-level3" class="checkout-input" 
+                             placeholder="Ex: Centro">
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="field-label" for="custCity">
+                      Cidade <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-solid fa-city"></i>
+                      <input type="text" id="custCity" name="address-level2" class="checkout-input" 
+                             placeholder="Ex: Teresina" autocomplete="address-level2" required>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="field-label" for="custState">
+                      Estado <span class="required">*</span>
+                    </label>
+                    <div class="input-wrapper">
+                      <i class="field-icon fa-solid fa-flag"></i>
+                      <select id="custState" name="address-level1" class="checkout-select" autocomplete="address-level1" required>
+                        <option value="">UF</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI" selected>PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ETAPA 3: DEDICATÓRIA / AUTÓGRAFO (DIFERENCIAL EMOCIONAL) -->
+            <div class="checkout-card card-emotional" style="margin-bottom: 1.75rem;">
+              <div class="checkout-card-header">
+                <span class="step-badge step-badge-gold">3</span>
+                <div>
+                  <h2 class="checkout-card-title">Autógrafo e Dedicatória</h2>
+                  <p class="checkout-card-sub">Um toque afetivo exclusivo em cada exemplar que você recebe</p>
+                </div>
+              </div>
+
+              <div class="checkout-card-body">
+                <p class="dedication-intro">
+                  <i class="fa-solid fa-feather-pointed" style="color: var(--yellow-warm); font-size: 1.1rem;"></i>
+                  <span>Se desejar, informe o nome para autógrafo ou uma dedicatória especial:</span>
+                </p>
+
+                <div class="form-field">
+                  <label class="field-label" for="custAutograph">
+                    Nome para autógrafo / dedicatória
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="field-icon fa-solid fa-pen-fancy" style="color: var(--accent-gold);"></i>
+                    <input type="text" id="custAutograph" class="checkout-input" 
+                           placeholder="Ex: Para a pequena Sofia, com muito carinho">
+                  </div>
+                </div>
+
+                <div class="dedication-badge">
+                  <i class="fa-solid fa-heart" style="color: var(--coral-main);"></i>
+                  <span>Débora Facchinetti autografa cada exemplar com carinho.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ETAPA 4: FORMA DE PAGAMENTO -->
+            <div class="checkout-card" style="margin-bottom: 1.75rem;">
+              <div class="checkout-card-header">
+                <span class="step-badge">4</span>
+                <div>
+                  <h2 class="checkout-card-title">Forma de Pagamento</h2>
+                  <p class="checkout-card-sub">Selecione como prefere pagar de forma simples e segura</p>
+                </div>
+                <span class="card-header-badge">
+                  <i class="fa-solid fa-shield-halved"></i> Mercado Pago
+                </span>
+              </div>
+
+              <div class="checkout-card-body">
+                <div class="payment-options-grid">
+                  
+                  <!-- PIX -->
+                  <div class="payment-option-card active" onclick="selectPaymentMethod('pix', this)">
+                    <div class="payment-check-mark"><i class="fa-solid fa-check"></i></div>
+                    <i class="fa-brands fa-pix payment-icon" style="color: #25A244;"></i>
+                    <span class="payment-name">PIX</span>
+                    <span class="payment-timing">Aprovação imediata</span>
+                  </div>
+
+                  <!-- CARTÃO DE CRÉDITO -->
+                  <div class="payment-option-card" onclick="selectPaymentMethod('card', this)">
+                    <div class="payment-check-mark"><i class="fa-solid fa-check"></i></div>
+                    <i class="fa-solid fa-credit-card payment-icon"></i>
+                    <span class="payment-name">Cartão de Crédito</span>
+                    <span class="payment-timing">Até 12x</span>
+                  </div>
+
+                  <!-- BOLETO BANCÁRIO -->
+                  <div class="payment-option-card" onclick="selectPaymentMethod('boleto', this)">
+                    <div class="payment-check-mark"><i class="fa-solid fa-check"></i></div>
+                    <i class="fa-solid fa-barcode payment-icon"></i>
+                    <span class="payment-name">Boleto Bancário</span>
+                    <span class="payment-timing">Compensação em 1-2 dias</span>
+                  </div>
+
+                </div>
+
+                <!-- Dynamic Payment Description -->
+                <div id="paymentDetailsBox" class="payment-details-box">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
+                    <i class="fa-brands fa-pix" style="color: #25A244; font-size: 1.1rem;"></i>
+                    <span>PIX Selecionado — Aprovação Imediata</span>
+                  </div>
+                  <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
+                    Ao finalizar, sua chave e QR Code PIX do Mercado Pago serão gerados e transmitidos para confirmação com a equipe editorial no WhatsApp.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. BOTÃO FINAL E AÇÕES -->
+            <div class="checkout-actions-block">
+              <div class="checkout-total-preview-row">
+                <span class="checkout-total-label">Total a Pagar:</span>
+                <span id="actionTotalPreview" class="checkout-total-value">R$ 0,00</span>
+                <div id="actionBenefitPill" class="checkout-benefit-pill" style="display: none;"></div>
+              </div>
+
+              <button type="submit" class="btn-checkout-submit" id="btnSubmitOrder">
+                <i class="fa-solid fa-lock"></i>
+                <span>Finalizar Compra</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+
+              <div class="checkout-footer-notes">
+                <a href="loja.html" class="btn-return-cart">
+                  <i class="fa-solid fa-arrow-left"></i> Voltar ao carrinho
+                </a>
+                <span class="checkout-security-notice">
+                  <i class="fa-solid fa-shield-check"></i> Compra protegida em ambiente seguro.
+                </span>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- RIGHT COLUMN: 2. RESUMO DO PEDIDO -->
+        <aside class="checkout-summary-column">
+          <div class="checkout-summary-card">
+            
+            <div class="summary-card-header">
+              <h3 class="summary-card-title">
+                <i class="fa-solid fa-receipt" style="color: var(--yellow-warm);"></i>
+                Resumo do Pedido
+              </h3>
+              <span id="summaryCountBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--ink-muted); background: #FAF5E9; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill);">
+                0 itens
+              </span>
+            </div>
+
+            <!-- List of items (combos and singles) -->
+            <div id="checkoutItemsList" class="summary-items-list">
+              <!-- Dynamically populated by renderCheckoutItems() -->
+            </div>
+
+            <!-- Subtotals and Totals -->
+            <div class="summary-totals-block">
+              <div class="summary-row">
+                <span>Subtotal dos Livros:</span>
+                <span id="checkoutSubtotal" class="row-val">R$ 0,00</span>
+              </div>
+
+              <div id="checkoutSavingsRow" class="summary-row row-discount" style="display: none;">
+                <span><i class="fa-solid fa-tag"></i> Desconto do Combo:</span>
+                <span id="checkoutSavings" class="row-val discount-val">- R$ 0,00</span>
+              </div>
+
+              <div class="summary-row">
+                <span>Frete:</span>
+                <span id="checkoutShipping" class="free-shipping">
+                  <i class="fa-solid fa-check"></i> Grátis (Promoção)
+                </span>
+              </div>
+
+              <div class="summary-row row-total">
+                <span>Total Final:</span>
+                <span id="checkoutTotal" class="total-val">R$ 0,00</span>
+              </div>
+            </div>
+
+            <!-- Bonus Qualify Box for purchases >= R$ 299 -->
+            <div id="checkoutBonusBox" style="display: none;"></div>
+
+            <!-- Trust features -->
+            <div class="summary-trust-items">
+              <div class="trust-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <span>Envio rápido com rastreamento para todo o Brasil.</span>
+              </div>
+              <div class="trust-item">
+                <i class="fa-solid fa-pen-nib"></i>
+                <span>Exemplares físicos autografados pela autora.</span>
+              </div>
+              <div class="trust-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Pagamento 100% seguro pelo Mercado Pago.</span>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUCCESS CONFIRMATION MODAL -->
+  <dialog class="checkout-success-modal" id="orderSuccessModal">
+    <div class="modal-content-wrap">
+      <div class="modal-success-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h2 class="modal-headline">Pedido Registrado com Sucesso!</h2>
+      <p class="modal-subtext">
+        Você está sendo direcionado para o WhatsApp oficial de <strong>Débora Facchinetti</strong> para receber a chave/link de pagamento do Mercado Pago e acompanhar o envio dos seus livros.
+      </p>
+
+      <div class="modal-summary-box" id="successMsgPreview"></div>
+
+      <div class="modal-btn-row">
+        <a id="successWppRedirectBtn" href="#" target="_blank" class="btn-modal-wpp">
+          <i class="fa-brands fa-whatsapp"></i> Abrir WhatsApp Agora
+        </a>
+        <a href="loja.html" class="btn-modal-store">Voltar à Loja</a>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-bottom" style="border-top: none; padding-top: 0;">
+      <p>© 2026 Débora Facchinetti. Pagamentos processados pelo Mercado Pago.</p>
+      <p>WhatsApp Oficial: +55 86 98889-1466</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    let selectedPayment = 'pix';
+
+    function selectPaymentMethod(method, element) {
+      selectedPayment = method;
+      document.querySelectorAll('.payment-option-card').forEach(el => el.classList.remove('active'));
+      if (element) {
+        element.classList.add('active');
+      }
+
+      const box = document.getElementById('paymentDetailsBox');
+      if (!box) return;
+
+      if (method === 'pix') {
+        box.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
+            <i class="fa-brands fa-pix" style="color: #25A244; font-size: 1.1rem;"></i>
+            <span>PIX Selecionado — Aprovação Imediata</span>
+          </div>
+          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
+            Ao finalizar, sua chave e QR Code PIX do Mercado Pago serão gerados e transmitidos para confirmação com a equipe editorial no WhatsApp.
+          </p>
+        `;
+      } else if (method === 'card') {
+        box.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
+            <i class="fa-solid fa-credit-card" style="color: #0284C7; font-size: 1.1rem;"></i>
+            <span>Cartão de Crédito Selecionado — Até 12x</span>
+          </div>
+          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
+            Você receberá o link seguro do Mercado Pago para parcelamento em até 12x com proteção integral dos dados do seu cartão.
+          </p>
+        `;
+      } else {
+        box.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
+            <i class="fa-solid fa-barcode" style="color: #475569; font-size: 1.1rem;"></i>
+            <span>Boleto Bancário Selecionado</span>
+          </div>
+          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
+            A linha digitável e o PDF do boleto bancário oficial do Mercado Pago serão enviados para você com compensação em 1 a 2 dias úteis.
+          </p>
+        `;
+      }
+    }
+
+    // Auto-formatting helpers
+    function formatPhoneInput(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length > 11) v = v.substring(0, 11);
+      if (v.length > 10) {
+        v = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7, 11);
+      } else if (v.length > 6) {
+        v = '(' + v.substring(0, 2) + ') ' + v.substring(2, 6) + '-' + v.substring(6, 10);
+      } else if (v.length > 2) {
+        v = '(' + v.substring(0, 2) + ') ' + v.substring(2);
+      }
+      input.value = v;
+    }
+
+    function formatCepInput(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length > 8) v = v.substring(0, 8);
+      if (v.length > 5) {
+        v = v.substring(0, 5) + '-' + v.substring(5, 8);
+      }
+      input.value = v;
+      if (v.replace(/\D/g, '').length === 8) {
+        searchCep(v);
+      }
+    }
+
+    async function searchCep(cepValue) {
+      const clean = cepValue.replace(/\D/g, '');
+      const feedback = document.getElementById('cepFeedback');
+      if (clean.length !== 8) return;
+
+      if (feedback) {
+        feedback.className = 'cep-status loading';
+        feedback.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Localizando...';
+      }
+
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${clean}/json/`);
+        const data = await response.json();
+
+        if (!data.erro) {
+          const addrField = document.getElementById('custAddress');
+          const bairroField = document.getElementById('custBairro');
+          const cityField = document.getElementById('custCity');
+          const stateField = document.getElementById('custState');
+
+          if (data.logradouro && (!addrField.value || addrField.value.trim() === '')) {
+            addrField.value = data.logradouro + ', ';
+          }
+          if (data.bairro) bairroField.value = data.bairro;
+          if (data.localidade) cityField.value = data.localidade;
+          if (data.uf) stateField.value = data.uf;
+
+          if (feedback) {
+            feedback.className = 'cep-status success';
+            feedback.innerHTML = '<i class="fa-solid fa-check"></i> Encontrado!';
+            setTimeout(() => { feedback.innerHTML = ''; }, 3000);
+          }
+
+          if (addrField) addrField.focus();
+        } else {
+          if (feedback) {
+            feedback.className = 'cep-status error';
+            feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Não localizado';
+            setTimeout(() => { feedback.innerHTML = ''; }, 3000);
+          }
+        }
+      } catch (e) {
+        if (feedback) feedback.innerHTML = '';
+      }
+    }
+
+    function renderCheckoutItems() {
+      const container = document.getElementById('checkoutItemsList');
+      const subtotalEl = document.getElementById('checkoutSubtotal');
+      const savingsRow = document.getElementById('checkoutSavingsRow');
+      const savingsEl = document.getElementById('checkoutSavings');
+      const totalEl = document.getElementById('checkoutTotal');
+      const actionTotalEl = document.getElementById('actionTotalPreview');
+      const actionBenefitEl = document.getElementById('actionBenefitPill');
+      const bonusBox = document.getElementById('checkoutBonusBox');
+      const countBadge = document.getElementById('summaryCountBadge');
+
+      if (!container) return;
+
+      if (cart.items.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 2rem 1rem;">
+            <p style="color: var(--ink-muted); margin-bottom: 1rem; font-size: 0.95rem;">Nenhum item na sua sacola de compras.</p>
+            <a href="loja.html" class="btn btn-outline btn-sm">
+              <i class="fa-solid fa-book-open"></i> Explorar Livros
+            </a>
+          </div>
+        `;
+        if (subtotalEl) subtotalEl.textContent = 'R$ 0,00';
+        if (totalEl) totalEl.textContent = 'R$ 0,00';
+        if (actionTotalEl) actionTotalEl.textContent = 'R$ 0,00';
+        if (savingsRow) savingsRow.style.display = 'none';
+        if (actionBenefitEl) actionBenefitEl.style.display = 'none';
+        if (bonusBox) bonusBox.style.display = 'none';
+        if (countBadge) countBadge.textContent = '0 itens';
+        return;
+      }
+
+      const evalResult = cart.getSmartEvaluation();
+      let html = '';
+      let totalItemCount = 0;
+      let activeBenefits = [];
+
+      // 1. Render Combos
+      if (evalResult.combos && evalResult.combos.length > 0) {
+        evalResult.combos.forEach(c => {
+          totalItemCount += (c.itemsList.length * (c.qty || 1));
+          activeBenefits.push(`🎁 ${c.benefit}`);
+
+          const savingsTag = c.savings > 0 
+            ? `<span class="summary-combo-savings"><i class="fa-solid fa-tag"></i> Economia R$ ${c.savings.toFixed(2).replace('.', ',')}</span>` 
+            : '';
+          
+          const thumbs = c.covers.slice(0, 2).map(img => 
+            `<img src="${img}" alt="Capa da Obra">`
+          ).join('');
+
+          html += `
+            <div class="summary-combo-card">
+              <div class="summary-combo-header">
+                <span class="summary-combo-badge">${c.badge}</span>
+                ${savingsTag}
+              </div>
+              <div class="summary-combo-main">
+                <div class="summary-combo-thumbs">
+                  ${thumbs}
+                </div>
+                <div style="flex: 1; min-width: 0;">
+                  <h5 style="font-family: var(--font-display); font-size: 0.9rem; font-weight: 700; margin: 0; line-height: 1.25; color: var(--ink-title);">
+                    ${c.qty > 1 ? `${c.qty}x ` : ''}${c.title}
+                  </h5>
+                  <span style="font-size: 0.75rem; color: var(--ink-muted);">${c.itemsList.length} obras inclusas</span>
+                </div>
+                <span style="font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #1A7531; flex-shrink: 0;">
+                  R$ ${c.promoPrice.toFixed(2).replace('.', ',')}
+                </span>
+              </div>
+              <div class="summary-combo-gift">
+                <i class="fa-solid fa-gift" style="color: #D97706;"></i>
+                <span><strong>Brinde incluso:</strong> ${c.benefit}</span>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      // 2. Render Individual Books
+      if (evalResult.singles && evalResult.singles.length > 0) {
+        evalResult.singles.forEach(item => {
+          totalItemCount += item.qty;
+          html += `
+            <div class="summary-item-card">
+              <img src="${item.cover}" alt="${item.title}" class="summary-book-thumb">
+              <div class="summary-item-info">
+                <h5 class="summary-item-title">${item.title}</h5>
+                <span class="summary-item-qty">${item.qty}x de R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+              </div>
+              <span class="summary-item-price">
+                R$ ${item.subtotal.toFixed(2).replace('.', ',')}
+              </span>
+            </div>
+          `;
+        });
+      }
+
+      container.innerHTML = html;
+
+      // Update badge
+      if (countBadge) {
+        countBadge.textContent = totalItemCount === 1 ? '1 livro' : `${totalItemCount} livros`;
+      }
+
+      // Subtotals & Discounts
+      const totalRegularStr = `R$ ${evalResult.totalRegular.toFixed(2).replace('.', ',')}`;
+      const finalTotalStr = `R$ ${evalResult.finalTotal.toFixed(2).replace('.', ',')}`;
+
+      if (subtotalEl) subtotalEl.textContent = totalRegularStr;
+      if (totalEl) totalEl.textContent = finalTotalStr;
+      if (actionTotalEl) actionTotalEl.textContent = finalTotalStr;
+
+      if (savingsRow && savingsEl) {
+        if (evalResult.totalSavings > 0) {
+          savingsRow.style.display = 'flex';
+          savingsEl.textContent = `- R$ ${evalResult.totalSavings.toFixed(2).replace('.', ',')}`;
+        } else {
+          savingsRow.style.display = 'none';
+        }
+      }
+
+      // Action Benefit Pill
+      if (actionBenefitEl) {
+        if (evalResult.qualifiesFor299Gift) {
+          actionBenefitEl.style.display = 'flex';
+          actionBenefitEl.innerHTML = `<i class="fa-solid fa-gift"></i> <span>Brinde Desbloqueado: Camiseta Personalizada Literatura que Abraça!</span>`;
+        } else if (activeBenefits.length > 0) {
+          actionBenefitEl.style.display = 'flex';
+          actionBenefitEl.innerHTML = `<i class="fa-solid fa-gift"></i> <span>${activeBenefits[0]}</span>`;
+        } else {
+          actionBenefitEl.style.display = 'none';
+        }
+      }
+
+      // 3. Render 299 Gift Box
+      if (bonusBox) {
+        if (evalResult.qualifiesFor299Gift) {
+          bonusBox.style.display = 'block';
+          bonusBox.innerHTML = `
+            <div class="checkout-bonus-box">
+              <div class="checkout-bonus-title">
+                <i class="fa-solid fa-gift"></i>
+                <span>Parabéns! Camiseta de Brinde Desbloqueada:</span>
+              </div>
+              <p class="checkout-bonus-text">
+                Por atingir mais de R$ 299, você ganhou 1 Camiseta Personalizada exclusiva!
+              </p>
+              <div>
+                <label class="bonus-select-label">Escolha o personagem da sua camiseta:</label>
+                <select class="bonus-select-dropdown" onchange="cart.setGiftCharacter(this.value); renderCheckoutItems();">
+                  <option value="Getúlio (Jacarezinho)" ${cart.giftCharacter === 'Getúlio (Jacarezinho)' ? 'selected' : ''}>🐊 Camiseta Getúlio (Jacarezinho)</option>
+                  <option value="Bartô (Gatinho)" ${cart.giftCharacter === 'Bartô (Gatinho)' ? 'selected' : ''}>🐱 Camiseta Bartô (Gatinho)</option>
+                  <option value="Caranguejo Dante" ${cart.giftCharacter === 'Caranguejo Dante' ? 'selected' : ''}>🦀 Camiseta Caranguejo Dante</option>
+                  <option value="Dona Arborina & Jussara" ${cart.giftCharacter === 'Dona Arborina & Jussara' ? 'selected' : ''}>🐷 Camiseta Dona Arborina &amp; Jussara</option>
+                  <option value="Plácido (Sapinho)" ${cart.giftCharacter === 'Plácido (Sapinho)' ? 'selected' : ''}>🐸 Camiseta Plácido (Sapinho)</option>
+                </select>
+              </div>
+            </div>
+          `;
+        } else {
+          bonusBox.style.display = 'none';
+        }
+      }
+    }
+
+    async function handleCheckoutSubmit(e) {
+      e.preventDefault();
+
+      if (cart.items.length === 0) {
+        alert('Sua sacola está vazia! Adicione livros antes de finalizar.');
+        window.location.href = 'loja.html';
+        return;
+      }
+
+      const submitBtn = document.getElementById('btnSubmitOrder');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Registrando Pedido...</span>';
+      }
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const bairro = document.getElementById('custBairro').value.trim();
+      const city = document.getElementById('custCity').value.trim();
+      const state = document.getElementById('custState').value;
+      const cep = document.getElementById('custCep').value.trim();
+      const autograph = document.getElementById('custAutograph').value.trim();
+
+      const evalResult = cart.getSmartEvaluation();
+      let giftSelected = null;
+      if (evalResult.qualifiesFor299Gift) {
+        giftSelected = `Camiseta Literatura que Abraça — ${cart.giftCharacter || 'Getúlio (Jacarezinho)'}`;
+      } else if (evalResult.combos && evalResult.combos.length > 0) {
+        giftSelected = evalResult.combos[0].benefit;
+      }
+
+      // 1. Envia os dados para a API /api/orders criar o pedido no Supabase
+      let orderCode = null;
+      try {
+        const orderPayload = {
+          customer: {
+            name,
+            phone,
+            email,
+            address,
+            bairro,
+            city,
+            state,
+            cep
+          },
+          items: cart.items.map(item => ({ id: item.id, qty: item.qty })),
+          autograph_notes: autograph,
+          gift_selected: giftSelected,
+          payment_method: selectedPayment
+        };
+
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderPayload)
+        });
+
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && resData.data && resData.data.order_code) {
+            orderCode = resData.data.order_code;
+          }
+        }
+      } catch (apiErr) {
+        console.warn('Aviso: Pedido prosseguindo com fallback direto para WhatsApp:', apiErr.message);
+      }
+
+      // 2. Monta a mensagem para o WhatsApp com o Código do Pedido no topo
+      let itemsLines = [];
+
+      if (evalResult.combos && evalResult.combos.length > 0) {
+        evalResult.combos.forEach(c => {
+          itemsLines.push(`• *${c.qty > 1 ? `${c.qty}x ` : ''}${c.title}* — R$ ${c.promoPrice.toFixed(2).replace('.', ',')}`);
+          c.itemsList.forEach(bookTitle => {
+            itemsLines.push(`    └ ${bookTitle}`);
+          });
+          itemsLines.push(`    🎁 Brinde: ${c.benefit}`);
+          if (c.savings > 0) {
+            itemsLines.push(`    🏷️ Economia: R$ ${c.savings.toFixed(2).replace('.', ',')}`);
+          }
+        });
+      }
+
+      if (evalResult.singles && evalResult.singles.length > 0) {
+        evalResult.singles.forEach(s => {
+          itemsLines.push(`• ${s.qty}x ${s.title} — R$ ${s.subtotal.toFixed(2).replace('.', ',')} (R$ ${s.price.toFixed(2).replace('.', ',')} un.)`);
+        });
+      }
+
+      if (evalResult.qualifiesFor299Gift) {
+        itemsLines.push(`\n🎉 *BRINDE COMPRAS ACIMA DE R$ 299:*`);
+        itemsLines.push(`• 1 Camiseta Personalizada da Literatura que Abraça`);
+        itemsLines.push(`• Personagem Escolhido: *${cart.giftCharacter || 'Getúlio (Jacarezinho)'}*`);
+      }
+
+      if (evalResult.totalSavings > 0) {
+        itemsLines.push(`\n💰 *Economia Total com Promoções:* R$ ${evalResult.totalSavings.toFixed(2).replace('.', ',')}`);
+      }
+
+      const totalFormatted = `R$ ${evalResult.finalTotal.toFixed(2).replace('.', ',')}`;
+
+      const orderHeader = orderCode 
+        ? `Olá Débora, realizei uma compra pelo site e meu pedido foi registrado como *#${orderCode}*! Gostaria de confirmar com você.`
+        : `Olá Débora, realizei uma compra pelo site e gostaria de confirmar meu pedido.`;
+
+      const message = `${orderHeader}
+
+${orderCode ? `📋 *PEDIDO OFICIAL:* #${orderCode}\n` : ''}📦 *ITENS DO PEDIDO (COMBO / PROMOÇÃO INTELIGENTE):*
+${itemsLines.join('\n')}
+
+💰 *Valor Total a Pagar:* ${totalFormatted}
+💳 *Forma de Pagamento:* Mercado Pago (${selectedPayment.toUpperCase()})
+
+👤 *DADOS DO COMPRADOR:*
+• Nome: ${name}
+• WhatsApp: ${phone}
+• E-mail: ${email}
+• Endereço: ${address}${bairro ? `, ${bairro}` : ''}, ${city} - ${state} (CEP: ${cep})
+${autograph ? `✍️ *Dedicatória para:* ${autograph}` : ''}`;
+
+      const whatsappUrl = `https://wa.me/5586988891466?text=${encodeURIComponent(message)}`;
+
+      // Show confirmation modal and redirect
+      const modal = document.getElementById('orderSuccessModal');
+      const preview = document.getElementById('successMsgPreview');
+      const redirectBtn = document.getElementById('successWppRedirectBtn');
+
+      if (preview) {
+        preview.innerHTML = `
+          <div style="font-weight: 700; color: #166534; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
+            <i class="fa-brands fa-whatsapp"></i> ${orderCode ? `Pedido registrado com sucesso: <strong>#${orderCode}</strong>` : 'Mensagem enviada para +55 86 98889-1466:'}
+          </div>
+          <pre style="white-space: pre-wrap; font-family: inherit; margin: 0; font-size: 0.82rem; color: var(--ink-body); line-height: 1.45;">${message}</pre>
+        `;
+      }
+      if (redirectBtn) {
+        redirectBtn.href = whatsappUrl;
+      }
+
+      if (modal) {
+        if (typeof modal.showModal === 'function') {
+          modal.showModal();
+        } else {
+          modal.setAttribute('open', '');
+        }
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Finalizar Compra</span> <i class="fa-solid fa-arrow-right"></i>';
+      }
+
+      // Automatically trigger WhatsApp in new tab after 1.5s
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+        cart.clear();
+      }, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCheckoutItems();
+      window.addEventListener('cartUpdated', renderCheckoutItems);
+    });
+  </script>
+</body>
+</html>

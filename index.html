@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Débora Facchinetti — Literatura, Educação e Histórias que Transformam</title>
+  <meta name="description" content="Site oficial da escritora Débora Facchinetti. Literatura infantil, educação e experiências que acolhem, ensinam e transformam a infância. Livros, palestras e oficinas lúdicas.">
+  <meta name="keywords" content="Débora Facchinetti, literatura infantil, livros infantis, Getúlio jacaré ou bagulho, Bartolomeu o gato autista, palestras para escolas, contação de histórias, Teresina Piauí, educação infantil inclusiva">
+  <meta name="author" content="Débora Facchinetti">
+  <link rel="canonical" href="https://deborafacchinetti.com.br/">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Débora Facchinetti — Literatura, Educação e Histórias que Transformam">
+  <meta property="og:description" content="Histórias que acolhem, ensinam e transformam a infância. Conheça as obras, kits pedagógicos e palestras da escritora Débora Facchinetti.">
+  <meta property="og:image" content="assets/images/debora_rainbow.jpg">
+
+  <!-- Icons & Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+  <!-- TOP MAGIC ANNOUNCEMENT -->
+  <div class="top-magic-announcement">
+    <span>✨</span>
+    <span>Bem-vindo ao universo de histórias que acolhem, ensinam e transformam a infância!</span>
+    <span>📚</span>
+  </div>
+
+  <!-- SITE HEADER -->
+  <header class="site-header" id="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="Débora Facchinetti — Página Inicial">
+        <div class="brand-mark">
+          <i class="fa-solid fa-feather-pointed"></i>
+        </div>
+        <div class="brand-text-wrap">
+          <span class="brand-name">Débora Facchinetti</span>
+          <span class="brand-tagline"><i class="fa-solid fa-sparkles"></i> Literatura & Educação</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" aria-label="Navegação Principal">
+        <a href="index.html" class="nav-link active">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Shopping Cart Trigger -->
+        <button class="cart-trigger-btn" id="cartTrigger" aria-label="Abrir Sacola de Compras">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </button>
+
+        <a href="palestras.html" class="btn btn-green btn-sm" style="display: none; @media(min-width: 990px){display: inline-flex;}">
+          <i class="fa-solid fa-calendar-star"></i> Agendar Palestra
+        </a>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-nav-toggle" aria-label="Abrir Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav-drawer" id="mobileDrawer">
+    <div>
+      <div class="drawer-header">
+        <div class="brand-text-wrap">
+          <span class="brand-name" style="font-size: 1.3rem;">Débora Facchinetti</span>
+          <span class="brand-tagline">Literatura & Educação</span>
+        </div>
+        <button class="drawer-close-btn" style="font-size: 1.5rem; color: var(--coral-dark);" aria-label="Fechar Menu">✕</button>
+      </div>
+      <nav class="drawer-nav-links">
+        <a href="index.html" class="nav-link active">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+      </nav>
+    </div>
+    <div style="padding: 1.5rem; border-top: 2px dashed var(--paper-border); margin-top: auto;">
+      <a href="https://wa.me/5586988891466" target="_blank" class="btn btn-whatsapp" style="width: 100%;">
+        <i class="fa-brands fa-whatsapp"></i> Conversar no WhatsApp
+      </a>
+    </div>
+  </aside>
+
+  <!-- HERO SECTION — O UNIVERSO LITERÁRIO EM MOVIMENTO -->
+  <section class="hero-section">
+    <canvas id="heroParticlesCanvas" class="hero-particles"></canvas>
+
+    <div class="container hero-grid">
+      <!-- Left Content -->
+      <div class="hero-content">
+        <div class="hero-story-badge">
+          <i class="fa-solid fa-sparkles" style="color: var(--yellow-deep);"></i>
+          <span>Era uma vez um sonho que virou história</span>
+        </div>
+
+        <h1 class="hero-title">
+          Histórias que <span class="highlight-magic">acolhem</span>, <span class="highlight-green">ensinam</span> e <span class="highlight-coral">transformam</span> a infância.
+        </h1>
+
+        <p class="hero-subtitle">
+          Literatura infantil, educação e experiências lúdicas que aproximam crianças, famílias e escolas através do afeto, da empatia e da magia das palavras.
+        </p>
+
+        <!-- Reorganized Literary CTAs: Visual Hierarchy -->
+        <div class="hero-actions-container">
+          <!-- Primary CTA: Em Destaque (Amarelo Maior) -->
+          <a href="#livros" class="btn btn-yellow btn-hero-featured" aria-label="Conheça meus livros">
+            <i class="fa-solid fa-book-bookmark"></i> Conheça meus livros
+          </a>
+
+          <!-- Secondary CTAs: Complementares (Verde e Coral) -->
+          <div class="hero-sub-actions">
+            <a href="palestras.html" class="btn btn-green btn-hero-sub" aria-label="Leve uma palestra para sua escola">
+              <i class="fa-solid fa-chalkboard-user"></i> Leve uma palestra para sua escola
+            </a>
+            <a href="#historia" class="btn btn-coral btn-hero-sub" aria-label="Conheça minha história">
+              <i class="fa-solid fa-sparkles"></i> Conheça minha história
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Visual Feature: Débora + Floating Story Elements -->
+      <div class="hero-visual-stage">
+        <div class="portal-backdrop"></div>
+
+        <!-- Author Portal -->
+        <div class="hero-author-portal">
+          <img src="assets/images/debora_rainbow.jpg" alt="Débora Facchinetti, escritora e educadora" width="1200" height="1600" fetchpriority="high">
+        </div>
+
+        <!-- Floating Book 1: Cadê minha vovó? -->
+        <div class="floating-element float-char-getulio" onclick="openBookModal('vovo')" style="cursor: pointer;" title="Conheça o livro Cadê minha vovó?">
+          <img src="assets/images/livro_vovo.jpg" alt="Capa do livro Cadê minha vovó?" style="object-position: center 25%;">
+        </div>
+
+        <!-- Floating Book 2: Plácido não queria ir à escola -->
+        <div class="floating-element float-char-barto" onclick="openBookModal('placido')" style="cursor: pointer;" title="Conheça o livro Plácido não queria ir à escola">
+          <img src="assets/images/livro_placido.jpg" alt="Capa do livro Plácido não queria ir à escola" style="object-position: top center;">
+        </div>
+
+        <!-- Floating Mini Book -->
+        <div class="floating-element float-mini-book" onclick="openBookModal('getulio')" style="cursor: pointer;" title="Getúlio, jacaré ou bagulho?">
+          <img src="assets/images/livro_getulio.jpg" alt="Capa Getúlio">
+        </div>
+
+        <!-- Award Seal -->
+        <div class="floating-element floating-seal-badge">
+          <div class="seal-icon-box">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <div class="seal-text-box">
+            <h5>Autora Premiada</h5>
+            <p>Destaque Acadêmico UERJ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDIBILITY METRICS BAR -->
+  <section class="credibility-bar" aria-label="Estatísticas e Credenciais">
+    <div class="container credibility-grid">
+      <div class="credibility-item">
+        <span class="credibility-number">6</span>
+        <span class="credibility-label">Obras Publicadas</span>
+      </div>
+      <div class="credibility-item">
+        <span class="credibility-number">100%</span>
+        <span class="credibility-label">Com Caderno Pedagógico</span>
+      </div>
+      <div class="credibility-item">
+        <span class="credibility-number">50+</span>
+        <span class="credibility-label">Escolas & Projetos Atendidos</span>
+      </div>
+      <div class="credibility-item">
+        <span class="credibility-number">UERJ</span>
+        <span class="credibility-label">Pesquisa Acadêmica Nacional</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- A HISTÓRIA POR TRÁS DAS HISTÓRIAS (SOBRE A DÉBORA) -->
+  <section class="author-story-section" id="historia" aria-label="A história por trás das histórias">
+    <div class="container">
+      
+      <!-- Cabeçalho da Seção -->
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag tag-coral"><i class="fa-solid fa-feather-pointed"></i> A Autora</span>
+        <h2 class="section-title">A História por Trás das Histórias</h2>
+        <p class="section-description">
+          Conheça a mulher, educadora e pesquisadora cuja vivência transformou experiências reais em obras que acolhem, ensinam e inspiram a infância.
+        </p>
+        <div class="ornament-divider"><i class="fa-solid fa-heart" style="color: var(--coral-main);"></i></div>
+      </div>
+
+      <!-- Grid Assimétrico: Foto Editorial (Esquerda) + Narrativa e Trajetória (Direita) -->
+      <div class="author-story-grid">
+        
+        <!-- LADO ESQUERDO: Foto em Destaque Editorial com Moldura de Papel e Selos -->
+        <div class="author-portrait-column reveal-on-scroll">
+          <div class="author-photo-composition">
+            <!-- Camada de Papel Editorial de Fundo -->
+            <div class="photo-paper-underlay" aria-hidden="true"></div>
+            
+            <div class="author-photo-wrapper">
+              <img src="assets/images/debora_portrait.jpg" alt="Débora Facchinetti, escritora e educadora" class="author-main-img" loading="lazy">
+              <div class="photo-bookmark-ribbon" aria-hidden="true" title="Escritora Débora Facchinetti">
+                <i class="fa-solid fa-bookmark"></i>
+              </div>
+            </div>
+
+            <!-- Selos Flutuantes de Autoridade e Afeto -->
+            <div class="author-badge-floating badge-pedagogy">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <div>
+                <strong>Doutoranda em Educação</strong>
+                <span>Pesquisa UERJ / UESPI</span>
+              </div>
+            </div>
+
+            <div class="author-badge-floating badge-author">
+              <i class="fa-solid fa-feather"></i>
+              <div>
+                <strong>6 Obras Publicadas</strong>
+                <span>Literatura Infantil</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LADO DIREITO: Narrativa Emocional & Linha da Trajetória -->
+        <div class="author-narrative-column reveal-on-scroll">
+          <div class="author-story-text">
+            <h3 class="author-story-lead">
+              “Antes de existirem os livros, existiu uma menina que aprendeu a escutar o que o silêncio das crianças queria dizer.”
+            </h3>
+            
+            <p class="author-narrative-p">
+              <strong>Débora Facchinetti</strong> é escritora de literatura infantil, educadora e pesquisadora. Sua trajetória une educação, literatura e infância, transformando experiências reais em histórias que acolhem, ensinam e inspiram.
+            </p>
+
+            <p class="author-narrative-p">
+              Ao longo de sua caminhada como <strong>professora, pedagoga e gestora escolar</strong>, Débora compreendeu a fundo as dores, medos e descobertas da infância. Cada conquista acadêmica — a formação em <strong>Pedagogia</strong>, o <strong>Mestrado</strong>, o <strong>Doutorado em Educação</strong> e a graduação em <strong>Psicologia</strong> — não surgiu como títulos distantes, mas como instrumentos vivos de sensibilidade para acolher a neurodiversidade, combater o bullying e fortalecer o vínculo entre escola e família.
+            </p>
+          </div>
+
+          <!-- ELEMENTO CRIATIVO PRINCIPAL: LINHA DA TRAJETÓRIA -->
+          <div class="trajectory-journey-wrap">
+            <h4 class="trajectory-section-title">
+              <i class="fa-solid fa-route" style="color: var(--yellow-warm);"></i> Linha da Trajetória
+            </h4>
+
+            <!-- Trilha de 5 Etapas -->
+            <div class="trajectory-track" role="tablist" aria-label="Etapas da trajetória da Débora">
+              
+              <!-- Etapa 1 -->
+              <button class="trajectory-step active" data-step="1" role="tab" aria-selected="true" title="Etapa 1: Infância">
+                <div class="step-marker">
+                  <span class="step-icon">✨</span>
+                </div>
+                <span class="step-label">Infância</span>
+              </button>
+
+              <div class="trajectory-line-connector" aria-hidden="true"></div>
+
+              <!-- Etapa 2 -->
+              <button class="trajectory-step" data-step="2" role="tab" aria-selected="false" title="Etapa 2: O sonho de escrever">
+                <div class="step-marker">
+                  <span class="step-icon">📚</span>
+                </div>
+                <span class="step-label">O sonho de escrever</span>
+              </button>
+
+              <div class="trajectory-line-connector" aria-hidden="true"></div>
+
+              <!-- Etapa 3 -->
+              <button class="trajectory-step" data-step="3" role="tab" aria-selected="false" title="Etapa 3: Educação">
+                <div class="step-marker">
+                  <span class="step-icon">🎓</span>
+                </div>
+                <span class="step-label">Educação</span>
+              </button>
+
+              <div class="trajectory-line-connector" aria-hidden="true"></div>
+
+              <!-- Etapa 4 -->
+              <button class="trajectory-step" data-step="4" role="tab" aria-selected="false" title="Etapa 4: Primeiros livros">
+                <div class="step-marker">
+                  <span class="step-icon">✍️</span>
+                </div>
+                <span class="step-label">Primeiros livros</span>
+              </button>
+
+              <div class="trajectory-line-connector" aria-hidden="true"></div>
+
+              <!-- Etapa 5 -->
+              <button class="trajectory-step" data-step="5" role="tab" aria-selected="false" title="Etapa 5: Projetos que transformam">
+                <div class="step-marker">
+                  <span class="step-icon">🌎</span>
+                </div>
+                <span class="step-label">Projetos que transformam</span>
+              </button>
+            </div>
+
+            <!-- Painel Dinâmico que revela a explicação -->
+            <div class="trajectory-card-viewport">
+              
+              <!-- Painel 1: Infância -->
+              <div class="trajectory-content-panel active" data-content="1">
+                <div class="panel-header">
+                  <span class="panel-badge" style="background: var(--yellow-light); color: #8A4F00;">✨ Infância</span>
+                  <h5>As Raízes às Margens do Rio Poty</h5>
+                </div>
+                <p>
+                  Nascida em Teresina, Piauí, Débora cresceu fascinada pela imaginação e pela natureza. Seus cadernos escolares eram repletos de versos e historinhas que buscavam traduzir aquilo que o coração infantil sentia, mas ainda não sabia explicar.
+                </p>
+              </div>
+
+              <!-- Painel 2: O sonho de escrever -->
+              <div class="trajectory-content-panel" data-content="2">
+                <div class="panel-header">
+                  <span class="panel-badge" style="background: var(--coral-light); color: var(--coral-dark);">📚 O Sonho</span>
+                  <h5>Palavras que Criam Pontes de Afeto</h5>
+                </div>
+                <p>
+                  O desejo de escrever ganhou maturidade: a literatura não seria apenas entretenimento, mas um porto seguro para falar sobre empatia, convivência sadia e o direito de cada criança ser acolhida em sua singularidade.
+                </p>
+              </div>
+
+              <!-- Painel 3: Educação -->
+              <div class="trajectory-content-panel" data-content="3">
+                <div class="panel-header">
+                  <span class="panel-badge" style="background: var(--green-light); color: var(--green-dark);">🎓 Educação</span>
+                  <h5>Da Sala de Aula à Pesquisa Universitária</h5>
+                </div>
+                <p>
+                  Atuou como professora, pedagoga e gestora escolar. Especializou-se em Gestão, concluiu o Mestrado em Educação, ingressou no Doutorado (UERJ/UESPI) e estuda Psicologia, embasando cientificamente cada caderno pedagógico.
+                </p>
+              </div>
+
+              <!-- Painel 4: Primeiros livros -->
+              <div class="trajectory-content-panel" data-content="4">
+                <div class="panel-header">
+                  <span class="panel-badge" style="background: var(--blue-light); color: var(--blue-dark);">✍️ Primeiros Livros</span>
+                  <h5>Getúlio, Bartolomeu e o Reconhecimento Acadêmico</h5>
+                </div>
+                <p>
+                  Nasceram obras emblemáticas sobre ecologia e bullying (Getúlio), autismo e neurodiversidade (Bartolomeu) e saúde emocional, analisadas com destaque científico na prestigiada Revista Palimpsesto (UERJ).
+                </p>
+              </div>
+
+              <!-- Painel 5: Projetos que transformam -->
+              <div class="trajectory-content-panel" data-content="5">
+                <div class="panel-header">
+                  <span class="panel-badge" style="background: #F4ECFD; color: #6A1DBE;">🌎 Projetos que Transformam</span>
+                  <h5>Palestras, Oficinas e Formação para Comunidades</h5>
+                </div>
+                <p>
+                  Hoje Débora percorre instituições escolares e projetos pedagógicos em todo o Brasil ministrando palestras inspiradoras, oficinas lúdicas de contação e assessorias para pais e professores levarem afeto à educação.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BLOCO DO PROPÓSITO: MINHA MISSÃO (Destaque Amarelo Vibrante de Impacto) -->
+      <div class="author-mission-banner reveal-on-scroll">
+        <!-- Detalhes sutis inspirados em livros e citações -->
+        <div class="mission-bg-decor decor-top-left" aria-hidden="true">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <div class="mission-bg-decor decor-bottom-right" aria-hidden="true">
+          <i class="fa-solid fa-quote-right"></i>
+        </div>
+
+        <div class="mission-banner-inner">
+          <div class="mission-tag-row">
+            <span class="mission-eyebrow"><i class="fa-solid fa-heart" style="color: var(--coral-main);"></i> Minha Missão</span>
+          </div>
+
+          <blockquote class="mission-headline">
+            “Criar histórias que acolham, projetos que transformem e experiências que deixem marcas positivas na infância.”
+          </blockquote>
+
+          <div class="mission-author-row">
+            <div class="mission-author-info">
+              <span class="mission-author-name">Débora Facchinetti</span>
+              <span class="mission-author-creds">Escritora de Literatura Infantil • Pedagoga & Mestra em Educação</span>
+            </div>
+
+            <a href="sobre.html" class="btn btn-mission-cta">
+              <i class="fa-solid fa-feather-pointed"></i> Conhecer biografia completa e pesquisas
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ESTANTE MÁGICA / BIBLIOTECA INTERATIVA -->
+  <section class="bookshelf-section" id="livros">
+    <div class="container">
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag tag-green"><i class="fa-solid fa-book-bookmark"></i> Coleção Literária</span>
+        <h2 class="section-title">Livros que Iluminam a Infância</h2>
+        <p class="section-description">
+          Conheça as histórias criadas por Débora Facchinetti, obras que unem literatura, educação e temas importantes para o desenvolvimento infantil.
+        </p>
+        <div class="ornament-divider"><i class="fa-solid fa-heart" style="color: var(--coral-main);"></i></div>
+      </div>
+
+      <div class="books-grid">
+        <!-- Book 1: Getúlio -->
+        <article class="book-card tilt-card">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno Pedagógico</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_getulio.jpg" alt="Capa do livro Getúlio, jacaré ou bagulho?" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Getúlio, jacaré ou bagulho?</h3>
+            <div class="book-themes">
+              <span class="theme-tag">Meio Ambiente</span>
+              <span class="theme-tag">Reciclagem</span>
+              <span class="theme-tag">Combate ao Bullying</span>
+            </div>
+            <p class="book-synopsis">
+              Às margens do rio Poty, em Teresina, o jacarezinho Getúlio recolhe resíduos e cuida das águas, ensinando que pequenas atitudes de amor geram grandes transformações no mundo.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Kit Completo</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('getulio')" aria-label="Espiar Getúlio">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-yellow btn-sm" onclick="cart.addItem('getulio', 1)" aria-label="Comprar Getúlio">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Book 2: Bartolomeu -->
+        <article class="book-card tilt-card">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno Pedagógico</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_bartolomeu.jpg" alt="Capa do livro Bartolomeu, o gato autista" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Bartolomeu, o gato autista</h3>
+            <div class="book-themes">
+              <span class="theme-tag">Autismo (TEA)</span>
+              <span class="theme-tag">Inclusão Escolar</span>
+              <span class="theme-tag">Neurodiversidade</span>
+            </div>
+            <p class="book-synopsis">
+              Narrado pelo sensível gato Bartô, a obra aproxima as crianças do universo da inclusão e da reciclagem, mostrando a beleza única e acolhedora de cada coraçãozinho.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Kit Completo</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('bartolomeu')" aria-label="Espiar Bartolomeu">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-blue btn-sm" onclick="cart.addItem('bartolomeu', 1)" aria-label="Comprar Bartolomeu">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Book 3: Cadê Minha Vovó? -->
+        <article class="book-card tilt-card">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Edição Especial + Caderno</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_vovo.jpg" alt="Capa do livro Cadê minha vovó?" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Cadê minha vovó?</h3>
+            <div class="book-themes">
+              <span class="theme-tag">Saudade</span>
+              <span class="theme-tag">Luto Infantil</span>
+              <span class="theme-tag">Memória Afetiva</span>
+            </div>
+            <p class="book-synopsis">
+              Uma narrativa doce e sensível sobre Jussara e a saudade de Dona Arborina, que se transformou em estrelinha, ensinando que o amor nunca se apaga do coração.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Edição Especial</span>
+                <span class="book-price">R$ 74,90</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('vovo')" aria-label="Espiar Cadê Minha Vovó">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-coral btn-sm" onclick="cart.addItem('vovo', 1)" aria-label="Comprar Cadê Minha Vovó">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Book 4: O Caranguejo Dante -->
+        <article class="book-card tilt-card">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno Pedagógico</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_caranguejo_dante.jpg" alt="Capa do livro O caranguejo Dante" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">O Caranguejo que Não Queria Se Molhar</h3>
+            <div class="book-themes">
+              <span class="theme-tag">Medo & Coragem</span>
+              <span class="theme-tag">Amizade</span>
+              <span class="theme-tag">Superação</span>
+            </div>
+            <p class="book-synopsis">
+              Dante teme a água do mar até conhecer um sábio polvo que o acolhe com paciência, mostrando que a coragem nasce de mãos dadas e dando um passinho de cada vez.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Kit Completo</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('dante')" aria-label="Espiar Dante">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-coral btn-sm" onclick="cart.addItem('dante', 1)" aria-label="Comprar Dante">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Book 5: Como Tudo Começou -->
+        <article class="book-card tilt-card">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno Pedagógico</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_getulio_infancia.jpg" alt="Capa do livro Como tudo começou Getúlio" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Como tudo começou... do nascimento à infância</h3>
+            <div class="book-themes">
+              <span class="theme-tag">Autoestima</span>
+              <span class="theme-tag">Apoio Familiar</span>
+              <span class="theme-tag">Diversidade</span>
+            </div>
+            <p class="book-synopsis">
+              A história dos primeiros anos de Getúlio e como o acolhimento carinhoso de sua família o fortaleceu para entender que ser diferente é motivo de orgulho e celebração.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Kit Completo</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('getulio-infancia')" aria-label="Espiar Infância de Getúlio">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-green btn-sm" onclick="cart.addItem('getulio-infancia', 1)" aria-label="Comprar Infância de Getúlio">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Book 6: Plácido -->
+        <article class="book-card tilt-card">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno Pedagógico</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_placido.jpg" alt="Capa do livro Plácido não queria ir à escola" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Plácido não queria ir à escola</h3>
+            <div class="book-themes">
+              <span class="theme-tag">Antibullying</span>
+              <span class="theme-tag">Acolhimento Escolar</span>
+              <span class="theme-tag">Saúde Emocional</span>
+            </div>
+            <p class="book-synopsis">
+              Magoado por zombarias, o sapinho Plácido perde o brilho de viver. Com a escuta acolhedora de professores e da psicóloga escolar, ele descobre que sua vida é valiosa.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Kit Completo</span>
+                <span class="book-price">R$ 60,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('placido')" aria-label="Espiar Plácido">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-yellow btn-sm" onclick="cart.addItem('placido', 1)" aria-label="Comprar Plácido">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <a href="loja.html" class="btn btn-yellow btn-lg">
+          <i class="fa-solid fa-store"></i> Ver Catálogo Completo & Combos na Loja
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS EDUCACIONAIS (PALESTRAS, OFICINAS, CONSULTORIA) -->
+  <section class="services-section" id="servicos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag tag-blue"><i class="fa-solid fa-sparkles"></i> Experiências Escolares</span>
+        <h2 class="section-title">Serviços que Encantam Escolas e Famílias</h2>
+        <p class="section-description">
+          Formações vivenciais, oficinas lúdicas e consultoria especializada para enriquecer o projeto pedagógico da sua instituição de ensino.
+        </p>
+        <div class="ornament-divider"><i class="fa-solid fa-palette" style="color: var(--blue-main);"></i></div>
+      </div>
+
+      <div class="services-grid">
+        <!-- Palestras -->
+        <div class="service-card">
+          <div class="service-icon-wrap">
+            <i class="fa-solid fa-microphone-lines"></i>
+          </div>
+          <h3 class="service-title">Palestras Educacionais</h3>
+          <p class="service-desc">
+            Encontros enriquecedores que unem pedagogia, psicologia e encantamento literário para congressos, simpósios e eventos escolares.
+          </p>
+          <div class="service-bullets">
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Mediação de leitura na primeira infância</div>
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Inclusão escolar e neurodiversidade (TEA)</div>
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Saúde emocional e prevenção ativa ao bullying</div>
+          </div>
+          <a href="palestras.html" class="btn btn-yellow btn-sm" style="margin-top: auto;">
+            <i class="fa-solid fa-calendar-check"></i> Solicitar Proposta
+          </a>
+        </div>
+
+        <!-- Oficinas -->
+        <div class="service-card">
+          <div class="service-icon-wrap">
+            <i class="fa-solid fa-palette"></i>
+          </div>
+          <h3 class="service-title">Oficinas Literárias</h3>
+          <p class="service-desc">
+            Atividades práticas e imersivas de contação de histórias com exploração dinâmica dos Cadernos Pedagógicos com os alunos.
+          </p>
+          <div class="service-bullets">
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Contação de histórias interativa e sensorial</div>
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Criação e produção artística com as crianças</div>
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Estímulo à imaginação e à expressão de sentimentos</div>
+          </div>
+          <a href="palestras.html" class="btn btn-green btn-sm" style="margin-top: auto;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Conhecer Oficinas
+          </a>
+        </div>
+
+        <!-- Consultoria -->
+        <div class="service-card">
+          <div class="service-icon-wrap">
+            <i class="fa-solid fa-compass-drafting"></i>
+          </div>
+          <h3 class="service-title">Consultoria Literária</h3>
+          <p class="service-desc">
+            Assessoria personalizada para coordenações pedagógicas na estruturação de projetos anuais de leitura e mentoria para autores iniciantes.
+          </p>
+          <div class="service-bullets">
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Curadoria de obras e alinhamento à BNCC</div>
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Implantação de dinâmicas socioemocionais</div>
+            <div class="service-bullet"><i class="fa-solid fa-circle-check"></i> Mentoria para escritores de livros infantis</div>
+          </div>
+          <a href="palestras.html" class="btn btn-blue btn-sm" style="margin-top: auto;">
+            <i class="fa-solid fa-comments"></i> Agendar Consultoria
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER ENCANTADOR -->
+  <section class="cta-banner-story">
+    <div class="container">
+      <span class="section-tag" style="background: #FFFFFF; color: #8A4F00; border-color: #D99B00;">
+        ✨ Vamos construir histórias juntos?
+      </span>
+      <h2>Leve o Encantamento das Histórias para Sua Escola e Cidade</h2>
+      <p>
+        Entre em contato direto com a escritora Débora Facchinetti para aquisição de kits escolares com desconto institucional, agendamento de palestras presenciais ou online.
+      </p>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem;">
+        <a href="https://wa.me/5586988891466?text=Ol%C3%A1%20D%C3%A9bora!%20Gostaria%20de%20conversar%20sobre%20seus%20livros%20e%20levar%20uma%20palestra%20para%20minha%20escola." target="_blank" class="btn btn-whatsapp btn-lg">
+          <i class="fa-brands fa-whatsapp"></i> Conversar pelo WhatsApp
+        </a>
+        <a href="contato.html" class="btn btn-outline btn-lg">
+          <i class="fa-solid fa-feather-pointed"></i> Falar com a Débora
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RODAPÉ ESTILO LIVRO ABERTO -->
+  <footer class="site-footer">
+    <div class="footer-ribbon"></div>
+
+    <div class="container">
+      <!-- Citação Emocionante de Fechamento -->
+      <div class="footer-quote-box">
+        <blockquote>
+          “Cada criança merece encontrar uma história onde possa se enxergar.”
+        </blockquote>
+        <cite>— Débora Facchinetti</cite>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-brand-title">Débora Facchinetti</span>
+          <p class="footer-brand-desc">
+            Literatura, Educação e Histórias que Transformam. Obras infantis, cadernos pedagógicos e vivências formativas dedicadas a cultivar empatia, imaginação e respeito às singularidades.
+          </p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/debora_facchinetti" target="_blank" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/5586988891466" target="_blank" class="social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="mailto:contato@deborafacchinetti.com.br" class="social-btn" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Navegação</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Início</a></li>
+            <li><a href="sobre.html" class="footer-link">Sobre a Autora</a></li>
+            <li><a href="loja.html" class="footer-link">Loja & Kits</a></li>
+            <li><a href="palestras.html" class="footer-link">Palestras & Projetos</a></li>
+            <li><a href="contato.html" class="footer-link">Contato</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Obras Publicadas</h4>
+          <ul class="footer-links">
+            <li><a href="loja.html#card-getulio" class="footer-link">Getúlio, jacaré ou bagulho?</a></li>
+            <li><a href="loja.html#card-getulio-infancia" class="footer-link">Do nascimento à infância</a></li>
+            <li><a href="loja.html#card-bartolomeu" class="footer-link">Bartolomeu, o gato autista</a></li>
+            <li><a href="loja.html#card-dante" class="footer-link">O Caranguejo Dante</a></li>
+            <li><a href="loja.html#card-vovo" class="footer-link">Cadê minha vovó?</a></li>
+            <li><a href="loja.html#card-placido" class="footer-link">Plácido não queria ir à escola</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Atendimento Direto</h4>
+          <p style="color: #F4EEDB; font-size: 0.95rem; margin-bottom: 0.75rem; font-weight: 600;">
+            <i class="fa-brands fa-whatsapp" style="color: #25D366; margin-right: 6px;"></i> +55 (86) 98889-1466
+          </p>
+          <p style="color: #D6CBC0; font-size: 0.92rem; margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-location-dot" style="color: var(--yellow-main); margin-right: 6px;"></i> Teresina, Piauí — Brasil
+          </p>
+          <p style="color: #CFC2B4; font-size: 0.88rem; line-height: 1.6;">
+            Atendimento carinhoso a escolas, secretarias de educação, bibliotecas e famílias de todo o Brasil.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Débora Facchinetti. Todos os direitos reservados.</p>
+        <p>Desenvolvido com excelência literária e experiência visual encantadora.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div class="floating-whatsapp-widget">
+    <div class="whatsapp-tooltip">Fale com a Débora! 💬</div>
+    <a href="https://wa.me/5586988891466?text=Ol%C3%A1%20D%C3%A9bora,%20vim%20pelo%20site%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es!" target="_blank" class="floating-whatsapp-btn" aria-label="Abrir WhatsApp da Escritora">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <!-- SHOPPING CART DRAWER (OFF-CANVAS) -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Sacola de Compras">
+    <div class="cart-drawer-header">
+      <h3><i class="fa-solid fa-bag-shopping" style="color: var(--yellow-deep);"></i> Sacola Literária</h3>
+      <button class="cart-close-btn" id="cartCloseBtn" aria-label="Fechar Sacola">✕</button>
+    </div>
+    <div class="cart-drawer-body" id="cartDrawerBody">
+      <!-- Items dynamically injected by CartManager -->
+    </div>
+    <div class="cart-drawer-footer" id="cartDrawerFooter">
+      <div class="cart-subtotal-row">
+        <span>Total da Compra:</span>
+        <span class="cart-subtotal-val" id="cartDrawerTotal">R$ 0,00</span>
+      </div>
+      <div class="cart-footer-actions">
+        <a href="checkout.html" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.85rem;">
+          <i class="fa-solid fa-lock"></i> Finalizar Compra
+        </a>
+        <button type="button" class="btn btn-outline" onclick="cart.closeDrawer()" style="width: 100%; justify-content: center; font-size: 0.95rem; padding: 0.75rem;">
+          <i class="fa-solid fa-arrow-left"></i> Continuar Comprando
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- BOOK PREVIEW MODAL (<dialog>) -->
+  <dialog class="book-modal" id="bookDetailModal" aria-label="Detalhes da Obra">
+    <button class="modal-close-btn" onclick="closeBookModal()" aria-label="Fechar Janela">✕</button>
+    <div class="book-modal-inner">
+      <div class="modal-visual-side">
+        <img id="modalBookCover" src="" alt="" class="modal-book-img">
+        <span class="section-tag tag-yellow" style="margin-top: 1.5rem;">
+          <i class="fa-solid fa-book-sparkles"></i> Kit Livro + Caderno
+        </span>
+      </div>
+      <div class="modal-content-side">
+        <span class="section-tag tag-green" style="align-self: flex-start;">Obra Literária</span>
+        <h3 id="modalBookTitle" style="font-size: 1.95rem; color: var(--ink-title); line-height: 1.25;"></h3>
+        <p id="modalBookSubtitle" style="font-size: 1.05rem; color: #B26A00; font-weight: 700;"></p>
+        
+        <div style="font-size: 1.75rem; font-family: var(--font-display); font-weight: 800; color: #B26A00;" id="modalBookPrice"></div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.4rem;">Sinopse</h4>
+          <p id="modalBookSynopsis" style="font-size: 0.98rem; line-height: 1.7; color: var(--ink-body);"></p>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 800; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 0.4rem;">Temas Trabalhados</h4>
+          <div id="modalBookThemes" style="display: flex; flex-wrap: wrap; gap: 0.45rem;"></div>
+        </div>
+
+        <!-- Personagem Principal da Obra -->
+        <div id="modalBookCharacterBox" style="display: none; align-items: center; gap: 1rem; background: var(--paper-cream); padding: 0.9rem 1.15rem; border-radius: var(--radius-md); border: 2px solid var(--paper-border);">
+          <img id="modalBookCharAvatar" src="" alt="" style="width: 58px; height: 58px; border-radius: var(--radius-full); object-fit: cover; border: 3px solid var(--yellow-border); flex-shrink: 0; box-shadow: 0 4px 8px rgba(0,0,0,0.08);">
+          <div>
+            <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #B26A00; letter-spacing: 0.05em; display: block;">Personagem da Obra</span>
+            <strong id="modalBookCharName" style="font-family: var(--font-display); font-size: 1.15rem; color: var(--ink-title); display: block; line-height: 1.2;"></strong>
+            <span id="modalBookCharRole" style="font-size: 0.85rem; color: var(--ink-muted);"></span>
+          </div>
+        </div>
+
+        <div style="background: var(--green-light); padding: 1.15rem; border-radius: var(--radius-md); border-left: 5px solid var(--green-main);">
+          <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--green-dark);">O Kit Inclui:</h4>
+          <p id="modalBookKit" style="font-size: 0.92rem; color: var(--ink-body); margin-top: 0.25rem;"></p>
+        </div>
+
+        <div id="modalBookAcademicBox" style="background: var(--yellow-light); padding: 1.15rem; border-radius: var(--radius-md); border-left: 5px solid var(--yellow-border);">
+          <h4 style="font-size: 0.9rem; font-weight: 800; color: #8A4F00;">Relevância Pedagógica & Acadêmica:</h4>
+          <p id="modalBookAcademic" style="font-size: 0.92rem; color: var(--ink-body); margin-top: 0.25rem;"></p>
+        </div>
+
+        <blockquote id="modalBookQuote" style="font-family: var(--font-display); font-style: italic; color: var(--ink-body); font-size: 1.05rem; padding-left: 1rem; border-left: 3px solid var(--coral-main);"></blockquote>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 0.85rem; margin-top: 1rem;">
+          <button id="modalBuyBtn" class="btn btn-yellow" style="flex: 1;">
+            <i class="fa-solid fa-bag-shopping"></i> Adicionar à Sacola
+          </button>
+          <a id="modalDirectWppBtn" href="" target="_blank" class="btn btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i> Comprar no WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "debora-facchinetti",
+  "version": "1.0.0",
+  "description": "Website oficial da escritora e educadora Débora Facchinetti - Literatura, Educação e Histórias que Transformam",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "dev:open": "node --watch server.js --open",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "debora-facchinetti",
+    "literatura-infantil",
+    "educacao",
+    "website"
+  ],
+  "author": "Débora Facchinetti",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.117.2",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1"
+  }
+}

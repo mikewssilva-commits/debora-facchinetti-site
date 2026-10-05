@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja Oficial — Débora Facchinetti | Livros, Kits Pedagógicos e Combos</title>
+  <meta name="description" content="Compre os livros físicos e kits pedagógicos de Débora Facchinetti com segurança via Mercado Pago e confirmação no WhatsApp. Frete para todo o Brasil.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+  <!-- SITE HEADER -->
+  <header class="site-header" id="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="Débora Facchinetti — Início">
+        <div class="brand-mark"><i class="fa-solid fa-feather-pointed"></i></div>
+        <div class="brand-text-wrap">
+          <span class="brand-name">Débora Facchinetti</span>
+          <span class="brand-tagline">Literatura & Educação</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link active">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="cart-trigger-btn" aria-label="Sacola de Compras">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </button>
+        <button class="mobile-nav-toggle" aria-label="Abrir Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav-drawer" id="mobileDrawer">
+    <div>
+      <div class="drawer-header">
+        <div class="brand-text-wrap">
+          <span class="brand-name" style="font-size: 1.2rem;">Débora Facchinetti</span>
+          <span class="brand-tagline">Literatura & Educação</span>
+        </div>
+        <button class="drawer-close-btn" aria-label="Fechar Menu">✕</button>
+      </div>
+      <nav class="drawer-nav-links">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link active">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link">Contato</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       1. CATÁLOGO DE LIVROS (PRIMEIRA SEÇÃO)
+       Abertura direta na principal área de conversão com os livros disponíveis
+       ========================================================================== -->
+  <section class="section" id="livros-catalogo" style="padding: 3.5rem 0 4rem; background: var(--bg-parchment);">
+    <div class="container">
+      
+      <!-- Cabeçalho da Seção de Livros -->
+      <div class="section-header reveal-on-scroll" style="margin-bottom: 2.5rem;">
+        <span class="section-tag tag-green"><i class="fa-solid fa-book-bookmark"></i> Loja Literária Oficial</span>
+        <h1 class="section-title">Conheça meus livros</h1>
+        <p class="section-description">
+          Histórias que acolhem, ensinam e transformam a infância.
+        </p>
+        <div class="ornament-divider"><i class="fa-solid fa-heart" style="color: var(--coral-main);"></i></div>
+
+        <!-- Chips de benefícios e envio: Envio Brasil e Dedicatória -->
+        <div style="display: flex; justify-content: center; align-items: center; gap: 2.25rem; margin-top: 1.5rem; flex-wrap: wrap;">
+          <span class="meta-chip" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--text-muted);"><i class="fa-solid fa-truck-fast" style="color: var(--primary-green);"></i> Envio para todo o Brasil</span>
+          <span class="meta-chip" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--text-muted);"><i class="fa-solid fa-pen-fancy" style="color: var(--accent-gold);"></i> Dedicatória Nominal e Autógrafo</span>
+        </div>
+      </div>
+
+      <!-- Grade dos 6 Livros Físicos Disponíveis -->
+      <div class="books-grid">
+        
+        <!-- 1. Getúlio, jacaré ou bagulho? -->
+        <article class="book-card tilt-card" id="card-getulio">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_getulio.jpg" alt="Getúlio, jacaré ou bagulho?" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Getúlio, jacaré ou bagulho?</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+              Uma fábula em rimas sobre preservação ambiental, empatia, diálogo e combate ao bullying.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Livro + Caderno</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('getulio')" aria-label="Espiar Getúlio">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cart.addItem('getulio', 1)">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Como tudo começou... Getúlio -->
+        <article class="book-card tilt-card" id="card-getulio-infancia">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_getulio_infancia.jpg" alt="Como tudo começou... Getúlio" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Como tudo começou... Getúlio</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+              A origem do jacarezinho vermelho, celebrando amor familiar, aceitação e acolhimento.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Livro + Caderno</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('getulio-infancia')" aria-label="Espiar Do nascimento à infância de Getúlio">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cart.addItem('getulio-infancia', 1)">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Bartolomeu, o gato autista -->
+        <article class="book-card tilt-card" id="card-bartolomeu">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_bartolomeu.jpg" alt="Bartolomeu, o gato autista" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Bartolomeu, o gato autista</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+              Sensibilidade e afeto para apresentar o Transtorno do Espectro Autista (TEA) às crianças.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Livro + Caderno</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('bartolomeu')" aria-label="Espiar Bartolomeu">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cart.addItem('bartolomeu', 1)">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. O Caranguejo que Não Queria Se Molhar -->
+        <article class="book-card tilt-card" id="card-dante">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_caranguejo_dante.jpg" alt="O Caranguejo que Não Queria Se Molhar" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">O Caranguejo que Não Queria Se Molhar</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+              Uma divertida jornada de coragem sobre o medo do desconhecido, amizade e autoconfiança.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Livro + Caderno</span>
+                <span class="book-price">R$ 50,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('dante')" aria-label="Espiar Dante">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cart.addItem('dante', 1)">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. Cadê minha vovó? -->
+        <article class="book-card tilt-card" id="card-vovo">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Edição Especial</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_vovo.jpg" alt="Cadê minha vovó?" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Cadê minha vovó?</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+              Um abraço em forma de livro para dialogar com ternura sobre saudade, luto e memórias de amor.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Edição Especial</span>
+                <span class="book-price">R$ 74,90</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('vovo')" aria-label="Espiar Cadê minha vovó?">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cart.addItem('vovo', 1)">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. Plácido não queria ir à escola -->
+        <article class="book-card tilt-card" id="card-placido">
+          <div class="book-cover-stage">
+            <span class="book-badge-kit">Livro + Caderno</span>
+            <div class="book-3d-wrap">
+              <img src="assets/images/livro_placido.jpg" alt="Plácido não queria ir à escola" class="book-cover-img" loading="lazy">
+            </div>
+          </div>
+          <div class="book-info">
+            <h3 class="book-title">Plácido não queria ir à escola</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+              Acolhimento escolar, combate ao bullying e a importância da escuta atenta dos educadores.
+            </p>
+            <div class="book-price-row">
+              <div class="book-price-wrap">
+                <span class="book-price-label">Livro + Caderno</span>
+                <span class="book-price">R$ 60,00</span>
+              </div>
+              <div class="book-actions">
+                <button class="btn btn-outline btn-sm" onclick="openBookModal('placido')" aria-label="Espiar Plácido">
+                  <i class="fa-solid fa-eye"></i> Espiar
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="cart.addItem('placido', 1)">
+                  <i class="fa-solid fa-bag-shopping"></i> Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       2. COMBOS PROMOCIONAIS (SEGUNDA SEÇÃO)
+       Combos especiais com descontos, brindes exclusivos e visual limpo
+       ========================================================================== -->
+  <section class="combos-special-section" id="combos-especiais">
+    <div class="container">
+      
+      <!-- Cabeçalho da Seção de Combos -->
+      <div class="section-header reveal-on-scroll">
+        <span class="section-tag" style="background: #FEF3C7; color: #92400E; border-color: #FDE68A;">
+          <i class="fa-solid fa-gift"></i> Presentes & Descontos Exclusivos
+        </span>
+        <h2 class="section-title">Combos Especiais</h2>
+        <p class="section-description">
+          Leve suas coleções com descontos especiais, cadernos pedagógicos inclusos e brindes exclusivos da autora.
+        </p>
+        <div class="ornament-divider"><i class="fa-solid fa-gift" style="color: #F59E0B;"></i></div>
+      </div>
+
+      <!-- Grade dos 5 Combos Especiais -->
+      <div class="combos-grid">
+        
+        <!-- CARD 1: Kit Duplo Getúlio -->
+        <article class="combo-card reveal-on-scroll" onclick="openComboModal('getulio')">
+          <span class="combo-card-ribbon ribbon-green">
+            <i class="fa-solid fa-shirt"></i> + Camiseta Getúlio
+          </span>
+
+          <div>
+            <div class="combo-card-head">
+              <img src="assets/images/livro_getulio.jpg" alt="Kit Duplo Getúlio" class="combo-card-thumb" loading="lazy">
+              <div>
+                <span class="theme-tag" style="background: #DCFCE7; color: #15803D;">🐊 Promoção Getúlio</span>
+                <h3 class="combo-card-title">Kit Duplo Getúlio</h3>
+              </div>
+            </div>
+
+            <p class="combo-card-desc">
+              Compre os dois livros do Getúlio e ganhe uma camiseta personalizada do Jacarezinho Getúlio.
+            </p>
+
+            <p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.85rem; line-height: 1.5;">
+              <strong>Inclui:</strong> 📗 <em>Getúlio, jacaré ou bagulho?</em> + 📘 <em>Como tudo começou… do nascimento à infância de Getúlio</em>.
+            </p>
+
+            <div class="combo-benefit-box">
+              <span class="combo-benefit-icon">🎁</span>
+              <div>
+                <span class="combo-benefit-label">Benefício em destaque:</span>
+                <strong class="combo-benefit-text">2 livros + 1 camiseta personalizada do Getúlio</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="combo-card-footer" onclick="event.stopPropagation()">
+            <div>
+              <span class="combo-price-old">De R$ 100,00</span>
+              <div class="combo-price-current">R$ 90,00</div>
+            </div>
+            <div class="combo-actions-wrap">
+              <button class="btn btn-outline btn-sm" onclick="openComboModal('getulio')">
+                <i class="fa-solid fa-eye"></i> Detalhes
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="cart.addItem('combo-getulio', 1, true)">
+                <i class="fa-solid fa-bag-shopping"></i> Comprar Combo
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2: Coleção Literatura que Abraça -->
+        <article class="combo-card combo-card-featured reveal-on-scroll" onclick="openComboModal('completo')">
+          <span class="combo-card-ribbon">
+            ★ Frete Grátis Brasil
+          </span>
+
+          <div>
+            <div class="combo-card-head">
+              <img src="assets/images/debora_bookshelf.jpg" alt="Coleção Literatura que Abraça" class="combo-card-thumb" loading="lazy">
+              <div>
+                <span class="theme-tag" style="background: var(--accent-gold-soft); color: #8C6615;">🎒 Coleção Completa</span>
+                <h3 class="combo-card-title">Coleção Literatura que Abraça</h3>
+              </div>
+            </div>
+
+            <p class="combo-card-desc">
+              Leve a coleção completa e ganhe um presente especial.
+            </p>
+
+            <div class="combo-benefit-box" style="border-color: var(--accent-gold); background: #FFFDF5;">
+              <span class="combo-benefit-icon">👑</span>
+              <div>
+                <span class="combo-benefit-label">Benefício em destaque:</span>
+                <strong class="combo-benefit-text">Coleção completa + bolsa ou mochila dos personagens</strong>
+              </div>
+            </div>
+
+            <p style="font-size: 0.88rem; font-weight: 700; color: #8A4F00; margin-bottom: 0.5rem;">
+              <i class="fa-solid fa-sparkles"></i> Você escolhe o seu presente.
+            </p>
+          </div>
+
+          <div class="combo-card-footer" onclick="event.stopPropagation()">
+            <div>
+              <span class="combo-price-old">De R$ 334,90</span>
+              <div class="combo-price-current" style="color: #8A4F00;">R$ 299,00</div>
+            </div>
+            <div class="combo-actions-wrap">
+              <button class="btn btn-outline btn-sm" onclick="openComboModal('completo')">
+                <i class="fa-solid fa-eye"></i> Detalhes
+              </button>
+              <button class="btn btn-gold btn-sm" onclick="cart.addItem('combo-completo', 1, true)">
+                <i class="fa-solid fa-bag-shopping"></i> Comprar Combo
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3: Kit Histórias que Acolhem -->
+        <article class="combo-card reveal-on-scroll" onclick="openComboModal('acolhem')">
+          <span class="combo-card-ribbon ribbon-coral">
+            <i class="fa-solid fa-bag-shopping"></i> + Bolsa Exclusiva
+          </span>
+
+          <div>
+            <div class="combo-card-head">
+              <img src="assets/images/livro_caranguejo_dante.jpg" alt="Kit Histórias que Acolhem" class="combo-card-thumb" loading="lazy">
+              <div>
+                <span class="theme-tag" style="background: #FFE4E6; color: #BE123C;">🦀 Afeto & Emoções</span>
+                <h3 class="combo-card-title">Kit Histórias que Acolhem</h3>
+              </div>
+            </div>
+
+            <p class="combo-card-desc">
+              Compre os dois livros e ganhe uma bolsa exclusiva com os personagens.
+            </p>
+
+            <p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.85rem; line-height: 1.5;">
+              <strong>Livros:</strong> 📘 <em>O caranguejo que não queria se molhar</em> + 📕 <em>Cadê minha vovó?</em>
+            </p>
+
+            <div class="combo-benefit-box" style="border-color: #FDA4AF; background: #FFF1F2;">
+              <span class="combo-benefit-icon">👜</span>
+              <div>
+                <span class="combo-benefit-label" style="color: #BE123C;">Benefício em destaque:</span>
+                <strong class="combo-benefit-text" style="color: #881337;">2 livros + 1 bolsa exclusiva</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="combo-card-footer" onclick="event.stopPropagation()">
+            <div>
+              <span class="combo-price-old">Kit 2 Obras</span>
+              <div class="combo-price-current">R$ 124,90</div>
+            </div>
+            <div class="combo-actions-wrap">
+              <button class="btn btn-outline btn-sm" onclick="openComboModal('acolhem')">
+                <i class="fa-solid fa-eye"></i> Detalhes
+              </button>
+              <a href="https://wa.me/5586988891466?text=Ol%C3%A1%20D%C3%A9bora,%20quero%20o%20Kit%20Hist%C3%B3rias%20que%20Acolhem%20(Dante%20+%20Cad%C3%AA%20Minha%20Vov%C3%B3)%20com%20a%20bolsa%20exclusiva!" target="_blank" class="btn btn-coral btn-sm">
+                <i class="fa-solid fa-bag-shopping"></i> Comprar Combo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4: Kit Turma do Bartô -->
+        <article class="combo-card reveal-on-scroll" onclick="openComboModal('barto')">
+          <span class="combo-card-ribbon ribbon-blue">
+            <i class="fa-solid fa-suitcase-rolling"></i> 10 Livros = 1 Malinha
+          </span>
+
+          <div>
+            <div class="combo-card-head">
+              <img src="assets/images/livro_bartolomeu.jpg" alt="Kit Turma do Bartô" class="combo-card-thumb" loading="lazy">
+              <div>
+                <span class="theme-tag" style="background: #DBEAFE; color: #1D4ED8;">🐱 Turma do Bartô</span>
+                <h3 class="combo-card-title">Kit Turma do Bartô</h3>
+              </div>
+            </div>
+
+            <p class="combo-card-desc">
+              Comprando 10 livros da Turma do Bartô, você ganha uma malinha exclusiva.
+            </p>
+
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.85rem; line-height: 1.5; font-style: italic;">
+              Uma opção especial para famílias, escolas, professores e grupos.
+            </p>
+
+            <div class="combo-benefit-box" style="border-color: #93C5FD; background: #EFF6FF;">
+              <span class="combo-benefit-icon">🧳</span>
+              <div>
+                <span class="combo-benefit-label" style="color: #1D4ED8;">Benefício em destaque:</span>
+                <strong class="combo-benefit-text" style="color: #1E3A8A;">10 livros = 1 malinha exclusiva</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="combo-card-footer" onclick="event.stopPropagation()">
+            <div>
+              <span class="combo-price-old">Pacote Educacional</span>
+              <div class="combo-price-current" style="font-size: 1.35rem;">10 Livros</div>
+            </div>
+            <div class="combo-actions-wrap">
+              <button class="btn btn-outline btn-sm" onclick="openComboModal('barto')">
+                <i class="fa-solid fa-eye"></i> Detalhes
+              </button>
+              <a href="https://wa.me/5586988891466?text=Ol%C3%A1%20D%C3%A9bora,%20gostaria%20de%20pedir%20o%20Kit%20Turma%20do%20Bart%C3%B4%20(10%20livros%20+%20malinha%20exclusiva)!" target="_blank" class="btn btn-primary btn-sm" style="background: #2563EB; border-color: #1D4ED8;">
+                <i class="fa-solid fa-bag-shopping"></i> Comprar Combo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 5: Comprou R$ 299, ganhou! -->
+        <article class="combo-card reveal-on-scroll" onclick="openComboModal('299')">
+          <span class="combo-card-ribbon ribbon-purple">
+            <i class="fa-solid fa-star"></i> Ganhou!
+          </span>
+
+          <div>
+            <div class="combo-card-head">
+              <img src="assets/images/char_getulio.jpg" alt="Comprou R$ 299 Ganhou" class="combo-card-thumb" loading="lazy">
+              <div>
+                <span class="theme-tag" style="background: #EDE9FE; color: #6D28D9;">👕 Pedidos ≥ R$ 299</span>
+                <h3 class="combo-card-title">Comprou R$ 299, Ganhou!</h3>
+              </div>
+            </div>
+
+            <p class="combo-card-desc">
+              Nas compras a partir de R$ 299, ganhe uma camiseta personalizada da Literatura que Abraça.
+            </p>
+
+            <div class="combo-benefit-box" style="border-color: #DDD6FE; background: #FAF5FF;">
+              <span class="combo-benefit-icon">👕</span>
+              <div>
+                <span class="combo-benefit-label" style="color: #6D28D9;">Benefício em destaque:</span>
+                <strong class="combo-benefit-text" style="color: #4C1D95;">Escolha seu personagem favorito.</strong>
+              </div>
+            </div>
+
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              <em>Getúlio, Bartô, Dante ou Personagens das histórias.</em>
+            </p>
+          </div>
+
+          <div class="combo-card-footer" onclick="event.stopPropagation()">
+            <div>
+              <span class="combo-price-old">Em qualquer pedido</span>
+              <div class="combo-price-current" style="font-size: 1.35rem; color: #6D28D9;">≥ R$ 299,00</div>
+            </div>
+            <div class="combo-actions-wrap">
+              <button class="btn btn-outline btn-sm" onclick="openComboModal('299')">
+                <i class="fa-solid fa-eye"></i> Detalhes
+              </button>
+              <a href="#livros-catalogo" class="btn btn-outline btn-sm" style="border-color: #7C3AED; color: #6D28D9;">
+                <i class="fa-solid fa-cart-plus"></i> Montar Carrinho
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- OBSERVAÇÃO IMPORTANTE EM DESTAQUE -->
+      <div class="promo-disclaimer-box reveal-on-scroll">
+        <div class="promo-disclaimer-icon">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <div class="promo-disclaimer-text">
+          <strong>Atenção aos brindes:</strong> Os brindes não são cumulativos. Em compras que se enquadrem em mais de uma promoção, será considerado o benefício correspondente à promoção específica de maior valor, conforme as condições divulgadas no site.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-brand-title">Débora Facchinetti</span>
+        <p class="footer-brand-desc">Literatura, Educação e Histórias que Transformam.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/debora_facchinetti" target="_blank" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/5586988891466" target="_blank" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="mailto:contato@deborafacchinetti.com.br" class="social-btn"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Navegação</h4>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Início</a></li>
+          <li><a href="sobre.html" class="footer-link">Sobre a Autora</a></li>
+          <li><a href="loja.html" class="footer-link">Loja & Kits</a></li>
+          <li><a href="palestras.html" class="footer-link">Palestras & Projetos</a></li>
+          <li><a href="contato.html" class="footer-link">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Livros Publicados</h4>
+        <ul class="footer-links">
+          <li><a href="#card-getulio" class="footer-link">Getúlio, jacaré ou bagulho?</a></li>
+          <li><a href="#card-getulio-infancia" class="footer-link">Do nascimento à infância</a></li>
+          <li><a href="#card-bartolomeu" class="footer-link">Bartolomeu, o gato autista</a></li>
+          <li><a href="#card-dante" class="footer-link">O Caranguejo Dante</a></li>
+          <li><a href="#card-vovo" class="footer-link">Cadê minha vovó?</a></li>
+          <li><a href="#card-placido" class="footer-link">Plácido não queria ir à escola</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Atendimento Direto</h4>
+        <p style="color: #D3E2DA; font-size: 0.92rem; margin-bottom: 0.75rem;">
+          <i class="fa-brands fa-whatsapp" style="color: #25D366; margin-right: 6px;"></i> +55 (86) 98889-1466
+        </p>
+        <p style="color: #D3E2DA; font-size: 0.92rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-location-dot" style="color: var(--accent-gold); margin-right: 6px;"></i> Teresina, Piauí — Brasil
+        </p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Débora Facchinetti. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div class="floating-whatsapp-widget">
+    <div class="whatsapp-tooltip">Fale com Débora Facchinetti</div>
+    <a href="https://wa.me/5586988891466" target="_blank" class="floating-whatsapp-btn" aria-label="Abrir WhatsApp">
+      <div class="whatsapp-ping"></div>
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <!-- SHOPPING CART DRAWER (OFF-CANVAS) -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Sacola de Compras">
+    <div class="cart-drawer-header">
+      <h3><i class="fa-solid fa-bag-shopping" style="color: var(--primary-green);"></i> Sacola Literária</h3>
+      <button class="cart-close-btn" id="cartCloseBtn">✕</button>
+    </div>
+    <div class="cart-drawer-body" id="cartDrawerBody"></div>
+    <div class="cart-drawer-footer" id="cartDrawerFooter">
+      <div class="cart-subtotal-row">
+        <span>Total da Compra:</span>
+        <span class="cart-subtotal-val" id="cartDrawerTotal">R$ 0,00</span>
+      </div>
+      <div class="cart-footer-actions">
+        <a href="checkout.html" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.85rem;">
+          <i class="fa-solid fa-lock"></i> Finalizar Compra
+        </a>
+        <button type="button" class="btn btn-outline" onclick="cart.closeDrawer()" style="width: 100%; justify-content: center; font-size: 0.95rem; padding: 0.75rem;">
+          <i class="fa-solid fa-arrow-left"></i> Continuar Comprando
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- BOOK DETAIL MODAL (<dialog>) -->
+  <dialog id="bookDetailModal" class="book-modal" aria-labelledby="modalBookTitle">
+    <div class="book-modal-box">
+      <button class="modal-close-btn" onclick="closeBookModal()" aria-label="Fechar Janela">✕</button>
+      <div class="book-modal-inner">
+        <div class="modal-visual-side">
+          <img id="modalBookCover" src="" alt="" class="modal-book-img">
+          <span class="badge-pill" style="margin-top: 1.5rem; background: rgba(255,255,255,0.85);">
+            <i class="fa-solid fa-book-sparkles"></i> Kit Livro + Caderno
+          </span>
+        </div>
+        <div class="modal-content-side">
+          <span class="section-tag" style="align-self: flex-start;">Obra Literária</span>
+          <h3 id="modalBookTitle" style="font-family: var(--font-serif); font-size: 1.85rem; color: var(--primary-green-dark); line-height: 1.25;"></h3>
+          <p id="modalBookSubtitle" style="font-size: 1rem; color: var(--accent-gold); font-weight: 600;"></p>
+          <div style="font-size: 1.5rem; font-family: var(--font-serif); font-weight: 800; color: var(--primary-green-dark);" id="modalBookPrice"></div>
+
+          <div>
+            <h4 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem;">Sinopse</h4>
+            <p id="modalBookSynopsis" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-main);"></p>
+          </div>
+
+          <div>
+            <h4 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem;">Temas Trabalhados</h4>
+            <div id="modalBookThemes" style="display: flex; flex-wrap: wrap; gap: 0.4rem;"></div>
+          </div>
+
+          <div style="background: var(--primary-green-soft); padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid var(--primary-green);">
+            <h4 style="font-size: 0.85rem; font-weight: 700; color: var(--primary-green-dark);">O Kit Inclui:</h4>
+            <p id="modalBookKit" style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;"></p>
+          </div>
+
+          <div style="background: var(--accent-gold-soft); padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid var(--accent-gold);">
+            <h4 style="font-size: 0.85rem; font-weight: 700; color: #8A641A;">Relevância Pedagógica & Acadêmica:</h4>
+            <p id="modalBookAcademic" style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;"></p>
+          </div>
+
+          <blockquote id="modalBookQuote" style="font-family: var(--font-serif); font-style: italic; color: var(--primary-green); font-size: 1.05rem; padding-left: 1rem; border-left: 2px solid var(--accent-gold);"></blockquote>
+
+          <div style="display: flex; gap: 0.85rem; margin-top: 1rem;">
+            <button id="modalBuyBtn" class="btn btn-primary" style="flex: 1;">
+              <i class="fa-solid fa-bag-shopping"></i> Adicionar à Sacola
+            </button>
+            <a id="modalDirectWppBtn" href="" target="_blank" class="btn btn-whatsapp">
+              <i class="fa-brands fa-whatsapp"></i> Comprar no WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- COMBO DETAIL MODAL (<dialog>) -->
+  <dialog id="comboDetailModal" class="book-modal" aria-labelledby="modalComboTitle">
+    <div class="book-modal-box">
+      <button class="modal-close-btn" onclick="closeComboModal()" aria-label="Fechar Detalhes">✕</button>
+      <div class="book-modal-inner">
+        <div class="modal-visual-side">
+          <img id="modalComboImg" src="" alt="" class="modal-book-img">
+          <span id="modalComboBadge" class="badge-pill" style="margin-top: 1.5rem; background: rgba(255,255,255,0.85);"></span>
+        </div>
+        <div class="modal-content-side">
+          <span class="section-tag" style="align-self: flex-start;">Combo Promocional</span>
+          <h3 id="modalComboTitle" style="font-family: var(--font-serif); font-size: 1.85rem; color: var(--primary-green-dark); line-height: 1.25;"></h3>
+          
+          <div style="display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.35rem;">
+            <span id="modalComboOldPrice" style="font-size: 1rem; text-decoration: line-through; color: var(--text-light);"></span>
+            <div id="modalComboPrice" style="font-size: 1.7rem; font-family: var(--font-serif); font-weight: 800; color: var(--primary-green-dark);"></div>
+          </div>
+
+          <p id="modalComboDesc" style="font-size: 1rem; line-height: 1.65; color: var(--text-main); margin-top: 0.75rem;"></p>
+
+          <div class="combo-benefit-box" style="margin: 1.25rem 0;">
+            <span class="combo-benefit-icon">🎁</span>
+            <div>
+              <span class="combo-benefit-label">Benefício em destaque:</span>
+              <strong id="modalComboBenefit" class="combo-benefit-text"></strong>
+            </div>
+          </div>
+
+          <div style="background: #FDFBF7; padding: 1.1rem; border-radius: var(--radius-md); border: 1px solid var(--border-delicate); margin-bottom: 1.25rem;">
+            <h4 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.6rem;">
+              <i class="fa-solid fa-box-open" style="color: var(--accent-gold);"></i> O que está incluído:
+            </h4>
+            <ul id="modalComboItems" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: var(--text-main);"></ul>
+          </div>
+
+          <div style="display: flex; gap: 0.85rem; margin-top: 1rem;">
+            <button id="modalComboBuyBtn" class="btn btn-primary" style="flex: 1;">
+              <i class="fa-solid fa-bag-shopping"></i> Comprar Combo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

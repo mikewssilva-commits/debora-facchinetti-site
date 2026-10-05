@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato &amp; WhatsApp — Débora Facchinetti | Vamos Conversar?</title>
+  <meta name="description" content="Entre em contato direto com a escritora e educadora Débora Facchinetti pelo WhatsApp oficial +55 (86) 98889-1466, e-mail ou redes sociais para livros, palestras e projetos.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    /* ==========================================================================
+       PÁGINA DE CONTATO — ENCERRAMENTO EMOCIONAL & FECHAMENTO DO SITE
+       ========================================================================== */
+    .contact-closing-section {
+      padding: 4.5rem 0 6rem;
+      position: relative;
+      background: radial-gradient(circle at 10% 15%, rgba(255, 204, 0, 0.12) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, rgba(37, 162, 68, 0.08) 0%, transparent 42%),
+                  radial-gradient(circle at 50% 50%, rgba(255, 90, 95, 0.05) 0%, transparent 50%),
+                  var(--paper-bg);
+      overflow: hidden;
+    }
+
+    /* Detalhes de textura e pontilhado sutil */
+    .contact-ambient-sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(245, 158, 11, 0.22) 1.5px, transparent 1.5px);
+      background-size: 52px 52px;
+      opacity: 0.35;
+    }
+
+    .contact-grand-stage {
+      display: grid;
+      grid-template-columns: 0.95fr 1.25fr;
+      gap: 4.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* --------------------------------------------------------------------------
+       COLUNA 1: FOTO PROTAGONISTA DA DÉBORA COM MOLDURA EDITORIAL
+       -------------------------------------------------------------------------- */
+    .contact-photo-stage {
+      position: relative;
+      max-width: 480px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Moldura de fundo inclinada (efeito livro / cartão postal) */
+    .photo-backdrop-layer {
+      position: absolute;
+      inset: -14px -12px -14px -12px;
+      background: linear-gradient(135deg, #FFF6D6 0%, #FEEBD0 100%);
+      border: 2px dashed #E5B232;
+      border-radius: 42px;
+      transform: rotate(-3deg);
+      box-shadow: 0 16px 36px rgba(43, 35, 31, 0.08);
+      z-index: 1;
+      transition: transform 0.4s ease;
+    }
+
+    .contact-photo-stage:hover .photo-backdrop-layer {
+      transform: rotate(-1.5deg) scale(1.02);
+    }
+
+    /* Moldura principal da foto */
+    .photo-frame-main {
+      position: relative;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 5px solid #FFFFFF;
+      box-shadow: 0 24px 56px rgba(43, 35, 31, 0.16), 0 4px 12px rgba(43, 35, 31, 0.06);
+      background: #F4EEDB;
+      aspect-ratio: 3 / 4;
+      z-index: 2;
+    }
+
+    .contact-author-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .contact-photo-stage:hover .contact-author-photo {
+      transform: scale(1.04);
+    }
+
+    /* Fita marcadora de livro no topo */
+    .photo-ribbon-tag {
+      position: absolute;
+      top: -12px;
+      right: 28px;
+      background: linear-gradient(180deg, var(--coral-main) 0%, var(--coral-dark) 100%);
+      color: #FFFFFF;
+      padding: 0.85rem 0.95rem 1.15rem;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 6px 16px rgba(255, 90, 95, 0.4);
+      z-index: 3;
+      font-size: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+    }
+
+    /* Selo / Carimbo afetivo no canto inferior esquerdo */
+    .photo-author-seal {
+      position: absolute;
+      bottom: -18px;
+      left: -18px;
+      background: #FFFFFF;
+      border: 2px solid #FFCC00;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 8px 24px rgba(43, 35, 31, 0.14);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      transform: rotate(3deg);
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--ink-title);
+      transition: transform 0.3s ease;
+    }
+
+    .contact-photo-stage:hover .photo-author-seal {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .photo-author-seal i {
+      color: var(--coral-main);
+      font-size: 1rem;
+    }
+
+    /* Status flutuante de atendimento */
+    .photo-status-badge {
+      position: absolute;
+      bottom: 24px;
+      right: -15px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1.5px solid #C4ECCF;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 8px 24px rgba(37, 162, 68, 0.18);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #1A7531;
+    }
+
+    .status-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #25D366;
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+      animation: pulseGreen 2s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    }
+
+    /* --------------------------------------------------------------------------
+       COLUNA 2: NARRATIVA DE FECHAMENTO & AÇÃO DE CONTATO
+       -------------------------------------------------------------------------- */
+    .contact-narrative-flow {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--yellow-light);
+      color: #B26A00;
+      border: 1.5px solid var(--yellow-border);
+      padding: 0.45rem 1.25rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      box-shadow: 0 3px 0 rgba(246, 192, 0, 0.35);
+      margin-bottom: 1.15rem;
+      align-self: flex-start;
+    }
+
+    .contact-main-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.3rem, 3.8vw, 3.3rem);
+      color: var(--ink-title);
+      line-height: 1.18;
+      letter-spacing: -0.015em;
+      margin: 0 0 0.85rem;
+    }
+
+    .contact-handwritten-lead {
+      font-family: var(--font-handwriting);
+      font-size: 1.55rem;
+      color: var(--coral-main);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1.25rem;
+      transform: rotate(-1deg);
+      display: inline-block;
+    }
+
+    .contact-desc {
+      font-size: 1.12rem;
+      color: var(--ink-body);
+      line-height: 1.7;
+      margin: 0 0 2.25rem;
+      max-width: 620px;
+    }
+
+    /* --------------------------------------------------------------------------
+       CARD DE WHATSAPP OFICIAL (CTA PROTAGONISTA)
+       -------------------------------------------------------------------------- */
+    .contact-whatsapp-hero-card {
+      background: linear-gradient(135deg, #09592B 0%, #127941 55%, #054821 100%);
+      border: 2.5px solid #2CE073;
+      border-radius: 28px;
+      padding: 2.2rem 2.25rem 2.1rem;
+      color: #FFFFFF;
+      box-shadow: 0 20px 48px rgba(9, 89, 43, 0.32), 0 6px 16px rgba(0, 0, 0, 0.12);
+      margin-bottom: 2.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .contact-whatsapp-hero-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(44, 224, 115, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-whatsapp-hero-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 56px rgba(9, 89, 43, 0.4), 0 8px 20px rgba(0, 0, 0, 0.16);
+    }
+
+    .wpp-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .wpp-identity-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .wpp-icon-bubble {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: #25D366;
+      color: #FFFFFF;
+      font-size: 2.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.45);
+      flex-shrink: 0;
+    }
+
+    .wpp-title-text h3 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .wpp-title-text span {
+      font-size: 0.88rem;
+      color: #D1F2D9;
+      font-weight: 500;
+    }
+
+    .wpp-status-pill {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .wpp-number-display {
+      font-family: var(--font-display);
+      font-size: 1.95rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      color: #FFFFFF;
+      margin: 0 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-whatsapp-master {
+      width: 100%;
+      padding: 1.2rem 2rem;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, #25D366 0%, #1EBE5D 100%);
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      box-shadow: 0 6px 0 #128C47, 0 12px 28px rgba(37, 211, 102, 0.45);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-whatsapp-master:hover {
+      background: linear-gradient(135deg, #2EE673 0%, #1EBE5D 100%);
+      box-shadow: 0 4px 0 #128C47, 0 8px 20px rgba(37, 211, 102, 0.5);
+      transform: translateY(2px);
+    }
+
+    .btn-whatsapp-master i.fa-arrow-right {
+      transition: transform 0.25s ease;
+    }
+
+    .btn-whatsapp-master:hover i.fa-arrow-right {
+      transform: translateX(6px);
+    }
+
+
+    /* --------------------------------------------------------------------------
+       CANAIS COMPLEMENTARES (E-MAIL, LOCALIZAÇÃO, REDES SOCIAIS)
+       -------------------------------------------------------------------------- */
+    .contact-channels-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .channel-item-card {
+      background: #FFFFFF;
+      border: 1.5px solid #EAE3D2;
+      border-radius: 22px;
+      padding: 1.35rem 1.45rem;
+      box-shadow: 0 6px 18px rgba(43, 35, 31, 0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: all 0.25s ease;
+    }
+
+    .channel-item-card:hover {
+      border-color: var(--yellow-border);
+      box-shadow: 0 10px 24px rgba(43, 35, 31, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .channel-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .icon-email {
+      background: var(--blue-light);
+      color: var(--blue-main);
+    }
+
+    .icon-location {
+      background: var(--yellow-light);
+      color: #B26A00;
+    }
+
+    .channel-info h4 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      margin: 0 0 0.25rem;
+    }
+
+    .channel-info p,
+    .channel-info a {
+      font-size: 0.92rem;
+      color: var(--ink-muted);
+      line-height: 1.5;
+      margin: 0;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .channel-info a:hover {
+      color: var(--green-main);
+      text-decoration: underline;
+    }
+
+    /* CARD DE REDES SOCIAIS INTEGRADO */
+    .contact-social-bar-card {
+      background: linear-gradient(135deg, #FFF9F7 0%, #FFFFFF 100%);
+      border: 1.5px solid #FDDCD2;
+      border-radius: 22px;
+      padding: 1.35rem 1.65rem;
+      box-shadow: 0 6px 18px rgba(43, 35, 31, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-bar-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .social-bar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--coral-light);
+      color: var(--coral-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .social-bar-text h4 {
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      margin: 0 0 0.15rem;
+    }
+
+    .social-bar-text p {
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      margin: 0;
+    }
+
+    .social-bar-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .social-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #FFFFFF;
+      border: 1.5px solid #FDDCD2;
+      color: var(--coral-dark);
+      padding: 0.6rem 1.25rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 3px 8px rgba(255, 90, 95, 0.12);
+      transition: all 0.25s ease;
+    }
+
+    .social-action-btn:hover {
+      background: var(--coral-main);
+      color: #FFFFFF;
+      border-color: var(--coral-main);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(255, 90, 95, 0.28);
+    }
+
+    /* --------------------------------------------------------------------------
+       RESPONSIVIDADE (TABLET & MOBILE)
+       -------------------------------------------------------------------------- */
+    @media (max-width: 1024px) {
+      .contact-grand-stage {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+      }
+
+      .contact-photo-stage {
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .contact-closing-section {
+        padding: 3rem 0 4rem;
+      }
+
+      .contact-grand-stage {
+        gap: 2.5rem;
+      }
+
+      .contact-photo-stage {
+        max-width: 270px;
+        margin: 0 auto 1.5rem;
+      }
+
+      .photo-frame-main {
+        border-radius: 22px;
+        border-width: 4px;
+      }
+
+      .photo-backdrop-layer {
+        border-radius: 24px;
+        inset: -6px;
+        transform: rotate(-1.5deg);
+      }
+
+      .photo-author-seal {
+        bottom: -14px;
+        left: 50%;
+        transform: translateX(-50%) rotate(0deg);
+        padding: 0.45rem 1rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+      }
+
+      .photo-ribbon-tag {
+        top: -8px;
+        right: 18px;
+        font-size: 0.95rem;
+        padding: 0.65rem 0.75rem 0.95rem;
+      }
+
+      .wpp-card-inner {
+        padding: 1.65rem 1.25rem 1.5rem;
+        text-align: center;
+      }
+
+      .wpp-header-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+      }
+
+      .wpp-title-text {
+        align-items: center;
+        text-align: center;
+      }
+
+      .wpp-number-display {
+        font-size: 1.45rem;
+        justify-content: center;
+        margin: 0 0 1.25rem;
+      }
+
+      .btn-whatsapp-master {
+        font-size: 1.05rem;
+        padding: 1rem 1.25rem;
+        min-height: 48px;
+      }
+
+      .contact-channels-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .channel-item-card {
+        padding: 1.15rem 1.2rem;
+      }
+
+      .contact-social-bar-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.35rem 1.2rem;
+        gap: 1.15rem;
+      }
+
+      .social-bar-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .social-bar-actions {
+        width: 100%;
+      }
+
+      .social-action-btn {
+        width: 100%;
+        min-height: 44px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE HEADER -->
+  <header class="site-header" id="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="Débora Facchinetti — Início">
+        <div class="brand-mark"><i class="fa-solid fa-feather-pointed"></i></div>
+        <div class="brand-text-wrap">
+          <span class="brand-name">Débora Facchinetti</span>
+          <span class="brand-tagline">Literatura & Educação</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link active">Contato</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="cart-trigger-btn" aria-label="Sacola de Compras">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count-badge" style="display: none;">0</span>
+        </button>
+        <button class="mobile-nav-toggle" aria-label="Abrir Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE NAVIGATION DRAWER -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav-drawer" id="mobileDrawer">
+    <div>
+      <div class="drawer-header">
+        <div class="brand-text-wrap">
+          <span class="brand-name" style="font-size: 1.2rem;">Débora Facchinetti</span>
+          <span class="brand-tagline">Literatura & Educação</span>
+        </div>
+        <button class="drawer-close-btn" aria-label="Fechar Menu">✕</button>
+      </div>
+      <nav class="drawer-nav-links">
+        <a href="index.html" class="nav-link">Início</a>
+        <a href="sobre.html" class="nav-link">Sobre a Autora</a>
+        <a href="loja.html" class="nav-link">Loja & Kits</a>
+        <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
+        <a href="contato.html" class="nav-link active">Contato</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       SEÇÃO PRINCIPAL DE CONTATO: O GRANDE FECHAMENTO DO SITE
+       ========================================================================= -->
+  <main class="contact-closing-section">
+    <div class="contact-ambient-sparkles"></div>
+    
+    <div class="container">
+      <div class="contact-grand-stage">
+        
+        <!-- COLUNA 1: FOTO PROTAGONISTA DA DÉBORA -->
+        <div class="contact-photo-stage">
+          <div class="photo-backdrop-layer"></div>
+          
+          <div class="photo-frame-main">
+            <img src="assets/images/debora_contato.jpg" 
+                 alt="Débora Facchinetti — Escritora e Educadora Infantil" 
+                 class="contact-author-photo" 
+                 fetchpriority="high">
+          </div>
+
+          <!-- Fita Marcadora Estilo Livro -->
+          <div class="photo-ribbon-tag" title="Literatura e Educação">
+            <i class="fa-solid fa-feather-pointed"></i>
+          </div>
+
+          <!-- Selo Afetivo Carimbado -->
+          <div class="photo-author-seal">
+            <i class="fa-solid fa-heart"></i>
+            <span>Literatura que Acolhe</span>
+          </div>
+
+          <!-- Status de Atendimento Humano -->
+          <div class="photo-status-badge">
+            <span class="status-pulse-dot"></span>
+            <span>Atendimento direto</span>
+          </div>
+        </div>
+
+        <!-- COLUNA 2: NARRATIVA DE FECHAMENTO & AÇÃO -->
+        <div class="contact-narrative-flow">
+          
+          <span class="contact-eyebrow">
+            <i class="fa-solid fa-feather-pointed"></i> Onde as histórias continuam
+          </span>
+
+          <h1 class="contact-main-title">
+            Vamos continuar essa história juntos?
+          </h1>
+
+          <div class="contact-handwritten-lead">
+            "Toda grande transformação na infância começa com uma simples conversa."
+          </div>
+
+          <p class="contact-desc">
+            Se você deseja conhecer os livros, levar palestras para sua escola, desenvolver projetos ou conversar sobre literatura, a Débora está pronta para falar com você.
+          </p>
+
+          <!-- CARD PRINCIPAL: WHATSAPP OFICIAL -->
+          <div class="contact-whatsapp-hero-card">
+            <div class="wpp-card-header">
+              <div class="wpp-identity-wrap">
+                <div class="wpp-icon-bubble">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="wpp-title-text">
+                  <h3>WhatsApp Oficial</h3>
+                  <span>Atendimento acolhedor e ágil</span>
+                </div>
+              </div>
+              <div class="wpp-status-pill">
+                <i class="fa-solid fa-circle" style="font-size: 0.5rem; color: #2CE073;"></i>
+                <span>Canal Principal</span>
+              </div>
+            </div>
+
+            <div class="wpp-number-display">
+              <i class="fa-solid fa-phone" style="font-size: 1.25rem; opacity: 0.85;"></i>
+              <span>+55 (86) 98889-1466</span>
+            </div>
+
+            <a href="https://wa.me/5586988891466?text=Ol%C3%A1%20D%C3%A9bora!%20Amei%20conhecer%20seu%20trabalho%20pelo%20site%20e%20gostaria%20de%20conversar." 
+               target="_blank" 
+               class="btn-whatsapp-master"
+               aria-label="Falar com a Débora no WhatsApp">
+              <i class="fa-brands fa-whatsapp" style="font-size: 1.45rem;"></i>
+              <span>Falar com a Débora no WhatsApp</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- INFORMAÇÕES COMPLEMENTARES -->
+          <div class="contact-channels-grid">
+            
+            <!-- E-mail Direto -->
+            <div class="channel-item-card">
+              <div class="channel-icon-wrap icon-email">
+                <i class="fa-solid fa-envelope-open-text"></i>
+              </div>
+              <div class="channel-info">
+                <h4>E-mail Direto</h4>
+                <a href="mailto:contato@deborafacchinetti.com.br" title="Enviar e-mail para Débora Facchinetti">
+                  contato@deborafacchinetti.com.br
+                </a>
+              </div>
+            </div>
+
+            <!-- Localização e Alcance -->
+            <div class="channel-item-card">
+              <div class="channel-icon-wrap icon-location">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="channel-info">
+                <h4>Localização &amp; Alcance</h4>
+                <p>Teresina, Piauí — Atendimento presencial e envio de livros para todo o Brasil.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Redes Sociais Integradas -->
+          <div class="contact-social-bar-card">
+            <div class="social-bar-content">
+              <div class="social-bar-icon">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <div class="social-bar-text">
+                <h4>Conecte-se pelo Instagram</h4>
+                <p>Acompanhe bastidores, projetos pedagógicos, vídeos e leituras com as crianças.</p>
+              </div>
+            </div>
+            <div class="social-bar-actions">
+              <a href="https://www.instagram.com/debora_facchinetti" target="_blank" class="social-action-btn" aria-label="Acompanhar Débora no Instagram">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Seguir no Instagram</span>
+                <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="footer-brand-title">Débora Facchinetti</span>
+        <p class="footer-brand-desc">Literatura, Educação e Histórias que Transformam.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/debora_facchinetti" target="_blank" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/5586988891466" target="_blank" class="social-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="mailto:contato@deborafacchinetti.com.br" class="social-btn" aria-label="E-mail"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Navegação</h4>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Início</a></li>
+          <li><a href="sobre.html" class="footer-link">Sobre a Autora</a></li>
+          <li><a href="loja.html" class="footer-link">Loja & Kits</a></li>
+          <li><a href="palestras.html" class="footer-link">Palestras & Projetos</a></li>
+          <li><a href="contato.html" class="footer-link">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Livros Publicados</h4>
+        <ul class="footer-links">
+          <li><a href="loja.html#card-getulio" class="footer-link">Getúlio, jacaré ou bagulho?</a></li>
+          <li><a href="loja.html#card-getulio-infancia" class="footer-link">Do nascimento à infância</a></li>
+          <li><a href="loja.html#card-bartolomeu" class="footer-link">Bartolomeu, o gato autista</a></li>
+          <li><a href="loja.html#card-dante" class="footer-link">O Caranguejo Dante</a></li>
+          <li><a href="loja.html#card-vovo" class="footer-link">Cadê minha vovó?</a></li>
+          <li><a href="loja.html#card-placido" class="footer-link">Plácido não queria ir à escola</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Atendimento Direto</h4>
+        <p style="color: #D3E2DA; font-size: 0.92rem; margin-bottom: 0.75rem;">
+          <i class="fa-brands fa-whatsapp" style="color: #25D366; margin-right: 6px;"></i> +55 (86) 98889-1466
+        </p>
+        <p style="color: #D3E2DA; font-size: 0.92rem; margin-bottom: 0.75rem;">
+          <i class="fa-solid fa-location-dot" style="color: var(--accent-gold); margin-right: 6px;"></i> Teresina, Piauí — Brasil
+        </p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Débora Facchinetti. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <div class="floating-whatsapp-widget">
+    <div class="whatsapp-tooltip">Fale com Débora Facchinetti</div>
+    <a href="https://wa.me/5586988891466?text=Ol%C3%A1%20D%C3%A9bora,%20vim%20pelo%20site%20e%20gostaria%20de%20conversar!" target="_blank" class="floating-whatsapp-btn" aria-label="Abrir WhatsApp">
+      <div class="whatsapp-ping"></div>
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <!-- SHOPPING CART DRAWER (OFF-CANVAS) -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Sacola de Compras">
+    <div class="cart-drawer-header">
+      <h3><i class="fa-solid fa-bag-shopping" style="color: var(--primary-green);"></i> Sacola Literária</h3>
+      <button class="cart-close-btn" id="cartCloseBtn">✕</button>
+    </div>
+    <div class="cart-drawer-body" id="cartDrawerBody"></div>
+    <div class="cart-drawer-footer" id="cartDrawerFooter">
+      <div class="cart-subtotal-row">
+        <span>Total da Compra:</span>
+        <span class="cart-subtotal-val" id="cartDrawerTotal">R$ 0,00</span>
+      </div>
+      <div class="cart-footer-actions">
+        <a href="checkout.html" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 0.85rem;">
+          <i class="fa-solid fa-lock"></i> Finalizar Compra
+        </a>
+        <button type="button" class="btn btn-outline" onclick="cart.closeDrawer()" style="width: 100%; justify-content: center; font-size: 0.95rem; padding: 0.75rem;">
+          <i class="fa-solid fa-arrow-left"></i> Continuar Comprando
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
