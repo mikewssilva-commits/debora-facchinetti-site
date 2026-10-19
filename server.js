@@ -29,9 +29,14 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Normalização de requisições da Vercel
+// Normalização de requisições da Vercel (restaura caminho original da API)
 app.use((req, res, next) => {
-  if (req.query && req.query.path) {
+  if (req.query && req.query._apiPath) {
+    const originalPath = req.query._apiPath;
+    delete req.query._apiPath;
+    const remainingParams = new URLSearchParams(req.query).toString();
+    req.url = originalPath + (remainingParams ? '?' + remainingParams : '');
+  } else if (req.query && req.query.path) {
     req.url = '/' + req.query.path;
   }
   next();
