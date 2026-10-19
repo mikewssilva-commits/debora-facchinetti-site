@@ -35,20 +35,66 @@ app.use('/api/orders', ordersRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 4. Rota explícita para a raiz
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+// 4. Arquivos Estáticos e Assets (Assets, Admin e Raiz)
+const baseDir = __dirname || process.cwd();
 
-// 5. Servir arquivos estáticos (páginas HTML, CSS, JS, imagens, mídias)
-// Suporta URLs com .html e URLs amigáveis sem extensão
-app.use(express.static(__dirname, {
+// Servir a pasta /assets explicitamente (CSS, JS, Imagens, Fontes)
+app.use('/assets', express.static(path.join(baseDir, 'assets'), {
+  maxAge: '1d'
+}));
+
+// Servir arquivos do painel /admin (CSS, JS, etc.)
+app.use('/admin', express.static(path.join(baseDir, 'admin'), {
+  maxAge: '1d'
+}));
+
+// Servir arquivos da raiz (HTMLs, mídias, imagens soltas)
+app.use(express.static(path.join(baseDir), {
   extensions: ['html'],
   index: 'index.html',
   maxAge: '0'
 }));
 
-// 4. Fallback 404 amigável
+// 5. Rotas explícitas para as páginas HTML (com e sem .html)
+const pages = [
+  'index',
+  'loja',
+  'checkout',
+  'sobre',
+  'livros',
+  'palestras',
+  'depoimentos',
+  'contato',
+  'rastreio'
+];
+
+// Rota raiz
+app.get('/', (req, res) => {
+  res.sendFile(path.join(baseDir, 'index.html'));
+});
+
+// Rotas de cada página
+pages.forEach(page => {
+  const file = path.join(baseDir, `${page}.html`);
+  app.get(`/${page}`, (req, res) => res.sendFile(file));
+  app.get(`/${page}.html`, (req, res) => res.sendFile(file));
+});
+
+// Rotas do painel Admin
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(baseDir, 'admin', 'index.html'));
+});
+app.get('/admin/index.html', (req, res) => {
+  res.sendFile(path.join(baseDir, 'admin', 'index.html'));
+});
+app.get('/admin/login', (req, res) => {
+  res.sendFile(path.join(baseDir, 'admin', 'login.html'));
+});
+app.get('/admin/login.html', (req, res) => {
+  res.sendFile(path.join(baseDir, 'admin', 'login.html'));
+});
+
+// 6. Fallback 404 amigável
 app.use((req, res) => {
   res.status(404).send('<h1>404 - Página Não Encontrada</h1><p><a href="/">Voltar ao início</a></p>');
 });
