@@ -22,8 +22,11 @@ router.use((req, res, next) => {
 
 // --- Rotas Públicas de Autenticação e Setup ---
 router.post('/auth/login', adminController.login);
+router.post('/login', adminController.login);
 router.get('/auth/setup-status', adminController.getSetupStatus);
+router.get('/setup-status', adminController.getSetupStatus);
 router.post('/auth/setup-initial', adminController.setupInitialUser);
+router.post('/setup-initial', adminController.setupInitialUser);
 
 // --- Rotas Protegidas (Requer Token Válido) ---
 router.get('/auth/me', requireAdminAuth, adminController.getMe);

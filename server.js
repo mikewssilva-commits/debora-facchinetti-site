@@ -8,7 +8,24 @@ const app = express();
 let currentPort = parseInt(process.env.PORT, 10) || 3000;
 
 // 1. Middlewares globais essenciais
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
+}));
+
+// Headers adicionais e tratamento explícito de OPTIONS preflight
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,12 +45,17 @@ const customersRoutes = require('./src/routes/customers.routes');
 const ordersRoutes = require('./src/routes/orders.routes');
 const paymentsRoutes = require('./src/routes/payments.routes');
 const adminRoutes = require('./src/routes/admin.routes');
+const adminController = require('./src/controllers/admin.controller');
 
 app.use('/api/products', productsRoutes);
 app.use('/api/customers', customersRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Aliases diretos para login administrativo (suporta /api/admin/login e /api/auth/login)
+app.post('/api/admin/login', adminController.login);
+app.post('/api/auth/login', adminController.login);
 
 // 4. Arquivos Estáticos e Assets (Assets, Admin e Raiz)
 const baseDir = __dirname;

@@ -95,13 +95,40 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Acessando...</span>';
 
       try {
-        const response = await fetch('/api/admin/auth/login', {
+        const apiUrl = window.location.origin + '/api/admin/auth/login';
+        let response = await fetch(apiUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
           body: JSON.stringify({ email, password })
         });
 
-        const data = await response.json();
+        // Se retornar 404 na rota primária, tenta o alias /api/admin/login
+        if (response.status === 404) {
+          response = await fetch(window.location.origin + '/api/admin/login', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
+        }
+
+        let data = {};
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          data = await response.json();
+        } else {
+          const rawText = await response.text();
+          try {
+            data = JSON.parse(rawText);
+          } catch (_) {
+            data = { success: false, message: rawText || `Erro HTTP ${response.status}` };
+          }
+        }
 
         if (response.ok && data.success && data.token) {
           localStorage.setItem('admin_token', data.token);
@@ -122,8 +149,9 @@
           btn.innerHTML = '<span>Entrar no Painel</span> <i class="fa-solid fa-arrow-right"></i>';
         }
       } catch (err) {
+        console.error('Falha na comunicação com o servidor:', err);
         alertEl.className = 'login-alert error';
-        alertEl.textContent = 'Erro ao conectar ao servidor. Tente novamente.';
+        alertEl.textContent = 'Erro ao conectar ao servidor. Verifique sua conexão e tente novamente.';
         alertEl.style.display = 'block';
         btn.disabled = false;
         btn.innerHTML = '<span>Entrar no Painel</span> <i class="fa-solid fa-arrow-right"></i>';
