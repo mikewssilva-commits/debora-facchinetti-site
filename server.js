@@ -35,7 +35,12 @@ app.use('/api/orders', ordersRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 4. Servir arquivos estáticos (páginas HTML, CSS, JS, imagens, mídias)
+// 4. Rota explícita para a raiz
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// 5. Servir arquivos estáticos (páginas HTML, CSS, JS, imagens, mídias)
 // Suporta URLs com .html e URLs amigáveis sem extensão
 app.use(express.static(__dirname, {
   extensions: ['html'],
