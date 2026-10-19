@@ -36,6 +36,8 @@ app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
 
 // 4. Arquivos Estáticos e Assets (Assets, Admin e Raiz)
+const baseDir = __dirname;
+
 app.use(express.static(path.join(__dirname)));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/admin', express.static(path.join(__dirname, 'admin')));
@@ -55,28 +57,28 @@ const pages = [
 
 // Rota raiz
 app.get('/', (req, res) => {
-  res.sendFile(path.join(baseDir, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Rotas de cada página
 pages.forEach(page => {
-  const file = path.join(baseDir, `${page}.html`);
+  const file = path.join(__dirname, `${page}.html`);
   app.get(`/${page}`, (req, res) => res.sendFile(file));
   app.get(`/${page}.html`, (req, res) => res.sendFile(file));
 });
 
 // Rotas do painel Admin
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(baseDir, 'admin', 'index.html'));
+  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
 });
 app.get('/admin/index.html', (req, res) => {
-  res.sendFile(path.join(baseDir, 'admin', 'index.html'));
+  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
 });
 app.get('/admin/login', (req, res) => {
-  res.sendFile(path.join(baseDir, 'admin', 'login.html'));
+  res.sendFile(path.join(__dirname, 'admin', 'login.html'));
 });
 app.get('/admin/login.html', (req, res) => {
-  res.sendFile(path.join(baseDir, 'admin', 'login.html'));
+  res.sendFile(path.join(__dirname, 'admin', 'login.html'));
 });
 
 // 6. Fallback 404 amigável
