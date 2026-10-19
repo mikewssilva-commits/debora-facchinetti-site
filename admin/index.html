@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel da Loja — Débora Facchinetti</title>
+  
+  <!-- Bloqueio Imediato para Não Autenticados (Zero Flash) -->
+  <script>
+    (function() {
+      var token = localStorage.getItem('admin_token');
+      if (!token) {
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
+
+  <!-- Favicon / Ícone -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Estilos Dedicados do Painel -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-app-layout">
+
+    <!-- Backdrop escuro para fechar menu no celular -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar(false)"></div>
+
+    <!-- ========================================================================
+         1. NOVO MENU LATERAL SIMPLIFICADO
+         ======================================================================== -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      
+      <!-- Cabeçalho da Marca -->
+      <div class="sidebar-brand-header">
+        <div class="brand-wrapper">
+          <div class="brand-monogram">DF</div>
+          <div class="brand-text-block">
+            <h1 class="brand-title">Débora Facchinetti</h1>
+            <p>Painel da Loja</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Novo Menu Simplificado -->
+      <div class="sidebar-nav-container">
+        <ul class="sidebar-nav-list">
+          <li>
+            <button type="button" class="sidebar-nav-item active" id="tabBtn-dashboard" onclick="switchTab('dashboard')">
+              <span class="nav-item-content">
+                <span class="nav-emoji">📊</span>
+                <span>Dashboard</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="sidebar-nav-item" id="tabBtn-orders" onclick="switchTab('orders')">
+              <span class="nav-item-content">
+                <span class="nav-emoji">📦</span>
+                <span>Pedidos</span>
+              </span>
+              <span class="nav-count-badge" id="sidebarOrdersBadge">-</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="sidebar-nav-item" id="tabBtn-settings" onclick="switchTab('settings')">
+              <span class="nav-item-content">
+                <span class="nav-emoji">⚙️</span>
+                <span>Configurações</span>
+              </span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="sidebar-nav-item nav-item-logout" onclick="logout()">
+              <span class="nav-item-content">
+                <i class="fa-solid fa-arrow-right-from-bracket" style="font-size: 0.95rem; color: #DC2626;"></i>
+                <span style="color: #DC2626;">Sair</span>
+              </span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Rodapé do Usuário -->
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-profile-info">
+            <div class="user-avatar-pill" id="adminUserAvatar">DF</div>
+            <div class="user-names-col">
+              <div class="user-name-title" id="adminUserName">Débora Facchinetti</div>
+              <div class="user-role-label">Administradora</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ========================================================================
+         2. ÁREA PRINCIPAL
+         ======================================================================== -->
+    <div class="admin-main-wrapper">
+      
+      <!-- Topbar Superior -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button type="button" class="btn-mobile-sidebar-toggle" id="btnToggleSidebar" onclick="toggleMobileSidebar()" aria-label="Abrir menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="topbar-page-breadcrumb">
+            <h2 class="topbar-page-title" id="topbarPageTitle">Dashboard</h2>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-date-pill" id="topbarCurrentDate">
+            <i class="fa-regular fa-calendar" style="color: var(--brand-gold);"></i>
+            <span id="topbarDateString">Hoje</span>
+          </div>
+
+          <button type="button" class="btn-topbar-action" onclick="refreshCurrentView()" title="Atualizar dados">
+            <i class="fa-solid fa-arrows-rotate" id="topbarRefreshIcon"></i>
+            <span>Atualizar</span>
+          </button>
+
+          <a href="../loja.html" target="_blank" class="btn-topbar-action primary-gold" title="Ver Loja Pública">
+            <i class="fa-solid fa-store"></i>
+            <span>Ver Loja</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Conteúdo das Abas -->
+      <main class="admin-content-body">
+
+        <!-- ====================================================================
+             ABA 1: DASHBOARD SIMPLIFICADO
+             (Apenas: Pedidos Novos, Vendas, Aguardando Envio)
+             ==================================================================== -->
+        <section id="tabContent-dashboard" class="tab-content-panel">
+          
+          <!-- 4 Cards de Resumo Reais (Calculados Diretamente do Supabase) -->
+          <div class="metrics-grid simple-4-grid">
+            
+            <!-- 1. Quantidade de Pedidos -->
+            <div class="metric-card" onclick="filterByAllOrders()" style="cursor: pointer;" title="Ver todos os pedidos">
+              <div class="metric-header">
+                <span class="metric-label">Quantidade de Pedidos</span>
+                <div class="metric-icon-badge metric-icon-orders">
+                  <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+              </div>
+              <div>
+                <div class="metric-val" id="metricTotalOrders">0</div>
+                <div class="metric-footer">
+                  <i class="fa-solid fa-receipt" style="color: var(--brand-gold);"></i>
+                  <span id="metricActiveOrdersSubtitle">Total registrado na loja</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Vendas -->
+            <div class="metric-card featured-gold">
+              <div class="metric-header">
+                <span class="metric-label">Vendas</span>
+                <div class="metric-icon-badge metric-icon-revenue">
+                  <i class="fa-solid fa-coins"></i>
+                </div>
+              </div>
+              <div>
+                <div class="metric-val" id="metricRevenue" style="color: #92400E;">R$ 0,00</div>
+                <div class="metric-footer">
+                  <i class="fa-solid fa-circle-check" style="color: #059669;"></i>
+                  <span>Faturamento aprovado ativo</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Pedidos Pendentes -->
+            <div class="metric-card" onclick="filterByPendingOrders()" style="cursor: pointer;" title="Ver pedidos pendentes de pagamento">
+              <div class="metric-header">
+                <span class="metric-label">Pedidos Pendentes</span>
+                <div class="metric-icon-badge metric-icon-pending">
+                  <i class="fa-regular fa-clock"></i>
+                </div>
+              </div>
+              <div>
+                <div class="metric-val" id="metricPendingOrders" style="color: #B45309;">0</div>
+                <div class="metric-footer">
+                  <i class="fa-solid fa-hourglass-half" style="color: #F59E0B;"></i>
+                  <span id="metricPendingSubtitle">Aguardando pagamento</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Pedidos Cancelados -->
+            <div class="metric-card" onclick="filterByCancelledOrders()" style="cursor: pointer;" title="Ver pedidos cancelados">
+              <div class="metric-header">
+                <span class="metric-label">Pedidos Cancelados</span>
+                <div class="metric-icon-badge" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA;">
+                  <i class="fa-solid fa-ban"></i>
+                </div>
+              </div>
+              <div>
+                <div class="metric-val" id="metricCancelledOrders" style="color: #DC2626;">0</div>
+                <div class="metric-footer">
+                  <i class="fa-solid fa-circle-xmark" style="color: #DC2626;"></i>
+                  <span>Excluídos das vendas</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Lista de Pedidos Recentes -->
+          <div class="admin-card-section">
+            <div class="section-header">
+              <div>
+                <h3 class="section-title">
+                  <i class="fa-solid fa-clock-rotate-left" style="color: var(--brand-gold);"></i>
+                  <span>Pedidos Recentes</span>
+                </h3>
+                <p class="section-subtitle">Últimas compras feitas na loja</p>
+              </div>
+              <button type="button" class="btn-topbar-action primary-gold" onclick="switchTab('orders')">
+                <span>Ver Todos os Pedidos</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Valor</th>
+                    <th>Pagamento</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="recentOrdersTbody">
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      <i class="fa-solid fa-spinner fa-spin"></i>
+                      <br>Carregando pedidos...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+
+        <!-- ====================================================================
+             ABA 2: PÁGINA PEDIDOS (LISTA SIMPLES)
+             (Código, Cliente, Valor, Pagamento, Status)
+             ==================================================================== -->
+        <section id="tabContent-orders" class="tab-content-panel" style="display: none;">
+          
+          <div class="admin-card-section">
+            
+            <div class="section-header">
+              <div>
+                <h3 class="section-title">
+                  <i class="fa-solid fa-boxes-stacked" style="color: var(--brand-gold);"></i>
+                  <span>Lista de Pedidos</span>
+                </h3>
+                <p class="section-subtitle" id="ordersCountBadge">Carregando pedidos...</p>
+              </div>
+
+              <!-- Filtros Simples -->
+              <div class="filter-bar">
+                
+                <div class="search-input-wrapper">
+                  <i class="fa-solid fa-magnifying-glass search-input-prefix"></i>
+                  <input type="text" id="filterSearch" class="filter-input" placeholder="Buscar por código ou cliente..." oninput="loadOrdersData()">
+                </div>
+
+                <select id="filterFulfillment" class="filter-select" onchange="loadOrdersData()">
+                  <option value="all">Status: Todos</option>
+                  <option value="active">Status: Apenas Ativos</option>
+                  <option value="pending">Status: ⏳ Aguardando Envio</option>
+                  <option value="preparing">Status: ✍️ Em Preparação</option>
+                  <option value="shipped">Status: 🚚 Enviados</option>
+                  <option value="delivered">Status: ✅ Entregues</option>
+                  <option value="cancelled">Status: ❌ Cancelados</option>
+                </select>
+
+                <select id="filterPayment" class="filter-select" onchange="loadOrdersData()">
+                  <option value="all">Pagamento: Todos</option>
+                  <option value="approved">Pagamento: Aprovado</option>
+                  <option value="pending">Pagamento: Pendente</option>
+                  <option value="rejected">Pagamento: Rejeitado</option>
+                  <option value="refunded">Pagamento: Reembolsado</option>
+                </select>
+
+                <button type="button" class="btn-filter-refresh" onclick="loadOrdersData()" title="Atualizar lista">
+                  <i class="fa-solid fa-rotate-right"></i>
+                  <span>Atualizar</span>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- Tabela Simples de Pedidos -->
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Valor</th>
+                    <th>Pagamento</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="allOrdersTbody">
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      <i class="fa-solid fa-spinner fa-spin"></i>
+                      <br>Carregando pedidos...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ====================================================================
+             ABA 3: CONFIGURAÇÕES SIMPLIFICADAS
+             ==================================================================== -->
+        <section id="tabContent-settings" class="tab-content-panel" style="display: none;">
+          
+          <div class="settings-grid">
+            
+            <!-- Card 1: Perfil do Administrador -->
+            <div class="admin-card-section" style="margin-bottom: 1.5rem;">
+              <div class="section-header">
+                <h3 class="section-title">
+                  <i class="fa-solid fa-user-circle" style="color: var(--brand-gold);"></i>
+                  <span>Sua Conta</span>
+                </h3>
+              </div>
+              <div style="padding: 1.5rem;">
+                <div class="settings-field-row">
+                  <strong>Nome:</strong>
+                  <span id="settingsUserName">Débora Facchinetti</span>
+                </div>
+                <div class="settings-field-row">
+                  <strong>E-mail:</strong>
+                  <span id="settingsUserEmail">debora@deborafacchinetti.com.br</span>
+                </div>
+                <div class="settings-field-row">
+                  <strong>Função:</strong>
+                  <span class="badge-status approved">Administradora da Loja</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Conexões e Status da Loja -->
+            <div class="admin-card-section" style="margin-bottom: 1.5rem;">
+              <div class="section-header">
+                <h3 class="section-title">
+                  <i class="fa-solid fa-link" style="color: var(--brand-gold);"></i>
+                  <span>Status da Loja</span>
+                </h3>
+              </div>
+              <div style="padding: 1.5rem;">
+                <div class="settings-connection-item">
+                  <div class="conn-icon"><i class="fa-solid fa-credit-card" style="color: #0284C7;"></i></div>
+                  <div class="conn-info">
+                    <strong>Mercado Pago</strong>
+                    <p>Processamento de PIX e Cartão ativo</p>
+                  </div>
+                  <span class="badge-status approved"><i class="fa-solid fa-check"></i> Conectado</span>
+                </div>
+
+                <div class="settings-connection-item">
+                  <div class="conn-icon"><i class="fa-solid fa-database" style="color: #10B981;"></i></div>
+                  <div class="conn-info">
+                    <strong>Banco de Dados (Supabase)</strong>
+                    <p>Pedidos e clientes sincronizados</p>
+                  </div>
+                  <span class="badge-status approved"><i class="fa-solid fa-check"></i> Conectado</span>
+                </div>
+
+                <div class="settings-connection-item">
+                  <div class="conn-icon"><i class="fa-brands fa-whatsapp" style="color: #25D366;"></i></div>
+                  <div class="conn-info">
+                    <strong>WhatsApp de Atendimento</strong>
+                    <p>+55 (86) 98889-1466</p>
+                  </div>
+                  <a href="https://wa.me/5586988891466" target="_blank" class="btn-table-action">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Abrir
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Atalhos Úteis -->
+            <div class="admin-card-section">
+              <div class="section-header">
+                <h3 class="section-title">
+                  <i class="fa-solid fa-compass" style="color: var(--brand-gold);"></i>
+                  <span>Atalhos Rápidos</span>
+                </h3>
+              </div>
+              <div style="padding: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="../loja.html" target="_blank" class="btn-topbar-action primary-gold">
+                  <i class="fa-solid fa-store"></i>
+                  <span>Acessar Loja Pública</span>
+                </a>
+                <a href="../index.html" target="_blank" class="btn-topbar-action">
+                  <i class="fa-solid fa-house"></i>
+                  <span>Página Inicial do Site</span>
+                </a>
+                <button type="button" class="btn-topbar-action" onclick="logout()" style="color: #DC2626;">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <span>Sair do Painel</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       MODAL DE DETALHES DO PEDIDO
+       (Cliente, Produtos, Dedicatória, Brinde, Endereço, Rastreio + Alteração)
+       ========================================================================== -->
+  <dialog id="orderDetailModal" class="admin-modal">
+    <div class="modal-header-bar">
+      <h3 id="modalOrderCodeTitle">Detalhes do Pedido</h3>
+      <button type="button" class="btn-close-modal" onclick="closeOrderModal()" title="Fechar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-body-scroll" id="modalDetailBody">
+      <!-- Conteúdo renderizado por admin.js -->
+    </div>
+  </dialog>
+
+  <!-- Script do Painel -->
+  <script src="js/admin.js"></script>
+</body>
+</html>

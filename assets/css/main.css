@@ -584,6 +584,51 @@ h1, h2, h3, h4, h5, h6 {
   50% { transform: translateY(-3px); }
 }
 
+/* Acesso discreto no topo: Acompanhar Pedido (Desktop) */
+.nav-track-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-pill);
+  background: var(--paper-bg, #FFFDF9);
+  border: 1.5px solid var(--paper-border, #E8DFCB);
+  color: var(--ink-body, #4A3E38);
+  font-family: var(--font-display, inherit);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--transition-fast, 0.2s ease);
+  box-shadow: 0 2px 6px rgba(43, 35, 31, 0.05);
+  white-space: nowrap;
+}
+
+.nav-track-link i {
+  color: var(--yellow-deep, #F59E0B);
+  font-size: 0.95rem;
+}
+
+.nav-track-link:hover {
+  background: var(--yellow-light, #FFF8DB);
+  border-color: var(--yellow-border, #F6C000);
+  color: #78350F;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
+}
+
+.nav-track-link.active {
+  background: var(--yellow-main, #FFCC00);
+  border-color: #D99B00;
+  color: #382700;
+  box-shadow: 0 3px 0 #D99B00;
+}
+
+@media (max-width: 860px) {
+  .nav-track-link {
+    display: none !important;
+  }
+}
+
 /* Menu Mobile Toggle */
 .mobile-nav-toggle {
   display: none;
@@ -2075,6 +2120,20 @@ h1, h2, h3, h4, h5, h6 {
   gap: 1rem;
 }
 
+.footer-restricted-link {
+  color: inherit;
+  opacity: 0.45;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.footer-restricted-link:hover {
+  opacity: 1;
+  color: var(--yellow-main, #EAB308);
+  text-decoration: underline;
+}
+
 /* --------------------------------------------------------------------------
    17. WIDGET WHATSAPP FLUTUANTE
    -------------------------------------------------------------------------- */
@@ -2843,6 +2902,52 @@ dialog::backdrop {
 .drawer-nav-links .nav-link {
   font-size: 1.15rem;
   padding: 0.85rem 1.25rem;
+}
+
+/* Separador e Itens Especiais no Menu Mobile */
+.drawer-menu-divider {
+  height: 1px;
+  background: #E8DFCB;
+  margin: 0.65rem 0.5rem;
+  border: none;
+  border-top: 1.5px dashed #DFD6C2;
+}
+
+.drawer-nav-links .drawer-item-track {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ink-title, #2B231F);
+  font-weight: 700;
+}
+
+.drawer-nav-links .drawer-item-track i {
+  color: var(--yellow-deep, #F59E0B);
+  font-size: 1.15rem;
+  width: 22px;
+  text-align: center;
+}
+
+.drawer-nav-links .drawer-item-admin {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ink-muted, #756760);
+  font-size: 0.98rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.drawer-nav-links .drawer-item-admin i {
+  color: #8C7E75;
+  font-size: 1rem;
+  width: 22px;
+  text-align: center;
+}
+
+.drawer-nav-links .drawer-item-admin:hover {
+  opacity: 1;
+  color: var(--ink-title, #2B231F);
 }
 
 /* --------------------------------------------------------------------------

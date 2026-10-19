@@ -325,6 +325,164 @@ const ordersController = {
     } catch (err) {
       return res.status(500).json({ success: false, error: err.message });
     }
+  },
+
+  /**
+   * Rastrear Pedido pelo Cliente (Área Pública)
+   * POST/GET /api/orders/track
+   */
+  async trackOrder(req, res) {
+    try {
+      const orderCodeRaw = req.body?.order_code || req.body?.code || req.query?.order_code || req.query?.code;
+      const emailRaw = req.body?.email || req.query?.email;
+
+      if (!orderCodeRaw || !emailRaw) {
+        return res.status(400).json({
+          success: false,
+          message: 'Por favor, informe o código do pedido (ex: DF-0012) e o seu e-mail cadastrado na compra.'
+        });
+      }
+
+      const cleanCode = String(orderCodeRaw).trim().replace(/^#/, '').toUpperCase();
+      const cleanEmail = String(emailRaw).trim().toLowerCase();
+
+      // Busca na tabela orders com joins no Supabase
+      const { data: order, error } = await supabase
+        .from('orders')
+        .select(`
+          id,
+          order_code,
+          subtotal,
+          discount_amount,
+          shipping_amount,
+          total_amount,
+          payment_status,
+          fulfillment_status,
+          autograph_notes,
+          gift_notes,
+          tracking_code,
+          tracking_url,
+          shipped_at,
+          delivered_at,
+          created_at,
+          updated_at,
+          customer:customers(name, email, phone),
+          items:order_items(id, product_title, product_sku, quantity, unit_price, total_price),
+          history:order_status_history(id, status, description, created_at),
+          payments(id, payment_method, status, card_brand, installments, paid_at)
+        `)
+        .ilike('order_code', cleanCode)
+        .maybeSingle();
+
+      if (error || !order || !order.customer) {
+        return res.status(404).json({
+          success: false,
+          message: 'Pedido não localizado. Verifique se o código do pedido e o e-mail digitados estão corretos.'
+        });
+      }
+
+      // Validação de segurança: o e-mail precisa coincidir com o cliente da compra
+      const customerEmail = (order.customer.email || '').trim().toLowerCase();
+      if (customerEmail !== cleanEmail) {
+        return res.status(404).json({
+          success: false,
+          message: 'Não encontramos nenhum pedido correspondente com essa combinação de código e e-mail. Por favor, confira os dados informados.'
+        });
+      }
+
+      // Constrói a Timeline Visual Dinâmica
+      const isCancelled = order.fulfillment_status === 'cancelled' || order.payment_status === 'rejected' || order.payment_status === 'refunded';
+      const isPaid = order.payment_status === 'approved';
+      const isPreparing = isPaid && (order.fulfillment_status === 'preparing' || order.fulfillment_status === 'pending');
+      const isShipped = order.fulfillment_status === 'shipped';
+      const isDelivered = order.fulfillment_status === 'delivered';
+
+      const timeline = [
+        {
+          step: 1,
+          key: 'ordered',
+          title: 'Pedido Realizado',
+          desc: 'Seu pedido foi registrado com carinho na loja oficial da Débora.',
+          icon: 'fa-solid fa-receipt',
+          status: 'completed',
+          date: order.created_at
+        },
+        {
+          step: 2,
+          key: 'payment',
+          title: 'Pagamento Confirmado',
+          desc: isPaid
+            ? 'Pagamento recebido e aprovado com sucesso!'
+            : (order.payment_status === 'refunded' ? 'Pagamento estornado/reembolsado.' : 'Aguardando aprovação do pagamento via PIX ou Cartão.'),
+          icon: 'fa-solid fa-circle-check',
+          status: isPaid ? 'completed' : (isCancelled ? 'cancelled' : 'current'),
+          date: order.payments?.[0]?.paid_at || (isPaid ? order.updated_at : null)
+        },
+        {
+          step: 3,
+          key: 'preparing',
+          title: 'Preparando Pedido & Autógrafo',
+          desc: order.autograph_notes
+            ? 'A Débora está escrevendo a dedicatória especial no seu exemplar e preparando o envio.'
+            : 'Seus livros estão sendo separados, embalados e preparados com cuidado pela Débora.',
+          icon: 'fa-solid fa-feather-pointed',
+          status: (isShipped || isDelivered) ? 'completed' : (isPreparing ? 'current' : (isCancelled ? 'cancelled' : 'upcoming')),
+          date: isPreparing ? order.updated_at : null
+        },
+        {
+          step: 4,
+          key: 'shipped',
+          title: 'Pedido Enviado',
+          desc: order.tracking_code
+            ? `Seu pacote foi despachado e já está a caminho! Rastreio: ${order.tracking_code}`
+            : (isShipped ? 'Seu pedido foi despachado aos Correios e está em trânsito.' : 'Aguardando postagem nos Correios/transportadora.'),
+          icon: 'fa-solid fa-truck-fast',
+          status: isDelivered ? 'completed' : (isShipped ? 'current' : (isCancelled ? 'cancelled' : 'upcoming')),
+          date: order.shipped_at || null,
+          tracking_code: order.tracking_code || null,
+          tracking_url: order.tracking_code ? `https://www.linkcorreios.com.br/?id=${encodeURIComponent(order.tracking_code)}` : null
+        },
+        {
+          step: 5,
+          key: 'delivered',
+          title: 'Pedido Entregue',
+          desc: isDelivered
+            ? 'Seus livros foram entregues! Desejamos momentos mágicos de leitura em família!'
+            : 'Previsão de entrega no seu endereço.',
+          icon: 'fa-solid fa-house-chimney-heart',
+          status: isDelivered ? 'completed' : 'upcoming',
+          date: order.delivered_at || null
+        }
+      ];
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          order_code: order.order_code,
+          created_at: order.created_at,
+          customer_name: order.customer.name,
+          customer_email: order.customer.email,
+          total_amount: order.total_amount,
+          payment_status: order.payment_status,
+          fulfillment_status: order.fulfillment_status,
+          autograph_notes: order.autograph_notes || null,
+          gift_notes: order.gift_notes || null,
+          tracking_code: order.tracking_code || null,
+          tracking_url: order.tracking_code ? `https://www.linkcorreios.com.br/?id=${encodeURIComponent(order.tracking_code)}` : null,
+          items: order.items || [],
+          history: order.history || [],
+          timeline,
+          is_cancelled: isCancelled
+        }
+      });
+    } catch (err) {
+      console.error('Erro ao rastrear pedido:', err);
+      return res.status(500).json({
+        success: false,
+        message: 'Erro interno ao consultar pedido.',
+        error: err.message
+      });
+    }
   }
 };
 

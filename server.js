@@ -26,10 +26,14 @@ app.get('/api/health', (req, res) => {
 const productsRoutes = require('./src/routes/products.routes');
 const customersRoutes = require('./src/routes/customers.routes');
 const ordersRoutes = require('./src/routes/orders.routes');
+const paymentsRoutes = require('./src/routes/payments.routes');
+const adminRoutes = require('./src/routes/admin.routes');
 
 app.use('/api/products', productsRoutes);
 app.use('/api/customers', customersRoutes);
 app.use('/api/orders', ordersRoutes);
+app.use('/api/payments', paymentsRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 4. Servir arquivos estáticos (páginas HTML, CSS, JS, imagens, mídias)
 // Suporta URLs com .html e URLs amigáveis sem extensão
@@ -74,6 +78,8 @@ function startServer(port) {
   });
 }
 
-startServer(currentPort);
+if (!process.env.VERCEL) {
+  startServer(currentPort);
+}
 
 module.exports = app;

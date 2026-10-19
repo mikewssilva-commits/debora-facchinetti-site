@@ -28,10 +28,14 @@
         <a href="contato.html" class="nav-link">Contato</a>
       </nav>
       <div class="nav-actions">
-        <button class="cart-trigger-btn" aria-label="Sacola de Compras">
+        <button class="cart-trigger-btn" aria-label="Sacola de Compras" title="Sacola de Compras">
           <i class="fa-solid fa-bag-shopping"></i>
           <span class="cart-count-badge" style="display: none;">0</span>
         </button>
+        <a href="rastreio.html" class="nav-track-link" title="Acompanhar Pedido">
+          <i class="fa-solid fa-box-open"></i>
+          <span>Acompanhar Pedido</span>
+        </a>
         <button class="mobile-nav-toggle" aria-label="Abrir Menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -54,6 +58,15 @@
         <a href="loja.html" class="nav-link active">Loja & Kits</a>
         <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
         <a href="contato.html" class="nav-link">Contato</a>
+
+        <div class="drawer-menu-divider" role="separator"></div>
+
+        <a href="rastreio.html" class="nav-link drawer-item-track">
+          <i class="fa-solid fa-box-open"></i> Acompanhar Pedido
+        </a>
+        <a href="admin/login.html" class="nav-link drawer-item-admin">
+          <i class="fa-solid fa-lock"></i> Área Restrita
+        </a>
       </nav>
     </div>
   </aside>
@@ -589,7 +602,7 @@
       </div>
     </div>
     <div class="container footer-bottom">
-      <p>© 2026 Débora Facchinetti. Todos os direitos reservados.</p>
+      <p>© 2026 Débora Facchinetti. Todos os direitos reservados. &bull; <a href="admin/login.html" class="footer-restricted-link" title="Acesso Administrativo">Área Restrita</a></p>
     </div>
   </footer>
 

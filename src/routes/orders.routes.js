@@ -9,6 +9,10 @@ router.post('/', ordersController.create);
 // GET /api/orders — Listar pedidos
 router.get('/', ordersController.listAll);
 
+// POST e GET /api/orders/track — Rastreio público com código e e-mail
+router.post('/track', ordersController.trackOrder);
+router.get('/track', ordersController.trackOrder);
+
 // GET /api/orders/:codeOrId — Consultar pedido específico
 router.get('/:codeOrId', ordersController.getByCode);
 

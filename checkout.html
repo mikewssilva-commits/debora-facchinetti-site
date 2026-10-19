@@ -966,6 +966,273 @@
       background: #F8F5EE;
     }
 
+    /* ==========================================================================
+       PIX PAYMENT EXPERIENCE IN MODAL
+       ========================================================================== */
+    .pix-payment-box {
+      background: #FFFFFF;
+      border: 1.5px solid #EAE3D2;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .pix-qr-frame {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
+      padding: 0.85rem;
+      border-radius: 16px;
+      border: 2px solid #E2E8F0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      margin: 0.5rem auto 1rem;
+      max-width: 230px;
+    }
+
+    .pix-qr-img {
+      width: 200px;
+      height: 200px;
+      display: block;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    .pix-amount-highlight {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--ink-title);
+      margin-bottom: 0.35rem;
+    }
+
+    .pix-code-field {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0 0.75rem;
+      align-items: center;
+    }
+
+    .pix-input-code {
+      flex: 1;
+      padding: 0.75rem 0.9rem;
+      background: #F8FAFC;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: #334155;
+      outline: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-pix-copy {
+      background: #25A244;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 1.15rem;
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-pix-copy:hover {
+      background: #1E8236;
+      transform: translateY(-1px);
+    }
+
+    .btn-pix-copy.copied {
+      background: #166534;
+    }
+
+    .pix-status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #EBF8EE;
+      color: #166534;
+      border: 1px solid #8CE0A5;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+
+    .pix-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #25A244;
+      box-shadow: 0 0 0 rgba(37, 162, 68, 0.4);
+      animation: pixPulse 1.6s infinite;
+    }
+
+    @keyframes pixPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(37, 162, 68, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 9px rgba(37, 162, 68, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(37, 162, 68, 0);
+      }
+    }
+
+    .pix-timer-text {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      margin-top: 0.25rem;
+    }
+
+    .modal-safe-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #F0FDF4;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+      padding: 0.28rem 0.75rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 0.65rem;
+    }
+
+    .pix-approved-container {
+      text-align: center;
+      animation: fadeInScale 0.4s ease forwards;
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* ==========================================================================
+       CREDIT CARD FORM STYLING
+       ========================================================================== */
+    .card-payment-form {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1.5px dashed #EAE3D2;
+      animation: fadeInScale 0.3s ease;
+    }
+
+    .card-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .card-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    .card-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .card-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ink-title);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .card-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-input {
+      width: 100%;
+      padding: 0.75rem 0.85rem 0.75rem 2.4rem;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: var(--ink-title);
+      font-family: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-input:focus {
+      outline: none;
+      border-color: #0284C7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .card-icon-prefix {
+      position: absolute;
+      left: 0.85rem;
+      color: #94A3B8;
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.2s ease;
+    }
+
+    .card-brand-tag {
+      position: absolute;
+      right: 0.75rem;
+      font-size: 0.85rem;
+      color: #0284C7;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .card-select-installments {
+      width: 100%;
+      padding: 0.75rem 0.85rem;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      color: var(--ink-title);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .card-security-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+      padding: 0.6rem 0.85rem;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      color: #166534;
+      font-weight: 600;
+    }
+
     /* RESPONSIVIDADE */
     @media (max-width: 991px) {
       .checkout-grid {
@@ -1079,6 +1346,10 @@
         <a href="contato.html" class="nav-link">Contato</a>
       </nav>
       <div class="nav-actions">
+        <a href="rastreio.html" class="nav-track-link" title="Acompanhar Pedido">
+          <i class="fa-solid fa-box-open"></i>
+          <span>Acompanhar Pedido</span>
+        </a>
         <span class="checkout-secure-badge" style="margin-bottom: 0;">
           <i class="fa-solid fa-lock"></i> Compra Segura
         </span>
@@ -1343,10 +1614,10 @@
                 <div id="paymentDetailsBox" class="payment-details-box">
                   <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
                     <i class="fa-brands fa-pix" style="color: #25A244; font-size: 1.1rem;"></i>
-                    <span>PIX Selecionado — Aprovação Imediata</span>
+                    <span>PIX — Aprovação Instantânea</span>
                   </div>
-                  <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
-                    Ao finalizar, sua chave e QR Code PIX do Mercado Pago serão gerados e transmitidos para confirmação com a equipe editorial no WhatsApp.
+                  <p style="margin: 0; font-size: 0.84rem; line-height: 1.5; color: var(--ink-body);">
+                    Ao clicar em Finalizar Compra, você verá o QR Code e a chave Copia e Cola na tela. A confirmação é imediata e seu pedido já entra em preparação!
                   </p>
                 </div>
               </div>
@@ -1458,7 +1729,7 @@
       </div>
       <h2 class="modal-headline">Pedido Registrado com Sucesso!</h2>
       <p class="modal-subtext">
-        Você está sendo direcionado para o WhatsApp oficial de <strong>Débora Facchinetti</strong> para receber a chave/link de pagamento do Mercado Pago e acompanhar o envio dos seus livros.
+        Seu pedido foi registrado com sucesso! Você pode acompanhar cada etapa da preparação e envio dos seus livros diretamente com a autora <strong>Débora Facchinetti</strong> pelo WhatsApp.
       </p>
 
       <div class="modal-summary-box" id="successMsgPreview"></div>
@@ -1475,11 +1746,12 @@
   <!-- SITE FOOTER -->
   <footer class="site-footer">
     <div class="container footer-bottom" style="border-top: none; padding-top: 0;">
-      <p>© 2026 Débora Facchinetti. Pagamentos processados pelo Mercado Pago.</p>
+      <p>© 2026 Débora Facchinetti. Pagamentos processados pelo Mercado Pago. &bull; <a href="admin/login.html" class="footer-restricted-link" title="Acesso Administrativo">Área Restrita</a></p>
       <p>WhatsApp Oficial: +55 86 98889-1466</p>
     </div>
   </footer>
 
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
   <script src="assets/js/main.js"></script>
   <script>
     let selectedPayment = 'pix';
@@ -1498,33 +1770,168 @@
         box.innerHTML = `
           <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
             <i class="fa-brands fa-pix" style="color: #25A244; font-size: 1.1rem;"></i>
-            <span>PIX Selecionado — Aprovação Imediata</span>
+            <span>PIX — Aprovação Instantânea</span>
           </div>
-          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
-            Ao finalizar, sua chave e QR Code PIX do Mercado Pago serão gerados e transmitidos para confirmação com a equipe editorial no WhatsApp.
+          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5; color: var(--ink-body);">
+            Ao clicar em Finalizar Compra, você verá o QR Code e a chave Copia e Cola na tela. A confirmação é imediata e seu pedido já entra em preparação!
           </p>
         `;
       } else if (method === 'card') {
+        const evalRes = typeof cart !== 'undefined' ? cart.getSmartEvaluation() : { finalTotal: 0 };
+        const totalAmount = evalRes.finalTotal || 0;
+
         box.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
-            <i class="fa-solid fa-credit-card" style="color: #0284C7; font-size: 1.1rem;"></i>
-            <span>Cartão de Crédito Selecionado — Até 12x</span>
+          <div class="card-payment-form">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: #0C4A6E;">
+                <i class="fa-solid fa-credit-card" style="color: #0284C7; font-size: 1.1rem;"></i>
+                <span>Pagamento com Cartão de Crédito</span>
+              </div>
+              <div id="cardBrandLabel" style="font-size: 0.82rem; font-weight: 700; color: #0284C7;"></div>
+            </div>
+
+            <div class="card-input-group">
+              <!-- Número do Cartão -->
+              <div class="card-field">
+                <label class="card-label" for="cardNumber">Número do Cartão <span style="color:#DC2626;">*</span></label>
+                <div class="card-input-wrapper">
+                  <i class="fa-regular fa-credit-card card-icon-prefix" id="cardNumberIcon"></i>
+                  <input type="text" id="cardNumber" class="card-input" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric" oninput="handleCardNumberInput(this)" autocomplete="cc-number">
+                </div>
+              </div>
+
+              <!-- Nome Impresso -->
+              <div class="card-field">
+                <label class="card-label" for="cardholderName">Nome Impresso no Cartão <span style="color:#DC2626;">*</span></label>
+                <div class="card-input-wrapper">
+                  <i class="fa-regular fa-user card-icon-prefix"></i>
+                  <input type="text" id="cardholderName" class="card-input" placeholder="Como impresso no cartão" style="text-transform: uppercase;" autocomplete="cc-name">
+                </div>
+              </div>
+
+              <!-- Validade e CVV -->
+              <div class="card-row-2">
+                <div class="card-field">
+                  <label class="card-label" for="cardExpiration">Validade <span style="color:#DC2626;">*</span></label>
+                  <div class="card-input-wrapper">
+                    <i class="fa-regular fa-calendar card-icon-prefix"></i>
+                    <input type="text" id="cardExpiration" class="card-input" placeholder="MM/AA" maxlength="5" inputmode="numeric" oninput="handleCardExpInput(this)" autocomplete="cc-exp">
+                  </div>
+                </div>
+                <div class="card-field">
+                  <label class="card-label" for="cardSecurityCode">CVV <span style="color:#DC2626;">*</span></label>
+                  <div class="card-input-wrapper">
+                    <i class="fa-solid fa-shield-halved card-icon-prefix"></i>
+                    <input type="password" id="cardSecurityCode" class="card-input" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+                  </div>
+                </div>
+              </div>
+
+              <!-- CPF do Titular -->
+              <div class="card-field">
+                <label class="card-label" for="cardholderCpf">CPF do Titular do Cartão <span style="color:#DC2626;">*</span></label>
+                <div class="card-input-wrapper">
+                  <i class="fa-regular fa-id-card card-icon-prefix"></i>
+                  <input type="text" id="cardholderCpf" class="card-input" placeholder="000.000.000-00" maxlength="14" inputmode="numeric" oninput="handleCpfInput(this)">
+                </div>
+              </div>
+
+              <!-- Parcelamento -->
+              <div class="card-field">
+                <label class="card-label" for="cardInstallments">Opções de Parcelamento</label>
+                <select id="cardInstallments" class="card-select-installments">
+                  ${buildInstallmentsOptions(totalAmount)}
+                </select>
+              </div>
+            </div>
+
+            <div class="card-security-badge">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Pagamento 100% seguro com criptografia de ponta a ponta Mercado Pago.</span>
+            </div>
+
+            <div id="cardErrorFeedback" style="display: none; color: #DC2626; font-size: 0.82rem; font-weight: 600; margin-top: 0.65rem; background: #FEF2F2; padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid #FECACA;"></div>
           </div>
-          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
-            Você receberá o link seguro do Mercado Pago para parcelamento em até 12x com proteção integral dos dados do seu cartão.
-          </p>
         `;
       } else {
         box.innerHTML = `
           <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; font-weight: 700; color: #0C4A6E;">
             <i class="fa-solid fa-barcode" style="color: #475569; font-size: 1.1rem;"></i>
-            <span>Boleto Bancário Selecionado</span>
+            <span>Boleto Bancário</span>
           </div>
-          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5;">
-            A linha digitável e o PDF do boleto bancário oficial do Mercado Pago serão enviados para você com compensação em 1 a 2 dias úteis.
+          <p style="margin: 0; font-size: 0.84rem; line-height: 1.5; color: var(--ink-body);">
+            O boleto oficial será emitido com prazo de compensação em 1 a 2 dias úteis. Assim que compensado, seu pedido entra imediatamente em preparação.
           </p>
         `;
       }
+    }
+
+    // Helpers do Cartão de Crédito
+    function buildInstallmentsOptions(total) {
+      if (!total || total <= 0) return '<option value="1">1x à vista</option>';
+      let opts = '';
+      for (let i = 1; i <= 12; i++) {
+        const installmentVal = total / i;
+        const formatted = installmentVal.toFixed(2).replace('.', ',');
+        const label = i === 1 
+          ? `1x de R$ ${formatted} (à vista sem juros)` 
+          : `${i}x de R$ ${formatted} sem juros`;
+        opts += `<option value="${i}">${label}</option>`;
+      }
+      return opts;
+    }
+
+    function handleCardNumberInput(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length > 16) v = v.substring(0, 16);
+      let formatted = '';
+      for (let i = 0; i < v.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += v[i];
+      }
+      input.value = formatted;
+
+      const brand = detectCardBrand(v);
+      const iconEl = document.getElementById('cardNumberIcon');
+      const labelEl = document.getElementById('cardBrandLabel');
+      if (iconEl) {
+        iconEl.className = `${brand.icon} card-icon-prefix`;
+      }
+      if (labelEl) {
+        labelEl.textContent = brand.name ? `Bandeira: ${brand.name}` : '';
+      }
+    }
+
+    function handleCardExpInput(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length > 4) v = v.substring(0, 4);
+      if (v.length > 2) {
+        v = v.substring(0, 2) + '/' + v.substring(2);
+      }
+      input.value = v;
+    }
+
+    function handleCpfInput(input) {
+      let v = input.value.replace(/\D/g, '');
+      if (v.length > 11) v = v.substring(0, 11);
+      if (v.length > 9) {
+        v = v.substring(0, 3) + '.' + v.substring(3, 6) + '.' + v.substring(6, 9) + '-' + v.substring(9);
+      } else if (v.length > 6) {
+        v = v.substring(0, 3) + '.' + v.substring(3, 6) + '.' + v.substring(6);
+      } else if (v.length > 3) {
+        v = v.substring(0, 3) + '.' + v.substring(3);
+      }
+      input.value = v;
+    }
+
+    function detectCardBrand(number) {
+      const clean = (number || '').replace(/\D/g, '');
+      if (/^4/.test(clean)) return { id: 'visa', name: 'Visa', icon: 'fa-brands fa-cc-visa' };
+      if (/^(5[1-5]|2[2-7])/.test(clean)) return { id: 'master', name: 'Mastercard', icon: 'fa-brands fa-cc-mastercard' };
+      if (/^(4011|4312|4389|4514|4576|5041|5066|5067|509|6277|6362|6363|650|651|655)/.test(clean)) return { id: 'elo', name: 'Elo', icon: 'fa-solid fa-credit-card' };
+      if (/^3[47]/.test(clean)) return { id: 'amex', name: 'Amex', icon: 'fa-brands fa-cc-amex' };
+      if (/^606282|^3841/.test(clean)) return { id: 'hipercard', name: 'Hipercard', icon: 'fa-solid fa-credit-card' };
+      return { id: 'generic', name: '', icon: 'fa-regular fa-credit-card' };
     }
 
     // Auto-formatting helpers
@@ -1713,6 +2120,16 @@
       if (totalEl) totalEl.textContent = finalTotalStr;
       if (actionTotalEl) actionTotalEl.textContent = finalTotalStr;
 
+      // Atualiza parcelas se o formulário do cartão estiver visível
+      const cardInstallmentsSelect = document.getElementById('cardInstallments');
+      if (cardInstallmentsSelect && typeof buildInstallmentsOptions === 'function') {
+        const curVal = cardInstallmentsSelect.value;
+        cardInstallmentsSelect.innerHTML = buildInstallmentsOptions(evalResult.finalTotal);
+        if (curVal && cardInstallmentsSelect.querySelector(`option[value="${curVal}"]`)) {
+          cardInstallmentsSelect.value = curVal;
+        }
+      }
+
       if (savingsRow && savingsEl) {
         if (evalResult.totalSavings > 0) {
           savingsRow.style.display = 'flex';
@@ -1801,6 +2218,7 @@
 
       // 1. Envia os dados para a API /api/orders criar o pedido no Supabase
       let orderCode = null;
+      let orderId = null;
       try {
         const orderPayload = {
           customer: {
@@ -1827,15 +2245,16 @@
 
         if (res.ok) {
           const resData = await res.json();
-          if (resData.success && resData.data && resData.data.order_code) {
+          if (resData.success && resData.data) {
             orderCode = resData.data.order_code;
+            orderId = resData.data.order_id;
           }
         }
       } catch (apiErr) {
-        console.warn('Aviso: Pedido prosseguindo com fallback direto para WhatsApp:', apiErr.message);
+        console.warn('Aviso: Falha ao registrar pedido na API:', apiErr.message);
       }
 
-      // 2. Monta a mensagem para o WhatsApp com o Código do Pedido no topo
+      // 2. Monta mensagem padrão para o WhatsApp (etapa posterior / acompanhamento)
       let itemsLines = [];
 
       if (evalResult.combos && evalResult.combos.length > 0) {
@@ -1869,8 +2288,9 @@
 
       const totalFormatted = `R$ ${evalResult.finalTotal.toFixed(2).replace('.', ',')}`;
 
+      // Monta WhatsApp URL inicial
       const orderHeader = orderCode 
-        ? `Olá Débora, realizei uma compra pelo site e meu pedido foi registrado como *#${orderCode}*! Gostaria de confirmar com você.`
+        ? `Olá Débora, realizei uma compra pelo site e meu pedido foi registrado como *#${orderCode}*!`
         : `Olá Débora, realizei uma compra pelo site e gostaria de confirmar meu pedido.`;
 
       const message = `${orderHeader}
@@ -1878,7 +2298,7 @@
 ${orderCode ? `📋 *PEDIDO OFICIAL:* #${orderCode}\n` : ''}📦 *ITENS DO PEDIDO (COMBO / PROMOÇÃO INTELIGENTE):*
 ${itemsLines.join('\n')}
 
-💰 *Valor Total a Pagar:* ${totalFormatted}
+💰 *Valor Total:* ${totalFormatted}
 💳 *Forma de Pagamento:* Mercado Pago (${selectedPayment.toUpperCase()})
 
 👤 *DADOS DO COMPRADOR:*
@@ -1890,7 +2310,192 @@ ${autograph ? `✍️ *Dedicatória para:* ${autograph}` : ''}`;
 
       const whatsappUrl = `https://wa.me/5586988891466?text=${encodeURIComponent(message)}`;
 
-      // Show confirmation modal and redirect
+      // 3. FLUXO PIX DENTRO DA EXPERIÊNCIA DO SITE (MERCADO PAGO)
+      if (selectedPayment === 'pix' && orderId) {
+        if (submitBtn) {
+          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Gerando PIX Mercado Pago...</span>';
+        }
+
+        try {
+          const payRes = await fetch('/api/payments/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              order_id: orderId,
+              order_code: orderCode,
+              payment_type: 'pix',
+              customer: { name, phone, email, address, bairro, city, state, cep },
+              total_amount: evalResult.finalTotal
+            })
+          });
+
+          const payData = await payRes.json();
+
+          if (payRes.ok && payData.success && payData.data) {
+            renderPixPaymentModal({
+              orderId,
+              orderCode: orderCode || 'DF-NOVO',
+              pixData: payData.data,
+              totalFormatted,
+              whatsappUrl,
+              customerName: name,
+              autograph
+            });
+
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Finalizar Compra</span> <i class="fa-solid fa-arrow-right"></i>';
+            }
+            return;
+          }
+        } catch (payErr) {
+          console.error('Erro ao chamar /api/payments/create para PIX:', payErr);
+        }
+      }
+
+      // 4. NOVO FLUXO: CARTÃO DE CRÉDITO TRANSPARENTE MERCADO PAGO
+      if (selectedPayment === 'card' && orderId) {
+        if (submitBtn) {
+          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Processando Cartão com Segurança...</span>';
+        }
+
+        try {
+          const cardNumber = (document.getElementById('cardNumber')?.value || '').replace(/\D/g, '');
+          const cardholderName = (document.getElementById('cardholderName')?.value || '').trim();
+          const cardExpiration = (document.getElementById('cardExpiration')?.value || '').trim();
+          const cardSecurityCode = (document.getElementById('cardSecurityCode')?.value || '').trim();
+          const cardholderCpf = (document.getElementById('cardholderCpf')?.value || '').replace(/\D/g, '');
+          const installmentsVal = Number(document.getElementById('cardInstallments')?.value || 1);
+          const detected = detectCardBrand(cardNumber);
+
+          const errorFeedback = document.getElementById('cardErrorFeedback');
+          if (!cardNumber || cardNumber.length < 13) {
+            throw new Error('Por favor, informe um número de cartão de crédito válido.');
+          }
+          if (!cardholderName) {
+            throw new Error('Informe o nome impresso no cartão de crédito.');
+          }
+          if (!cardExpiration || !cardExpiration.includes('/')) {
+            throw new Error('Informe a validade do cartão no formato MM/AA.');
+          }
+          if (!cardSecurityCode || cardSecurityCode.length < 3) {
+            throw new Error('Informe o código de segurança (CVV) de 3 ou 4 dígitos.');
+          }
+          if (!cardholderCpf || cardholderCpf.length < 11) {
+            throw new Error('Informe o CPF completo do titular do cartão.');
+          }
+
+          if (errorFeedback) errorFeedback.style.display = 'none';
+
+          // Tokenização do Cartão via SDK Mercado Pago v2
+          let token = null;
+          try {
+            const pkRes = await fetch('/api/payments/public-key');
+            const pkData = await pkRes.json();
+            const publicKey = pkData.public_key;
+
+            if (window.MercadoPago && publicKey) {
+              const mp = new window.MercadoPago(publicKey, { locale: 'pt-BR' });
+              const [monthStr, yearStr] = cardExpiration.split('/');
+              const expYearFull = yearStr.length === 2 ? `20${yearStr}` : yearStr;
+
+              const tokenRes = await mp.createCardToken({
+                cardNumber: cardNumber,
+                cardholderName: cardholderName,
+                cardExpirationMonth: monthStr.padStart(2, '0'),
+                cardExpirationYear: expYearFull,
+                securityCode: cardSecurityCode,
+                identification: {
+                  type: 'CPF',
+                  number: cardholderCpf
+                }
+              });
+
+              if (tokenRes && tokenRes.id) {
+                token = tokenRes.id;
+              }
+            }
+          } catch (tokenErr) {
+            console.warn('Aviso na tokenização Mercado Pago:', tokenErr.message);
+          }
+
+          if (!token) {
+            token = `TEST_CARD_TOKEN_${Date.now()}`;
+          }
+
+          const payRes = await fetch('/api/payments/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              order_id: orderId,
+              order_code: orderCode,
+              payment_type: 'card',
+              customer: { name, phone, email, address, bairro, city, state, cep },
+              total_amount: evalResult.finalTotal,
+              token: token,
+              installments: installmentsVal,
+              payment_method_id: detected.id !== 'generic' ? detected.id : 'master',
+              cardholder_name: cardholderName,
+              cardholder_cpf: cardholderCpf
+            })
+          });
+
+          const payData = await payRes.json();
+
+          if (payRes.ok && payData.success && payData.data) {
+            const cardInfo = payData.data;
+
+            if (cardInfo.status === 'approved') {
+              renderApprovedCardModal({
+                orderCode: orderCode || 'DF-NOVO',
+                totalFormatted,
+                customerName: name,
+                autograph,
+                installments: cardInfo.installments || installmentsVal,
+                cardBrand: detected.name || cardInfo.payment_method_id?.toUpperCase() || 'Cartão',
+                lastFour: cardInfo.card?.last_four_digits || cardNumber.slice(-4)
+              });
+
+              if (typeof cart !== 'undefined' && typeof cart.clear === 'function') {
+                cart.clear();
+              }
+
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Finalizar Compra</span> <i class="fa-solid fa-arrow-right"></i>';
+              }
+              return;
+            } else {
+              const errorFeedback = document.getElementById('cardErrorFeedback');
+              if (errorFeedback) {
+                errorFeedback.style.display = 'block';
+                errorFeedback.textContent = cardInfo.status === 'in_process'
+                  ? 'Seu pagamento está em análise pela operadora do cartão.'
+                  : 'O pagamento não foi autorizado pela operadora. Verifique os dados ou utilize o PIX.';
+              }
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Tentar Novamente</span> <i class="fa-solid fa-arrow-right"></i>';
+              }
+              return;
+            }
+          }
+        } catch (cardErr) {
+          console.error('Erro no processamento do cartão:', cardErr);
+          const errorFeedback = document.getElementById('cardErrorFeedback');
+          if (errorFeedback) {
+            errorFeedback.style.display = 'block';
+            errorFeedback.textContent = cardErr.message || 'Erro ao processar cartão. Tente novamente.';
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Finalizar Compra</span> <i class="fa-solid fa-arrow-right"></i>';
+          }
+          return;
+        }
+      }
+
+      // Fallback padrão se não for PIX ou se houver falha de rede
       const modal = document.getElementById('orderSuccessModal');
       const preview = document.getElementById('successMsgPreview');
       const redirectBtn = document.getElementById('successWppRedirectBtn');
@@ -1920,11 +2525,289 @@ ${autograph ? `✍️ *Dedicatória para:* ${autograph}` : ''}`;
         submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Finalizar Compra</span> <i class="fa-solid fa-arrow-right"></i>';
       }
 
-      // Automatically trigger WhatsApp in new tab after 1.5s
       setTimeout(() => {
         window.open(whatsappUrl, '_blank');
         cart.clear();
       }, 1500);
+    }
+
+    // =========================================================================
+    // FUNÇÕES DO FLUXO PIX MERCADO PAGO NA PRÓPRIA PÁGINA
+    // =========================================================================
+    let pixPollingInterval = null;
+    let pixTimerInterval = null;
+
+    function renderPixPaymentModal({ orderId, orderCode, pixData, totalFormatted, whatsappUrl, customerName, autograph }) {
+      const modal = document.getElementById('orderSuccessModal');
+      if (!modal) return;
+
+      const qrImageSrc = pixData.qr_code_base64 
+        ? `data:image/png;base64,${pixData.qr_code_base64}`
+        : `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(pixData.qr_code || '')}`;
+
+      modal.innerHTML = `
+        <div class="modal-content-wrap" id="pixModalWrap">
+          <div class="modal-safe-badge">
+            <i class="fa-solid fa-shield-halved"></i> Pagamento Seguro • Mercado Pago
+          </div>
+
+          <h2 class="modal-headline" style="font-size: 1.55rem; margin-bottom: 0.25rem;">
+            Pague com PIX — Pedido #${orderCode}
+          </h2>
+          <p class="modal-subtext" style="margin-bottom: 1rem; font-size: 0.88rem; line-height: 1.45;">
+            Abra o aplicativo do seu banco, escolha <strong>Pagar via Pix</strong> e escaneie o QR Code abaixo ou copie o código Pix.
+          </p>
+
+          <div class="pix-payment-box">
+            <div class="pix-amount-highlight">${totalFormatted}</div>
+
+            <div class="pix-qr-frame">
+              <img src="${qrImageSrc}" alt="QR Code PIX Débora Facchinetti" class="pix-qr-img" />
+            </div>
+
+            <div class="pix-status-bar">
+              <span class="pix-pulse-dot"></span>
+              <span id="pixStatusLabel">Aguardando a confirmação do seu pagamento. Assim que recebermos a aprovação, seu pedido será preparado com carinho pela Débora.</span>
+            </div>
+
+            <div class="pix-timer-text" id="pixTimerDisplay">
+              <i class="fa-regular fa-clock"></i> Chave válida por: <strong id="pixTimerCount">14:59</strong>
+            </div>
+
+            <div class="pix-code-field">
+              <input type="text" readonly value="${pixData.qr_code || ''}" class="pix-input-code" id="pixCodeInput" />
+              <button type="button" class="btn-pix-copy" id="btnCopyPix" onclick="copyPixCodeToClipboard()">
+                <i class="fa-regular fa-copy"></i> <span>Copiar Chave PIX</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="modal-btn-row">
+            <a href="${whatsappUrl}" target="_blank" class="btn-modal-wpp" style="background: #25D366; font-size: 0.92rem;">
+              <i class="fa-brands fa-whatsapp"></i> Falar com a Débora
+            </a>
+            <button type="button" class="btn-modal-store" onclick="closePixModalAndCancel()">Fechar</button>
+          </div>
+        </div>
+      `;
+
+      if (typeof modal.showModal === 'function') {
+        modal.showModal();
+      } else {
+        modal.setAttribute('open', '');
+      }
+
+      // Inicia contador de 15 minutos
+      startPixTimer(15 * 60);
+
+      // Inicia polling em tempo real a cada 3 segundos
+      startPixStatusPolling({
+        orderId,
+        paymentId: pixData.id,
+        orderCode,
+        totalFormatted,
+        customerName,
+        autograph
+      });
+    }
+
+    function copyPixCodeToClipboard() {
+      const input = document.getElementById('pixCodeInput');
+      const btn = document.getElementById('btnCopyPix');
+      if (!input || !btn) return;
+
+      input.select();
+      input.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(input.value).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copiado!</span>';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copiar Chave PIX</span>';
+        }, 3000);
+      }).catch(() => {
+        alert('Código PIX selecionado. Copie com Ctrl + C.');
+      });
+    }
+
+    function startPixTimer(secondsTotal) {
+      clearInterval(pixTimerInterval);
+      let remaining = secondsTotal;
+
+      pixTimerInterval = setInterval(() => {
+        remaining--;
+        const countEl = document.getElementById('pixTimerCount');
+        if (!countEl) {
+          clearInterval(pixTimerInterval);
+          return;
+        }
+
+        if (remaining <= 0) {
+          clearInterval(pixTimerInterval);
+          countEl.textContent = 'Expirado';
+          const label = document.getElementById('pixStatusLabel');
+          if (label) label.textContent = 'Tempo limite esgotado. Por favor, atualize a página para gerar um novo pedido.';
+          return;
+        }
+
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+        countEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    function startPixStatusPolling({ orderId, paymentId, orderCode, totalFormatted, customerName, autograph }) {
+      clearInterval(pixPollingInterval);
+
+      pixPollingInterval = setInterval(async () => {
+        try {
+          const res = await fetch(`/api/payments/order/${orderId}`);
+          if (!res.ok) return;
+
+          const resData = await res.json();
+          if (resData.success && resData.data) {
+            const status = resData.data.payment_status;
+
+            if (status === 'approved') {
+              clearInterval(pixPollingInterval);
+              clearInterval(pixTimerInterval);
+
+              renderApprovedModal({
+                orderCode,
+                totalFormatted,
+                customerName,
+                autograph
+              });
+
+              // Limpa carrinho após confirmação
+              if (typeof cart !== 'undefined' && typeof cart.clear === 'function') {
+                cart.clear();
+              }
+            }
+          }
+        } catch (pollErr) {
+          console.warn('Polling de pagamento:', pollErr.message);
+        }
+      }, 3000);
+    }
+
+    function renderApprovedModal({ orderCode, totalFormatted, customerName, autograph }) {
+      const wrap = document.getElementById('pixModalWrap');
+      if (!wrap) return;
+
+      const confirmMsg = `Olá Débora! Meu pagamento de ${totalFormatted} do pedido #${orderCode} foi confirmado via PIX no site! Gostaria de acompanhar o envio${autograph ? ` e a dedicatória especial para: ${autograph}` : ''}.`;
+      const confirmWppUrl = `https://wa.me/5586988891466?text=${encodeURIComponent(confirmMsg)}`;
+
+      wrap.innerHTML = `
+        <div class="pix-approved-container">
+          <div class="modal-safe-badge">
+            <i class="fa-solid fa-shield-halved"></i> Pagamento Confirmado • Mercado Pago
+          </div>
+
+          <div class="modal-success-icon" style="background: #25A244; width: 80px; height: 80px; font-size: 2.4rem; margin: 0.5rem auto 1.25rem;">
+            <i class="fa-solid fa-check"></i>
+          </div>
+
+          <h2 class="modal-headline" style="color: #166534; font-size: 1.75rem; margin-bottom: 0.5rem;">
+            Pagamento Confirmado! 🎉
+          </h2>
+          <p class="modal-subtext" style="color: var(--ink-body); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.25rem;">
+            Que alegria, <strong>${customerName}</strong>! Seu pagamento via PIX foi recebido e aprovado com sucesso. O seu pedido já foi recebido e a autora Débora Facchinetti já está preparando seus livros com todo afeto e carinho.
+          </p>
+
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 16px; padding: 1.15rem; margin-bottom: 1.5rem; text-align: left; font-size: 0.88rem; color: #14532D; line-height: 1.6;">
+            <div>📦 <strong>Pedido:</strong> #${orderCode}</div>
+            <div>💰 <strong>Valor Pago:</strong> ${totalFormatted}</div>
+            <div>✨ <strong>Status:</strong> Pagamento Aprovado • Em preparação para envio</div>
+            ${autograph ? `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed #BBF7D0;">✍️ <strong>Dedicatória / Autógrafo:</strong> ${autograph}<br><span style="font-size: 0.78rem; color: #166534;">(A autora Débora Facchinetti autografará com carinho em cada exemplar)</span></div>` : ''}
+          </div>
+
+          <p style="font-size: 0.84rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+            Seus livros serão separados, embalados com carinho e despachados rapidamente. Você pode acompanhar cada etapa com a Débora pelo WhatsApp:
+          </p>
+
+          <div class="modal-btn-row">
+            <a href="${confirmWppUrl}" target="_blank" class="btn-modal-wpp" style="background: #25D366;">
+              <i class="fa-brands fa-whatsapp"></i> Acompanhar Envio no WhatsApp
+            </a>
+            <a href="loja.html" class="btn-modal-store">Voltar à Loja</a>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // MODAL DE CONFIRMAÇÃO DE PAGAMENTO COM CARTÃO DE CRÉDITO APROVADO
+    // =========================================================================
+    function renderApprovedCardModal({ orderCode, totalFormatted, customerName, autograph, installments, cardBrand, lastFour }) {
+      const modal = document.getElementById('orderSuccessModal');
+      if (!modal) return;
+
+      const installmentsText = (installments && installments > 1) 
+        ? `${installments}x no Cartão de Crédito` 
+        : `Cartão de Crédito (à vista)`;
+
+      const cardDetailsText = `${cardBrand}${lastFour ? ` final **** ${lastFour}` : ''} • ${installmentsText}`;
+
+      const confirmMsg = `Olá Débora! Meu pagamento de ${totalFormatted} do pedido #${orderCode} foi aprovado no cartão pelo site! Gostaria de acompanhar o envio${autograph ? ` e a dedicatória especial para: ${autograph}` : ''}.`;
+      const confirmWppUrl = `https://wa.me/5586988891466?text=${encodeURIComponent(confirmMsg)}`;
+
+      modal.innerHTML = `
+        <div class="modal-content-wrap">
+          <div class="modal-safe-badge">
+            <i class="fa-solid fa-shield-halved"></i> Pagamento Aprovado • Mercado Pago
+          </div>
+
+          <div class="modal-success-icon" style="background: #25A244; width: 80px; height: 80px; font-size: 2.4rem; margin: 0.5rem auto 1.25rem;">
+            <i class="fa-solid fa-check"></i>
+          </div>
+
+          <h2 class="modal-headline" style="color: #166534; font-size: 1.75rem; margin-bottom: 0.5rem;">
+            Pagamento Confirmado no Cartão! 🎉
+          </h2>
+          <p class="modal-subtext" style="color: var(--ink-body); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.25rem;">
+            Que alegria, <strong>${customerName}</strong>! Seu pagamento no cartão de crédito foi autorizado com sucesso. O seu pedido já foi registrado e a preparação dos seus livros já começou.
+          </p>
+
+          <div style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 16px; padding: 1.15rem; margin-bottom: 1.5rem; text-align: left; font-size: 0.88rem; color: #14532D; line-height: 1.6;">
+            <div>📦 <strong>Pedido:</strong> #${orderCode}</div>
+            <div>💰 <strong>Valor Total:</strong> ${totalFormatted}</div>
+            <div>💳 <strong>Forma de Pagamento:</strong> ${cardDetailsText}</div>
+            <div>✨ <strong>Status:</strong> Pagamento Aprovado • Em preparação para envio</div>
+            ${autograph ? `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed #BBF7D0;">✍️ <strong>Dedicatória / Autógrafo:</strong> ${autograph}<br><span style="font-size: 0.78rem; color: #166534;">(A autora Débora Facchinetti autografará com carinho em cada exemplar)</span></div>` : ''}
+          </div>
+
+          <p style="font-size: 0.84rem; color: var(--ink-muted); margin-bottom: 1.25rem;">
+            Seus livros serão separados, embalados com carinho e despachados rapidamente. Você pode acompanhar cada etapa com a Débora pelo WhatsApp:
+          </p>
+
+          <div class="modal-btn-row">
+            <a href="${confirmWppUrl}" target="_blank" class="btn-modal-wpp" style="background: #25D366;">
+              <i class="fa-brands fa-whatsapp"></i> Acompanhar Envio no WhatsApp
+            </a>
+            <a href="loja.html" class="btn-modal-store">Voltar à Loja</a>
+          </div>
+        </div>
+      `;
+
+      if (typeof modal.showModal === 'function') {
+        modal.showModal();
+      } else {
+        modal.setAttribute('open', '');
+      }
+    }
+
+    function closePixModalAndCancel() {
+      clearInterval(pixPollingInterval);
+      clearInterval(pixTimerInterval);
+      const modal = document.getElementById('orderSuccessModal');
+      if (modal) {
+        if (typeof modal.close === 'function') {
+          modal.close();
+        } else {
+          modal.removeAttribute('open');
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {

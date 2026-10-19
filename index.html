@@ -52,13 +52,15 @@
 
       <div class="nav-actions">
         <!-- Shopping Cart Trigger -->
-        <button class="cart-trigger-btn" id="cartTrigger" aria-label="Abrir Sacola de Compras">
+        <button class="cart-trigger-btn" id="cartTrigger" aria-label="Abrir Sacola de Compras" title="Sacola de Compras">
           <i class="fa-solid fa-bag-shopping"></i>
           <span class="cart-count-badge" style="display: none;">0</span>
         </button>
 
-        <a href="palestras.html" class="btn btn-green btn-sm" style="display: none; @media(min-width: 990px){display: inline-flex;}">
-          <i class="fa-solid fa-calendar-star"></i> Agendar Palestra
+        <!-- Acompanhar Pedido (Desktop) -->
+        <a href="rastreio.html" class="nav-track-link" title="Acompanhar Pedido">
+          <i class="fa-solid fa-box-open"></i>
+          <span>Acompanhar Pedido</span>
         </a>
 
         <!-- Mobile Hamburger Toggle -->
@@ -88,6 +90,15 @@
         <a href="loja.html" class="nav-link">Loja & Kits</a>
         <a href="palestras.html" class="nav-link">Palestras & Projetos</a>
         <a href="contato.html" class="nav-link">Contato</a>
+
+        <div class="drawer-menu-divider" role="separator"></div>
+
+        <a href="rastreio.html" class="nav-link drawer-item-track">
+          <i class="fa-solid fa-box-open"></i> Acompanhar Pedido
+        </a>
+        <a href="admin/login.html" class="nav-link drawer-item-admin">
+          <i class="fa-solid fa-lock"></i> Área Restrita
+        </a>
       </nav>
     </div>
     <div style="padding: 1.5rem; border-top: 2px dashed var(--paper-border); margin-top: auto;">
@@ -808,7 +819,7 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© 2026 Débora Facchinetti. Todos os direitos reservados.</p>
+        <p>© 2026 Débora Facchinetti. Todos os direitos reservados. &bull; <a href="admin/login.html" class="footer-restricted-link" title="Acesso Administrativo">Área Restrita</a></p>
         <p>Desenvolvido com excelência literária e experiência visual encantadora.</p>
       </div>
     </div>
