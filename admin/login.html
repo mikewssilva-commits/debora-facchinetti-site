@@ -95,8 +95,7 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Acessando...</span>';
 
       try {
-        const apiUrl = window.location.origin + '/api/admin/auth/login';
-        let response = await fetch(apiUrl, {
+        const response = await fetch('/api/admin/login', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -104,18 +103,6 @@
           },
           body: JSON.stringify({ email, password })
         });
-
-        // Se retornar 404 na rota primária, tenta o alias /api/admin/login
-        if (response.status === 404) {
-          response = await fetch(window.location.origin + '/api/admin/login', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-          });
-        }
 
         let data = {};
         const contentType = response.headers.get('content-type') || '';

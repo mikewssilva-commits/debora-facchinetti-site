@@ -7,8 +7,6 @@
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/server.js?path=$1" },
-    { "source": "/admin/auth/login", "destination": "/server.js?path=admin/auth/login" },
-    { "source": "/admin/login", "destination": "/server.js?path=admin/login" }
+    { "source": "/api/(.*)", "destination": "/server.js" }
   ]
 }

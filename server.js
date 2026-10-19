@@ -29,16 +29,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Normalização de rota para Vercel Serverless (recupera path se reescrito)
+// Normalização de requisições da Vercel
 app.use((req, res, next) => {
-  const vercelPath = req.query.path 
-    || req.headers['x-matched-path'] 
-    || req.headers['x-vercel-matched-path'];
-
-  if (vercelPath) {
-    const cleanPath = vercelPath.startsWith('/') ? vercelPath : `/${vercelPath}`;
-    req.url = cleanPath.startsWith('/api') ? cleanPath : `/api${cleanPath}`;
-    delete req.query.path;
+  if (req.query && req.query.path) {
+    req.url = '/' + req.query.path;
   }
   next();
 });
