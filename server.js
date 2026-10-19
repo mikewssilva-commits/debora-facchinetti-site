@@ -29,6 +29,20 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Normalização de rota para Vercel Serverless (recupera path se reescrito)
+app.use((req, res, next) => {
+  const vercelPath = req.query.path 
+    || req.headers['x-matched-path'] 
+    || req.headers['x-vercel-matched-path'];
+
+  if (vercelPath) {
+    const cleanPath = vercelPath.startsWith('/') ? vercelPath : `/${vercelPath}`;
+    req.url = cleanPath.startsWith('/api') ? cleanPath : `/api${cleanPath}`;
+    delete req.query.path;
+  }
+  next();
+});
+
 // 2. Rota de Health Check / Status da API
 app.get('/api/health', (req, res) => {
   res.json({
@@ -53,9 +67,13 @@ app.use('/api/orders', ordersRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Aliases diretos para login administrativo (suporta /api/admin/login e /api/auth/login)
+// Todas as variantes possíveis para a rota POST de login administrativo
+app.post('/api/admin/auth/login', adminController.login);
 app.post('/api/admin/login', adminController.login);
 app.post('/api/auth/login', adminController.login);
+app.post('/admin/auth/login', adminController.login);
+app.post('/admin/login', adminController.login);
+app.post('/auth/login', adminController.login);
 
 // 4. Arquivos Estáticos e Assets (Assets, Admin e Raiz)
 const baseDir = __dirname;
@@ -103,8 +121,14 @@ app.get('/admin/login.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'admin', 'login.html'));
 });
 
-// 6. Fallback 404 amigável
+// 6. Fallback 404 amigável (JSON para POST/API, HTML para navegação web de páginas)
 app.use((req, res) => {
+  if (req.method !== 'GET' || req.path.startsWith('/api') || (req.headers.accept && req.headers.accept.includes('application/json'))) {
+    return res.status(404).json({
+      success: false,
+      message: `Rota não encontrada: ${req.method} ${req.originalUrl || req.url}`
+    });
+  }
   res.status(404).send('<h1>404 - Página Não Encontrada</h1><p><a href="/">Voltar ao início</a></p>');
 });
 

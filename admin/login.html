@@ -143,7 +143,9 @@
           }, 600);
         } else {
           alertEl.className = 'login-alert error';
-          alertEl.textContent = data.message || 'Credenciais inválidas. Verifique os dados digitados.';
+          const rawMsg = data.message || 'Credenciais inválidas. Verifique os dados digitados.';
+          const cleanMsg = typeof rawMsg === 'string' ? rawMsg.replace(/<[^>]*>/g, '').trim() : 'Credenciais inválidas.';
+          alertEl.textContent = cleanMsg || 'Credenciais inválidas. Verifique os dados digitados.';
           alertEl.style.display = 'block';
           btn.disabled = false;
           btn.innerHTML = '<span>Entrar no Painel</span> <i class="fa-solid fa-arrow-right"></i>';
