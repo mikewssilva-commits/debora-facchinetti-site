@@ -17,9 +17,13 @@ const adminController = {
    */
   async login(req, res) {
     try {
-      const { email, password } = req.body;
+      const email = (req.body?.email || '').trim().toLowerCase();
+      const password = req.body?.password || '';
+
+      console.log(`\n🔐 [AdminLogin] Tentativa de login para: "${email}"`);
 
       if (!email || !password) {
+        console.warn('⚠️ [AdminLogin] E-mail ou senha ausentes na requisição');
         return res.status(400).json({
           success: false,
           message: 'Por favor, informe e-mail e senha.'
@@ -30,38 +34,64 @@ const adminController = {
       const { data: user, error: userError } = await supabase
         .from('admin_users')
         .select('*')
-        .ilike('email', email.trim())
-        .single();
+        .ilike('email', email)
+        .maybeSingle();
 
-      if (userError || !user) {
+      if (userError) {
+        console.error('❌ [AdminLogin] Erro ao consultar Supabase:', userError);
         return res.status(401).json({
           success: false,
-          message: 'Credenciais inválidas. Verifique seu e-mail e senha.'
+          message: 'Erro na conexão com o banco de dados: ' + (userError.message || 'Falha no Supabase'),
+          debug_code: 'SUPABASE_ERROR'
         });
       }
+
+      if (!user) {
+        console.warn(`⚠️ [AdminLogin] Usuário não encontrado no Supabase para o e-mail: "${email}"`);
+        return res.status(401).json({
+          success: false,
+          message: 'E-mail de administrador não encontrado no sistema.',
+          debug_code: 'USER_NOT_FOUND'
+        });
+      }
+
+      console.log(`ℹ️ [AdminLogin] Usuário encontrado: "${user.name}" (${user.id}), is_active: ${user.is_active}`);
 
       // 2. Verifica se a conta está ativa
       if (user.is_active === false) {
+        console.warn(`⚠️ [AdminLogin] Conta inativa para o usuário: "${email}"`);
         return res.status(403).json({
           success: false,
-          message: 'Esta conta de administrador foi desativada.'
+          message: 'Esta conta de administrador foi desativada.',
+          debug_code: 'USER_INACTIVE'
         });
       }
 
-      // 3. Validação da senha com bcrypt
-      const passwordMatch = bcrypt.compareSync(password, user.password_hash);
+      // 3. Validação da senha com bcrypt (testa senha bruta e senha com trim)
+      const cleanPassword = password.trim();
+      const passwordMatch = bcrypt.compareSync(password, user.password_hash)
+                         || bcrypt.compareSync(cleanPassword, user.password_hash);
+
       if (!passwordMatch) {
+        console.warn(`⚠️ [AdminLogin] Senha incorreta para o usuário: "${email}"`);
         return res.status(401).json({
           success: false,
-          message: 'Credenciais inválidas. Verifique seu e-mail e senha.'
+          message: 'Senha incorreta. Verifique os dados digitados.',
+          debug_code: 'PASSWORD_MISMATCH'
         });
       }
 
+      console.log(`✅ [AdminLogin] Senha validada com sucesso para: "${user.name}"`);
+
       // 4. Atualiza data do último login
-      await supabase
-        .from('admin_users')
-        .update({ last_login_at: new Date().toISOString() })
-        .eq('id', user.id);
+      try {
+        await supabase
+          .from('admin_users')
+          .update({ last_login_at: new Date().toISOString() })
+          .eq('id', user.id);
+      } catch (updErr) {
+        console.warn('Aviso: falha ao atualizar last_login_at:', updErr.message);
+      }
 
       // 5. Gera token JWT com validade de 7 dias
       const token = jwt.sign(
