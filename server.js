@@ -36,24 +36,9 @@ app.use('/api/payments', paymentsRoutes);
 app.use('/api/admin', adminRoutes);
 
 // 4. Arquivos Estáticos e Assets (Assets, Admin e Raiz)
-const baseDir = __dirname || process.cwd();
-
-// Servir a pasta /assets explicitamente (CSS, JS, Imagens, Fontes)
-app.use('/assets', express.static(path.join(baseDir, 'assets'), {
-  maxAge: '1d'
-}));
-
-// Servir arquivos do painel /admin (CSS, JS, etc.)
-app.use('/admin', express.static(path.join(baseDir, 'admin'), {
-  maxAge: '1d'
-}));
-
-// Servir arquivos da raiz (HTMLs, mídias, imagens soltas)
-app.use(express.static(path.join(baseDir), {
-  extensions: ['html'],
-  index: 'index.html',
-  maxAge: '0'
-}));
+app.use(express.static(path.join(__dirname)));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
 // 5. Rotas explícitas para as páginas HTML (com e sem .html)
 const pages = [
