@@ -38,6 +38,10 @@ app.use((req, res, next) => {
     req.url = originalPath + (remainingParams ? '?' + remainingParams : '');
   } else if (req.query && req.query.path) {
     req.url = '/' + req.query.path;
+  } else if (req.url === '/server.js' || req.url.startsWith('/server.js?')) {
+    if (req.originalUrl && req.originalUrl !== '/server.js') {
+      req.url = req.originalUrl;
+    }
   }
   next();
 });
@@ -161,8 +165,10 @@ function startServer(port) {
   });
 }
 
-if (!process.env.VERCEL) {
+// Inicia o servidor HTTP localmente (não executa no ambiente Serverless da Vercel)
+if (!process.env.VERCEL && !process.env.NOW_REGION) {
   startServer(currentPort);
 }
 
+// Exporta o aplicativo Express para uso como Serverless Function na Vercel
 module.exports = app;

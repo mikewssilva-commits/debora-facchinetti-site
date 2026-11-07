@@ -3,13 +3,13 @@
   "cleanUrls": true,
   "functions": {
     "server.js": {
-      "includeFiles": "{assets/**,admin/**,*.html,*.jpg,*.jpeg,*.png,*.mp4}"
+      "includeFiles": "src/**"
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/server.js?_apiPath=/api/$1"
+      "destination": "/server.js"
     }
   ]
 }
