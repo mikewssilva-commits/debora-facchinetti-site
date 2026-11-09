@@ -13,6 +13,13 @@
 
 const supabase = require('../config/supabase');
 
+function withTimeout(promise, ms = 2000) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Supabase request timeout')), ms))
+  ]);
+}
+
 class OrderStatusService {
   /**
    * Mapeia os status oficiais do Mercado Pago para os status internos da loja
@@ -67,41 +74,45 @@ class OrderStatusService {
    */
   async findOrder(identifier) {
     if (!identifier) return null;
-    const cleanId = String(identifier).trim();
+    try {
+      const cleanId = String(identifier).trim();
 
-    // 1. Tenta por UUID na tabela orders
-    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanId);
-    if (isUUID) {
-      const { data } = await supabase
+      // 1. Tenta por UUID na tabela orders
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(cleanId);
+      if (isUUID) {
+        const { data } = await withTimeout(supabase
+          .from('orders')
+          .select('*, customer:customers(name, email, phone)')
+          .eq('id', cleanId)
+          .maybeSingle(), 1500);
+        if (data) return data;
+      }
+
+      // 2. Tenta por Código do Pedido (ex: DF-0001)
+      const { data: byCode } = await withTimeout(supabase
         .from('orders')
         .select('*, customer:customers(name, email, phone)')
-        .eq('id', cleanId)
-        .maybeSingle();
-      if (data) return data;
-    }
+        .ilike('order_code', cleanId)
+        .maybeSingle(), 1500);
+      if (byCode) return byCode;
 
-    // 2. Tenta por Código do Pedido (ex: DF-0001)
-    const { data: byCode } = await supabase
-      .from('orders')
-      .select('*, customer:customers(name, email, phone)')
-      .ilike('order_code', cleanId)
-      .maybeSingle();
-    if (byCode) return byCode;
+      // 3. Tenta localizar através de um pagamento já registrado com esse gateway_payment_id
+      const { data: paymentRecord } = await withTimeout(supabase
+        .from('payments')
+        .select('order_id')
+        .eq('gateway_payment_id', cleanId)
+        .maybeSingle(), 1500);
 
-    // 3. Tenta localizar através de um pagamento já registrado com esse gateway_payment_id
-    const { data: paymentRecord } = await supabase
-      .from('payments')
-      .select('order_id')
-      .eq('gateway_payment_id', cleanId)
-      .maybeSingle();
-
-    if (paymentRecord && paymentRecord.order_id) {
-      const { data: byPayment } = await supabase
-        .from('orders')
-        .select('*, customer:customers(name, email, phone)')
-        .eq('id', paymentRecord.order_id)
-        .maybeSingle();
-      if (byPayment) return byPayment;
+      if (paymentRecord && paymentRecord.order_id) {
+        const { data: byPayment } = await withTimeout(supabase
+          .from('orders')
+          .select('*, customer:customers(name, email, phone)')
+          .eq('id', paymentRecord.order_id)
+          .maybeSingle(), 1500);
+        if (byPayment) return byPayment;
+      }
+    } catch (err) {
+      console.warn('⚠️ Erro ao consultar pedido no Supabase:', err.message);
     }
 
     return null;
@@ -132,28 +143,28 @@ class OrderStatusService {
       };
 
       // Verifica se já existe registro de pagamento para este order_id
-      const { data: existing } = await supabase
+      const { data: existing } = await withTimeout(supabase
         .from('payments')
         .select('id')
         .eq('order_id', orderId)
-        .maybeSingle();
+        .maybeSingle(), 1500);
 
       if (existing) {
-        const { data: updated, error: updateErr } = await supabase
+        const { data: updated, error: updateErr } = await withTimeout(supabase
           .from('payments')
           .update(payload)
           .eq('id', existing.id)
           .select()
-          .single();
+          .single(), 1500);
 
         if (updateErr) console.error('Erro ao atualizar pagamento inicial:', updateErr);
         return updated;
       } else {
-        const { data: inserted, error: insertErr } = await supabase
+        const { data: inserted, error: insertErr } = await withTimeout(supabase
           .from('payments')
           .insert(payload)
           .select()
-          .single();
+          .single(), 1500);
 
         if (insertErr) console.error('Erro ao registrar pagamento inicial:', insertErr);
         return inserted;

@@ -300,6 +300,30 @@ class MercadoPagoService {
         };
       }
 
+      // Quando a conta do vendedor no Mercado Pago ainda não tem Chave Pix cadastrada na Área Pix do app
+      const isCollectorKeyIssue = error.message?.includes('Collector user without key enabled for QR render') ||
+        (Array.isArray(error.causes) && error.causes.some(c => c.description?.includes('Collector user without key') || c.code === 13253));
+
+      if (isCollectorKeyIssue) {
+        console.warn('⚠️  [Mercado Pago] A conta do vendedor ainda não possui Chave Pix cadastrada na Área Pix. Gerando Checkout Pro seguro como contingência.');
+        const pref = await this.createPreference({ order, customer, description });
+        return {
+          id: pref.id,
+          status: 'pending',
+          status_detail: 'waiting_transfer',
+          payment_method_id: 'pix',
+          transaction_amount: amount,
+          external_reference: String(externalReference),
+          qr_code: null,
+          qr_code_base64: null,
+          init_point: pref.init_point,
+          ticket_url: pref.init_point,
+          is_preference_fallback: true,
+          is_mock: false,
+          message: 'Aviso: Cadastre uma Chave Pix no app Mercado Pago (Área Pix > Minhas Chaves) para habilitar o QR Code direto nesta tela. Enquanto isso, conclua o pagamento pelo link oficial do Mercado Pago abaixo.'
+        };
+      }
+
       console.error('❌ [Mercado Pago] Erro ao gerar PIX:', error);
       throw new Error(`Falha ao gerar PIX no Mercado Pago: ${error.message}`);
     }
