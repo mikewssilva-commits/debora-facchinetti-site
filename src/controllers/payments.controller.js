@@ -98,10 +98,12 @@ const paymentsController = {
       // Se não encontrou pedido no Supabase, monta objeto temporário
       if (!order) {
         order = {
-          id: `temp_${Date.now()}`,
-          order_code: `DF-TEMP-${Date.now().toString().slice(-4)}`,
+          id: order_id || `temp_${Date.now()}`,
+          order_code: order_code || `DF-TEMP-${Date.now().toString().slice(-4)}`,
           total_amount: Number(req.body.total_amount || 0)
         };
+      } else if (req.body.total_amount && (!order.total_amount || Number(order.total_amount) === 0)) {
+        order.total_amount = Number(req.body.total_amount);
       }
 
       // 2. Fluxo PIX Direto

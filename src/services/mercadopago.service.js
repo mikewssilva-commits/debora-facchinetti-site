@@ -106,6 +106,18 @@ class MercadoPagoService {
       currency_id: 'BRL'
     }));
 
+    // Se houver frete e a lista tiver itens de produtos, adiciona o frete como item da preferência
+    if (formattedItems.length > 0 && order.shipping_amount && Number(order.shipping_amount) > 0) {
+      formattedItems.push({
+        id: 'shipping_frete',
+        title: 'Frete Correios com Rastreio',
+        description: 'Serviço de envio com rastreamento oficial dos Correios',
+        quantity: 1,
+        unit_price: Number(order.shipping_amount),
+        currency_id: 'BRL'
+      });
+    }
+
     // Se não tiver itens válidos, monta com o valor total do pedido
     if (formattedItems.length === 0) {
       formattedItems.push({

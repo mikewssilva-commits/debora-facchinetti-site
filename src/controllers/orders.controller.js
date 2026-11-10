@@ -43,7 +43,9 @@ const ordersController = {
         items: rawItems,
         autograph_notes,
         gift_selected,
-        payment_method
+        payment_method,
+        shipping_amount,
+        shipping_method
       } = req.body;
 
       // 1. Validação básica do cliente
@@ -170,8 +172,8 @@ const ordersController = {
         return res.status(400).json({ success: false, message: 'Nenhum produto válido encontrado no pedido.' });
       }
 
-      const shippingAmount = 0.00;
-      const totalAmount = subtotal + shippingAmount;
+      const shippingAmount = Math.max(0, Number(shipping_amount || 0));
+      const totalAmount = Number((subtotal + shippingAmount).toFixed(2));
 
       // 5. Gera código do pedido
       let orderCode = `DF-${Date.now().toString().slice(-4)}`;
@@ -195,6 +197,7 @@ const ordersController = {
         city: custData.city || '',
         state: custData.state || '',
         zip_code: custData.cep || '',
+        shipping_method: shipping_method || 'correios_modico',
         autograph_for: autograph_notes || null
       };
 
@@ -232,7 +235,7 @@ const ordersController = {
           await withTimeout(supabase.from('order_status_history').insert({
             order_id: newOrder.id,
             status: 'Aguardando Pagamento',
-            description: `Pedido ${orderCode} registrado via checkout online (${payment_method ? payment_method.toUpperCase() : 'PIX'}).`
+            description: `Pedido ${orderCode} registrado via checkout online (${payment_method ? payment_method.toUpperCase() : 'PIX'}). Frete: ${shipping_method || 'Correios'} (R$ ${shippingAmount.toFixed(2)}).`
           }), 1500);
         }
       } catch (dbOrderErr) {
@@ -246,6 +249,7 @@ const ordersController = {
           order_id: newOrder.id,
           order_code: newOrder.order_code,
           subtotal: newOrder.subtotal,
+          shipping_amount: newOrder.shipping_amount,
           total_amount: newOrder.total_amount,
           items_count: orderItemsToInsert.length,
           autograph: newOrder.autograph_notes,

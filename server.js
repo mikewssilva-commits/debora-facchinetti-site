@@ -61,6 +61,7 @@ const productsRoutes = require('./src/routes/products.routes');
 const customersRoutes = require('./src/routes/customers.routes');
 const ordersRoutes = require('./src/routes/orders.routes');
 const paymentsRoutes = require('./src/routes/payments.routes');
+const shippingRoutes = require('./src/routes/shipping.routes');
 const adminRoutes = require('./src/routes/admin.routes');
 const adminController = require('./src/controllers/admin.controller');
 
@@ -68,6 +69,7 @@ app.use('/api/products', productsRoutes);
 app.use('/api/customers', customersRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/api/shipping', shippingRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Todas as variantes possíveis para a rota POST de login administrativo
