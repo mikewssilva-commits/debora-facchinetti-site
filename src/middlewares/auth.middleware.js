@@ -9,7 +9,8 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
-const JWT_SECRET = process.env.JWT_SECRET || 'debora_facchinetti_admin_jwt_secret_key_2026';
+const FALLBACK_JWT_SECRET = 'debora_facchinetti_admin_jwt_secret_key_2026_auth';
+const JWT_SECRET = (process.env.JWT_SECRET || FALLBACK_JWT_SECRET).trim();
 
 function requireAdminAuth(req, res, next) {
   try {
