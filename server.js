@@ -7,7 +7,68 @@ require('dotenv').config();
 const app = express();
 let currentPort = parseInt(process.env.PORT, 10) || 3000;
 
-// 1. Middlewares globais essenciais
+// 1. Normalização antecipada de rotas da Vercel (restaura o caminho original da API)
+app.use((req, res, next) => {
+  let originalPath = null;
+  let remainingQuery = '';
+
+  try {
+    const parsedUrl = new URL(req.url, 'http://localhost');
+
+    // 1.1 Checa query params de rewrite (_apiPath, __path, path)
+    if (parsedUrl.searchParams.has('_apiPath')) {
+      originalPath = parsedUrl.searchParams.get('_apiPath');
+      parsedUrl.searchParams.delete('_apiPath');
+    } else if (parsedUrl.searchParams.has('__path')) {
+      originalPath = parsedUrl.searchParams.get('__path');
+      parsedUrl.searchParams.delete('__path');
+    } else if (parsedUrl.searchParams.has('path') && !parsedUrl.searchParams.get('path').includes('.')) {
+      const p = parsedUrl.searchParams.get('path');
+      originalPath = p.startsWith('/') ? p : '/' + p;
+      parsedUrl.searchParams.delete('path');
+    }
+
+    // 1.2 Checa headers da Vercel (x-matched-path, x-forwarded-uri, x-original-uri)
+    if (!originalPath || originalPath === '/server.js' || originalPath === '/api/index.js' || originalPath === '/api') {
+      const xMatched = req.headers['x-matched-path'];
+      if (xMatched && xMatched.startsWith('/api') && !xMatched.includes('index.js')) {
+        originalPath = xMatched;
+      }
+    }
+
+    if (!originalPath || originalPath === '/server.js' || originalPath === '/api/index.js' || originalPath === '/api') {
+      const xUri = req.headers['x-forwarded-uri'] || req.headers['x-original-uri'];
+      if (xUri && xUri.startsWith('/api')) {
+        originalPath = xUri.split('?')[0];
+      }
+    }
+
+    if (!originalPath || originalPath === '/server.js' || originalPath === '/api/index.js' || originalPath === '/api') {
+      const xRoute = req.headers['x-now-route-matches'];
+      if (xRoute) {
+        const match = xRoute.match(/1=([^&]+)/);
+        if (match && match[1]) {
+          const sub = decodeURIComponent(match[1]);
+          originalPath = sub.startsWith('/') ? '/api' + sub : '/api/' + sub;
+        }
+      }
+    }
+
+    remainingQuery = parsedUrl.searchParams.toString();
+  } catch (err) {
+    // Continua com req.url original se o parse falhar
+  }
+
+  // 1.3 Se identificamos um caminho válido de API, atualiza req.url e req.originalUrl
+  if (originalPath && originalPath.startsWith('/api')) {
+    req.url = originalPath + (remainingQuery ? '?' + remainingQuery : '');
+    req.originalUrl = req.url;
+  }
+
+  next();
+});
+
+// 2. Middlewares globais essenciais
 app.use(cors({
   origin: true,
   credentials: true,
@@ -28,23 +89,6 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Normalização de requisições da Vercel (restaura caminho original da API)
-app.use((req, res, next) => {
-  if (req.query && req.query._apiPath) {
-    const originalPath = req.query._apiPath;
-    delete req.query._apiPath;
-    const remainingParams = new URLSearchParams(req.query).toString();
-    req.url = originalPath + (remainingParams ? '?' + remainingParams : '');
-  } else if (req.query && req.query.path) {
-    req.url = '/' + req.query.path;
-  } else if (req.url === '/server.js' || req.url.startsWith('/server.js?')) {
-    if (req.originalUrl && req.originalUrl !== '/server.js') {
-      req.url = req.originalUrl;
-    }
-  }
-  next();
-});
 
 // 2. Rota de Health Check / Status da API
 app.get('/api/health', (req, res) => {
