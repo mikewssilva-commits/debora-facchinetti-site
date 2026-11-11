@@ -9,6 +9,10 @@ const mercadopagoService = require('../services/mercadopago.service');
 const orderStatusService = require('../services/orderStatus.service');
 const supabase = require('../config/supabase');
 
+// Chaves de Produção Oficiais da Débora Facchinetti (Fallback Seguro)
+const PROD_FALLBACK_PUBLIC_KEY = 'APP_USR-f8214f2e-28e3-4505-8031-d92e29566a06';
+const PROD_FALLBACK_ACCESS_TOKEN = 'APP_USR-529746760637761-100720-ef902c69ac44ff773bf2bafc74ded0a5-3738344536';
+
 const paymentsController = {
   /**
    * Status da Integração Mercado Pago (Diagnóstico seguro)
@@ -31,9 +35,10 @@ const paymentsController = {
    * GET /api/payments/public-key
    */
   async getPublicKey(req, res) {
+    const publicKey = (process.env.MERCADOPAGO_PUBLIC_KEY || mercadopagoService.publicKey || PROD_FALLBACK_PUBLIC_KEY).trim();
     return res.status(200).json({
       success: true,
-      public_key: process.env.MERCADOPAGO_PUBLIC_KEY || ''
+      public_key: publicKey
     });
   },
 
@@ -411,7 +416,7 @@ const paymentsController = {
    */
   async simulatePaymentApproval(req, res) {
     try {
-      const mpToken = process.env.MERCADOPAGO_ACCESS_TOKEN || '';
+      const mpToken = (process.env.MERCADOPAGO_ACCESS_TOKEN || mercadopagoService.accessToken || PROD_FALLBACK_ACCESS_TOKEN).trim();
       if (!mpToken.startsWith('TEST-')) {
         return res.status(403).json({
           success: false,

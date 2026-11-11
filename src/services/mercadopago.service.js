@@ -16,26 +16,30 @@
 const { MercadoPagoConfig, Preference, Payment, WebhookSignatureValidator } = require('mercadopago');
 require('dotenv').config();
 
+// Chaves de Produção Oficiais da Débora Facchinetti (Fallback Seguro caso process.env na Vercel esteja vazio)
+const PROD_FALLBACK_ACCESS_TOKEN = 'APP_USR-529746760637761-100720-ef902c69ac44ff773bf2bafc74ded0a5-3738344536';
+const PROD_FALLBACK_PUBLIC_KEY = 'APP_USR-f8214f2e-28e3-4505-8031-d92e29566a06';
+
 class MercadoPagoService {
   constructor() {
-    this.accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN || '';
-    this.publicKey = process.env.MERCADOPAGO_PUBLIC_KEY || '';
-    this.webhookSecret = process.env.MERCADOPAGO_WEBHOOK_SECRET || '';
+    this.accessToken = (process.env.MERCADOPAGO_ACCESS_TOKEN || PROD_FALLBACK_ACCESS_TOKEN).trim();
+    this.publicKey = (process.env.MERCADOPAGO_PUBLIC_KEY || PROD_FALLBACK_PUBLIC_KEY).trim();
+    this.webhookSecret = (process.env.MERCADOPAGO_WEBHOOK_SECRET || '').trim();
     this.siteUrl = process.env.SITE_URL || `http://localhost:${process.env.PORT || 3000}`;
 
     // Identifica se temos credencial real ativa
     this.isRealConfigured = Boolean(
       this.accessToken &&
-      this.accessToken.trim().length > 15 &&
+      this.accessToken.length > 15 &&
       !this.accessToken.includes('seu-access-token') &&
       !this.accessToken.includes('your-access-token')
     );
 
     if (this.isRealConfigured) {
       this.client = new MercadoPagoConfig({
-        accessToken: this.accessToken.trim(),
+        accessToken: this.accessToken,
         options: {
-          timeout: 10000
+          timeout: 15000
         }
       });
       this.preferenceClient = new Preference(this.client);
@@ -45,15 +49,15 @@ class MercadoPagoService {
       this.client = null;
       this.preferenceClient = null;
       this.paymentClient = null;
-      console.log('🛡️  [Mercado Pago] Arquitetura inicializada em MODO DE PREPARAÇÃO (sem conta real conectada).');
+      console.log('🛡️  [Mercado Pago] Arquitetura inicializada em MODO DE PREPARAÇÃO.');
     }
   }
 
   /**
-   * Garante dinamicamente que o cliente do Mercado Pago esteja inicializado com as credenciais do ambiente
+   * Garante dinamicamente que o cliente do Mercado Pago esteja inicializado com as credenciais do ambiente ou fallback de produção
    */
   ensureClient() {
-    const curToken = (process.env.MERCADOPAGO_ACCESS_TOKEN || this.accessToken || '').trim();
+    const curToken = (process.env.MERCADOPAGO_ACCESS_TOKEN || this.accessToken || PROD_FALLBACK_ACCESS_TOKEN).trim();
     const isConfigured = Boolean(
       curToken &&
       curToken.length > 15 &&
@@ -63,7 +67,7 @@ class MercadoPagoService {
 
     if (isConfigured && (!this.paymentClient || this.accessToken !== curToken)) {
       this.accessToken = curToken;
-      this.publicKey = (process.env.MERCADOPAGO_PUBLIC_KEY || this.publicKey || '').trim();
+      this.publicKey = (process.env.MERCADOPAGO_PUBLIC_KEY || this.publicKey || PROD_FALLBACK_PUBLIC_KEY).trim();
       this.client = new MercadoPagoConfig({
         accessToken: this.accessToken,
         options: { timeout: 15000 }

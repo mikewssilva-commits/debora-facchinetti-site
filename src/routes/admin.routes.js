@@ -6,6 +6,7 @@
  */
 
 const { Router } = require('express');
+const path = require('path');
 const adminController = require('../controllers/admin.controller');
 const { requireAdminAuth } = require('../middlewares/auth.middleware');
 
@@ -18,6 +19,20 @@ router.use((req, res, next) => {
   res.set('Expires', '0');
   res.set('Surrogate-Control', 'no-store');
   next();
+});
+
+// --- Rotas de Exibição do Painel (Fallback caso a requisição web caia no router) ---
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
+});
+router.get('/index.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'admin', 'index.html'));
+});
+router.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'admin', 'login.html'));
+});
+router.get('/login.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'admin', 'login.html'));
 });
 
 // --- Rotas Públicas de Autenticação e Setup ---

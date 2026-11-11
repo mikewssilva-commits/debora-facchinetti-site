@@ -65,7 +65,7 @@ app.use((req, res, next) => {
     req.originalUrl = req.url;
   }
 
-  // 1.4 Se a Vercel removeu o prefixo /api da URL, restaura /api automaticamente
+  // 1.4 Se a Vercel removeu o prefixo /api da URL, restaura /api automaticamente APENAS para endpoints de API
   if (!req.url.startsWith('/api')) {
     const apiPrefixes = [
       '/shipping',
@@ -76,8 +76,17 @@ app.use((req, res, next) => {
       '/health',
       '/auth'
     ];
-    const isApi = apiPrefixes.some(p => req.url === p || req.url.startsWith(p + '/') || req.url.startsWith(p + '?'))
-               || (req.url.startsWith('/admin') && !req.url.includes('.html') && !req.url.includes('.css') && !req.url.includes('.js') && !req.url.includes('.png'));
+
+    // Rotas de API do admin (excluindo páginas HTML e assets)
+    const isAdminApi = (
+      req.url.startsWith('/admin/dashboard') ||
+      req.url.startsWith('/admin/orders') ||
+      req.url.startsWith('/admin/auth/') ||
+      req.url.startsWith('/admin/setup-') ||
+      (req.method === 'POST' && (req.url === '/admin/login' || req.url.startsWith('/admin/login?')))
+    );
+
+    const isApi = apiPrefixes.some(p => req.url === p || req.url.startsWith(p + '/') || req.url.startsWith(p + '?')) || isAdminApi;
 
     if (isApi) {
       req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
@@ -186,23 +195,21 @@ pages.forEach(page => {
   app.get(`/${page}.html`, (req, res) => res.sendFile(file));
 });
 
-// Rotas do painel Admin
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
+// Rotas do painel Admin (com e sem /api, com e sem trailing slash)
+const adminIndexPath = path.join(__dirname, 'admin', 'index.html');
+const adminLoginPath = path.join(__dirname, 'admin', 'login.html');
+
+app.get(['/admin', '/admin/', '/admin/index.html', '/api/admin', '/api/admin/', '/api/admin/index.html'], (req, res) => {
+  res.sendFile(adminIndexPath);
 });
-app.get('/admin/index.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
-});
-app.get('/admin/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin', 'login.html'));
-});
-app.get('/admin/login.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin', 'login.html'));
+app.get(['/admin/login', '/admin/login.html', '/api/admin/login', '/api/admin/login.html'], (req, res) => {
+  res.sendFile(adminLoginPath);
 });
 
 // 6. Fallback 404 amigável (JSON para POST/API, HTML para navegação web de páginas)
 app.use((req, res) => {
-  if (req.method !== 'GET' || req.path.startsWith('/api') || (req.headers.accept && req.headers.accept.includes('application/json'))) {
+  const isApiCall = req.path.startsWith('/api') && req.path !== '/api/admin' && req.path !== '/api/admin/';
+  if (req.method !== 'GET' || isApiCall || (req.headers.accept && req.headers.accept.includes('application/json'))) {
     return res.status(404).json({
       success: false,
       message: `Rota não encontrada: ${req.method} ${req.originalUrl || req.url}`
