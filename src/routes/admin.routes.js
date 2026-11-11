@@ -46,6 +46,7 @@ router.post('/setup-initial', adminController.setupInitialUser);
 // --- Rotas Protegidas (Requer Token Válido) ---
 router.get('/auth/me', requireAdminAuth, adminController.getMe);
 router.get('/dashboard', requireAdminAuth, adminController.getDashboardMetrics);
+router.get('/stats', requireAdminAuth, adminController.getDashboardMetrics);
 router.get('/orders', requireAdminAuth, adminController.listOrders);
 router.get('/orders/:id', requireAdminAuth, adminController.getOrderDetails);
 router.patch('/orders/:id/fulfillment', requireAdminAuth, adminController.updateFulfillment);
