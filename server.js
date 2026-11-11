@@ -119,6 +119,20 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Normaliza req.body caso venha como string ou Buffer no ambiente Serverless da Vercel
+app.use((req, res, next) => {
+  if (typeof req.body === 'string' && req.body.trim().startsWith('{')) {
+    try {
+      req.body = JSON.parse(req.body);
+    } catch (_) {}
+  } else if (Buffer.isBuffer(req.body)) {
+    try {
+      req.body = JSON.parse(req.body.toString('utf-8'));
+    } catch (_) {}
+  }
+  next();
+});
+
 // 2. Rota de Health Check / Status da API
 app.get('/api/health', (req, res) => {
   res.json({

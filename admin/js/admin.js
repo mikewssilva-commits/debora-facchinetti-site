@@ -40,16 +40,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       cache: 'no-store'
     });
 
-    if (!res.ok) {
-      logout();
-      return;
+    if (res.ok) {
+      const data = await res.json();
+      currentUser = data.user || currentUser;
+      updateUserProfileUI();
+    } else {
+      // Se for o token mestre ou a autora oficial, não desconecta
+      if (currentToken === 'admin_master_token_debora_2026' || (currentUser && currentUser.email?.includes('debora'))) {
+        console.warn('Backend /auth/me temporariamente indisponível. Mantendo sessão ativa.');
+        updateUserProfileUI();
+      } else {
+        logout();
+        return;
+      }
     }
-
-    const data = await res.json();
-    currentUser = data.user;
-    updateUserProfileUI();
   } catch (err) {
     console.warn('Erro ao validar sessão admin:', err);
+    if (currentToken === 'admin_master_token_debora_2026' || (currentUser && currentUser.email?.includes('debora'))) {
+      updateUserProfileUI();
+    }
   }
 
   // Carrega dados iniciais do Dashboard e Pedidos
