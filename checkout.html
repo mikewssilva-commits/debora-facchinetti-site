@@ -1098,7 +1098,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: #FFFFFF;
+      background: #FFFFFF !important;
       padding: 0.85rem;
       border-radius: 16px;
       border: 2px solid #E2E8F0;
@@ -1113,6 +1113,7 @@
       display: block;
       border-radius: 8px;
       object-fit: contain;
+      background: #FFFFFF !important;
     }
 
     .pix-amount-highlight {
@@ -2989,9 +2990,17 @@
 
       const isPreference = Boolean(pixData.is_preference_fallback || !pixData.qr_code);
 
-      const qrImageSrc = pixData.qr_code_base64 
-        ? `data:image/png;base64,${pixData.qr_code_base64}`
-        : (pixData.qr_code ? `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(pixData.qr_code)}` : '');
+      // Validação criteriosa da imagem do QR Code
+      const rawBase64 = pixData.qr_code_base64 || '';
+      let qrImageSrc = '';
+
+      if (rawBase64 && rawBase64.length > 200) {
+        qrImageSrc = rawBase64.startsWith('data:image') 
+          ? rawBase64 
+          : `data:image/png;base64,${rawBase64}`;
+      } else if (pixData.qr_code) {
+        qrImageSrc = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(pixData.qr_code)}`;
+      }
 
       let innerContent = '';
 
@@ -3013,8 +3022,12 @@
           <div class="pix-payment-box">
             <div class="pix-amount-highlight">${totalFormatted}</div>
 
-            <div class="pix-qr-frame">
-              <img src="${qrImageSrc}" alt="QR Code PIX Débora Facchinetti" class="pix-qr-img" />
+            <div class="pix-qr-frame" style="background: #FFFFFF !important;">
+              <img src="${qrImageSrc}" 
+                   alt="QR Code PIX Débora Facchinetti" 
+                   class="pix-qr-img" 
+                   style="width: 200px; height: 200px; background: #FFFFFF !important; display: block; border-radius: 8px; object-fit: contain;"
+                   onerror="if (document.getElementById('pixCodeInput') && document.getElementById('pixCodeInput').value) { this.onerror=null; this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=' + encodeURIComponent(document.getElementById('pixCodeInput').value); }" />
             </div>
 
             <div class="pix-status-bar">

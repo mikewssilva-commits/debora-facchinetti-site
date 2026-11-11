@@ -50,6 +50,32 @@ class MercadoPagoService {
   }
 
   /**
+   * Garante dinamicamente que o cliente do Mercado Pago esteja inicializado com as credenciais do ambiente
+   */
+  ensureClient() {
+    const curToken = (process.env.MERCADOPAGO_ACCESS_TOKEN || this.accessToken || '').trim();
+    const isConfigured = Boolean(
+      curToken &&
+      curToken.length > 15 &&
+      !curToken.includes('seu-access-token') &&
+      !curToken.includes('your-access-token')
+    );
+
+    if (isConfigured && (!this.paymentClient || this.accessToken !== curToken)) {
+      this.accessToken = curToken;
+      this.publicKey = (process.env.MERCADOPAGO_PUBLIC_KEY || this.publicKey || '').trim();
+      this.client = new MercadoPagoConfig({
+        accessToken: this.accessToken,
+        options: { timeout: 15000 }
+      });
+      this.preferenceClient = new Preference(this.client);
+      this.paymentClient = new Payment(this.client);
+      this.isRealConfigured = true;
+    }
+    return this.isRealConfigured;
+  }
+
+  /**
    * Verifica se o serviço está operando com credenciais reais
    * @returns {boolean}
    */
@@ -243,27 +269,11 @@ class MercadoPagoService {
       }
     };
 
-    // Se NÃO estiver com conta real conectada, devolve resposta simulada segura
-    if (!this.isRealConfigured) {
-      const mockPaymentId = `mock_pay_${Date.now()}`;
-      // Código de simulação EMVCo padrão para testes visuais
-      const mockQrCode = `00020126580014br.gov.bcb.pix0136mock-chave-debora-facchinetti-livros520400005303986540${amount.toFixed(2)}5802BR5925Debora Facchinetti6008Teresina62070503***6304MOCK`;
-      // Placeholder transparente 1x1 em base64 caso o frontend espere imagem
-      const mockQrBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    // Garante inicialização com as credenciais mais recentes
+    this.ensureClient();
 
-      return {
-        id: mockPaymentId,
-        status: 'pending',
-        status_detail: 'waiting_transfer',
-        payment_method_id: 'pix',
-        transaction_amount: amount,
-        external_reference: String(externalReference),
-        qr_code: mockQrCode,
-        qr_code_base64: mockQrBase64,
-        ticket_url: `https://www.mercadopago.com.br/payments/${mockPaymentId}/ticket`,
-        is_mock: true,
-        message: 'PIX gerado em modo arquitetura preparada (aguardando credenciais reais).'
-      };
+    if (!this.paymentClient) {
+      throw new Error('MERCADOPAGO_ACCESS_TOKEN não configurado no ambiente. Configure as credenciais no painel da Vercel.');
     }
 
     // Chamada oficial à API do Mercado Pago
