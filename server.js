@@ -65,6 +65,26 @@ app.use((req, res, next) => {
     req.originalUrl = req.url;
   }
 
+  // 1.4 Se a Vercel removeu o prefixo /api da URL, restaura /api automaticamente
+  if (!req.url.startsWith('/api')) {
+    const apiPrefixes = [
+      '/shipping',
+      '/orders',
+      '/payments',
+      '/products',
+      '/customers',
+      '/health',
+      '/auth'
+    ];
+    const isApi = apiPrefixes.some(p => req.url === p || req.url.startsWith(p + '/') || req.url.startsWith(p + '?'))
+               || (req.url.startsWith('/admin') && !req.url.includes('.html') && !req.url.includes('.css') && !req.url.includes('.js') && !req.url.includes('.png'));
+
+    if (isApi) {
+      req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+      req.originalUrl = req.url;
+    }
+  }
+
   next();
 });
 
@@ -110,10 +130,20 @@ const adminRoutes = require('./src/routes/admin.routes');
 const adminController = require('./src/controllers/admin.controller');
 
 app.use('/api/products', productsRoutes);
+app.use('/products', productsRoutes);
+
 app.use('/api/customers', customersRoutes);
+app.use('/customers', customersRoutes);
+
 app.use('/api/orders', ordersRoutes);
+app.use('/orders', ordersRoutes);
+
 app.use('/api/payments', paymentsRoutes);
+app.use('/payments', paymentsRoutes);
+
 app.use('/api/shipping', shippingRoutes);
+app.use('/shipping', shippingRoutes);
+
 app.use('/api/admin', adminRoutes);
 
 // Todas as variantes possíveis para a rota POST de login administrativo

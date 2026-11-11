@@ -263,7 +263,10 @@ const SKU_TO_FRONTEND_ID = {
 
 async function syncCatalogWithAPI() {
   try {
-    const response = await fetch('/api/products');
+    let response = await fetch('/api/products');
+    if (response.status === 404) {
+      response = await fetch('/products');
+    }
     if (!response.ok) {
       console.warn(`[Catálogo] API /api/products retornou status ${response.status}. Mantendo dados locais em cache.`);
       return;
