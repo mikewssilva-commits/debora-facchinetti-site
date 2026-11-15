@@ -8,6 +8,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const supabase = require('../config/supabase');
+const orderSyncService = require('../services/orderSync.service');
 const { JWT_SECRET } = require('../middlewares/auth.middleware');
 
 // Credenciais Oficiais Administrativas (Débora Facchinetti)
@@ -377,96 +378,14 @@ const adminController = {
    */
   async getDashboardMetrics(req, res) {
     try {
-      let orders = [];
-
-      try {
-        const { data, error: ordersErr } = await supabase
-          .from('orders')
-          .select(`
-            id,
-            order_code,
-            total_amount,
-            payment_status,
-            fulfillment_status,
-            created_at,
-            customer:customers(name, email, phone)
-          `)
-          .order('created_at', { ascending: false });
-
-        if (!ordersErr && Array.isArray(data)) {
-          orders = data;
-        } else if (ordersErr && !isNetworkError(ordersErr)) {
-          console.warn('⚠️ [AdminDashboard] Erro com joins PostgREST, tentando consulta simples:', ordersErr.message);
-          const { data: simpleOrders } = await supabase
-            .from('orders')
-            .select('id, order_code, total_amount, payment_status, fulfillment_status, created_at')
-            .order('created_at', { ascending: false });
-          if (simpleOrders && Array.isArray(simpleOrders)) {
-            orders = simpleOrders;
-          }
-        }
-      } catch (dbErr) {
-        console.warn('⚠️ [AdminDashboard] Supabase temporariamente indisponível:', dbErr.message);
-      }
-
-      const allOrders = orders || [];
-
-      // Cálculos estritamente fiéis aos dados reais da base
-      let totalOrders = allOrders.length;
-      let totalRevenue = 0;
-      let pendingPaymentCount = 0;
-      let awaitingShipmentCount = 0;
-      let shippedCount = 0;
-      let deliveredCount = 0;
-      let cancelledCount = 0;
-      let activeOrdersCount = 0;
-
-      allOrders.forEach(o => {
-        const amount = Number(o.total_amount || 0);
-        const isCancelled = o.fulfillment_status === 'cancelled' || o.payment_status === 'rejected' || o.payment_status === 'refunded';
-
-        if (isCancelled) {
-          cancelledCount++;
-        } else {
-          activeOrdersCount++;
-          if (o.payment_status === 'approved') {
-            totalRevenue += amount;
-            if (o.fulfillment_status === 'pending' || o.fulfillment_status === 'preparing') {
-              awaitingShipmentCount++;
-            } else if (o.fulfillment_status === 'shipped') {
-              shippedCount++;
-            } else if (o.fulfillment_status === 'delivered') {
-              deliveredCount++;
-            }
-          } else if (o.payment_status === 'pending') {
-            pendingPaymentCount++;
-          }
-        }
-      });
-
-      const recentOrders = allOrders.slice(0, 6);
-
+      const dashboardData = await orderSyncService.getUnifiedDashboardMetrics();
       return res.status(200).json({
         success: true,
         data: {
-          metrics: {
-            total_orders: totalOrders,
-            active_orders: activeOrdersCount,
-            total_revenue: totalRevenue,
-            pending_payment_count: pendingPaymentCount,
-            awaiting_shipment_count: awaitingShipmentCount,
-            shipped_count: shippedCount,
-            delivered_count: deliveredCount,
-            cancelled_count: cancelledCount
-          },
-          recent_orders: recentOrders
+          metrics: dashboardData.metrics,
+          recent_orders: dashboardData.recent_orders
         },
-        stats: {
-          totalOrders,
-          totalRevenue,
-          pendingOrders: pendingPaymentCount,
-          paidOrders: awaitingShipmentCount + shippedCount + deliveredCount
-        }
+        stats: dashboardData.stats
       });
     } catch (err) {
       console.error('❌ [AdminController] Erro seguro no dashboard:', err.message);
@@ -496,76 +415,12 @@ const adminController = {
    */
   async listOrders(req, res) {
     try {
-      const { payment_status, fulfillment_status, search } = req.query;
-
-      let orders = [];
-
-      try {
-        let query = supabase
-          .from('orders')
-          .select(`
-            id,
-            order_code,
-            total_amount,
-            payment_status,
-            fulfillment_status,
-            autograph_notes,
-            gift_notes,
-            tracking_code,
-            created_at,
-            customer:customers(id, name, email, phone),
-            payments(id, payment_method, status, card_brand, card_last_four, installments)
-          `)
-          .order('created_at', { ascending: false });
-
-        if (payment_status && payment_status !== 'all') {
-          query = query.eq('payment_status', payment_status);
-        }
-
-        if (fulfillment_status && fulfillment_status !== 'all') {
-          if (fulfillment_status === 'active') {
-            query = query.neq('fulfillment_status', 'cancelled');
-          } else {
-            query = query.eq('fulfillment_status', fulfillment_status);
-          }
-        }
-
-        const { data, error } = await query;
-        if (!error && Array.isArray(data)) {
-          orders = data;
-        } else if (error && !isNetworkError(error)) {
-          console.warn('⚠️ [AdminOrders] Falha na query com joins, tentando consulta simples:', error.message);
-          const { data: simpleOrders } = await supabase
-            .from('orders')
-            .select('*')
-            .order('created_at', { ascending: false });
-          if (simpleOrders && Array.isArray(simpleOrders)) {
-            orders = simpleOrders;
-          }
-        }
-      } catch (dbErr) {
-        console.warn('⚠️ [AdminOrders] Supabase temporariamente indisponível:', dbErr.message);
-      }
-
-      let filteredOrders = orders || [];
-
-      // Filtro de busca textual em memória (código, nome, e-mail)
-      if (search && search.trim()) {
-        const term = search.trim().toLowerCase();
-        filteredOrders = filteredOrders.filter(o => {
-          const codeMatch = (o.order_code || '').toLowerCase().includes(term);
-          const nameMatch = (o.customer?.name || '').toLowerCase().includes(term);
-          const emailMatch = (o.customer?.email || '').toLowerCase().includes(term);
-          const phoneMatch = (o.customer?.phone || '').includes(term);
-          return codeMatch || nameMatch || emailMatch || phoneMatch;
-        });
-      }
-
+      const orders = await orderSyncService.getUnifiedOrders(req.query);
       return res.status(200).json({
         success: true,
-        total: filteredOrders.length,
-        data: filteredOrders,
-        orders: filteredOrders
+        total: orders.length,
+        data: orders,
+        orders: orders
       });
     } catch (err) {
       console.error('❌ [AdminController] Erro seguro ao listar pedidos:', err.message);
@@ -585,34 +440,7 @@ const adminController = {
   async getOrderDetails(req, res) {
     try {
       const { id } = req.params;
-
-      let order = null;
-      try {
-        const { data, error: orderErr } = await supabase
-          .from('orders')
-          .select(`
-            *,
-            customer:customers(*),
-            order_items(*),
-            payments(*),
-            order_status_history(*)
-          `)
-          .or(`id.eq.${id},order_code.eq.${id}`)
-          .maybeSingle();
-
-        if (data) {
-          order = data;
-        } else if (orderErr && !isNetworkError(orderErr)) {
-          const { data: simpleOrder } = await supabase
-            .from('orders')
-            .select('*')
-            .or(`id.eq.${id},order_code.eq.${id}`)
-            .maybeSingle();
-          if (simpleOrder) order = simpleOrder;
-        }
-      } catch (dbErr) {
-        console.warn('⚠️ [AdminOrderDetails] Supabase temporariamente indisponível:', dbErr.message);
-      }
+      const order = await orderSyncService.getUnifiedOrderById(id);
 
       if (!order) {
         return res.status(200).json({
@@ -652,6 +480,13 @@ const adminController = {
         });
       }
 
+      // Atualiza no serviço unificado
+      orderSyncService.updateOrderFulfillment(id, {
+        fulfillment_status,
+        tracking_code,
+        payment_status: req.body.payment_status
+      });
+
       const updatePayload = {
         fulfillment_status,
         updated_at: new Date().toISOString()
@@ -671,28 +506,30 @@ const adminController = {
         updatePayload.delivered_at = new Date().toISOString();
       }
 
-      const { data: updatedOrder, error: updateErr } = await supabase
-        .from('orders')
-        .update(updatePayload)
-        .eq('id', id)
-        .select('id, order_code, fulfillment_status, tracking_code, shipped_at')
-        .single();
+      let updatedOrder = null;
+      try {
+        const { data } = await supabase
+          .from('orders')
+          .update(updatePayload)
+          .or(`id.eq.${id},order_code.eq.${id}`)
+          .select('id, order_code, fulfillment_status, tracking_code, shipped_at')
+          .maybeSingle();
+        if (data) updatedOrder = data;
 
-      if (updateErr) throw updateErr;
-
-      // Registra evento no histórico
-      await supabase
-        .from('order_status_history')
-        .insert({
-          order_id: id,
-          status: `fulfillment_${fulfillment_status}`,
-          description: `Status de envio alterado para "${fulfillment_status}"${tracking_code ? ` (Rastreio: ${tracking_code})` : ''} pelo painel administrativo.`
-        });
+        // Registra evento no histórico
+        await supabase
+          .from('order_status_history')
+          .insert({
+            order_id: updatedOrder?.id || id,
+            status: `fulfillment_${fulfillment_status}`,
+            description: `Status de envio alterado para "${fulfillment_status}"${tracking_code ? ` (Rastreio: ${tracking_code})` : ''} pelo painel administrativo.`
+          });
+      } catch (_) {}
 
       return res.json({
         success: true,
         message: 'Status do pedido atualizado com sucesso.',
-        data: updatedOrder
+        data: updatedOrder || { id, fulfillment_status, tracking_code }
       });
     } catch (err) {
       console.warn('⚠️ [AdminController] Erro ou modo contingência ao atualizar envio:', err.message);

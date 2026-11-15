@@ -13,7 +13,7 @@
 
 const supabase = require('../config/supabase');
 
-function withTimeout(promise, ms = 2000) {
+function withTimeout(promise, ms = 8000) {
   return Promise.race([
     promise,
     new Promise((_, reject) => setTimeout(() => reject(new Error('Supabase request timeout')), ms))
@@ -84,7 +84,7 @@ class OrderStatusService {
           .from('orders')
           .select('*, customer:customers(name, email, phone)')
           .eq('id', cleanId)
-          .maybeSingle(), 1500);
+          .maybeSingle());
         if (data) return data;
       }
 
@@ -93,7 +93,7 @@ class OrderStatusService {
         .from('orders')
         .select('*, customer:customers(name, email, phone)')
         .ilike('order_code', cleanId)
-        .maybeSingle(), 1500);
+        .maybeSingle());
       if (byCode) return byCode;
 
       // 3. Tenta localizar através de um pagamento já registrado com esse gateway_payment_id
@@ -101,14 +101,14 @@ class OrderStatusService {
         .from('payments')
         .select('order_id')
         .eq('gateway_payment_id', cleanId)
-        .maybeSingle(), 1500);
+        .maybeSingle());
 
       if (paymentRecord && paymentRecord.order_id) {
         const { data: byPayment } = await withTimeout(supabase
           .from('orders')
           .select('*, customer:customers(name, email, phone)')
           .eq('id', paymentRecord.order_id)
-          .maybeSingle(), 1500);
+          .maybeSingle());
         if (byPayment) return byPayment;
       }
     } catch (err) {
@@ -147,7 +147,7 @@ class OrderStatusService {
         .from('payments')
         .select('id')
         .eq('order_id', orderId)
-        .maybeSingle(), 1500);
+        .maybeSingle());
 
       if (existing) {
         const { data: updated, error: updateErr } = await withTimeout(supabase
@@ -155,7 +155,7 @@ class OrderStatusService {
           .update(payload)
           .eq('id', existing.id)
           .select()
-          .single(), 1500);
+          .single());
 
         if (updateErr) console.error('Erro ao atualizar pagamento inicial:', updateErr);
         return updated;
@@ -164,7 +164,7 @@ class OrderStatusService {
           .from('payments')
           .insert(payload)
           .select()
-          .single(), 1500);
+          .single());
 
         if (insertErr) console.error('Erro ao registrar pagamento inicial:', insertErr);
         return inserted;

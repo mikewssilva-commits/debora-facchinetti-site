@@ -371,8 +371,8 @@ async function loadOrdersData() {
     console.warn('Tentativa via API backend falhou:', err);
   }
 
-  // 2. Consulta de contingência direta ao Supabase REST API caso a API Express falhe ou retorne vazio
-  if (orders === null || (Array.isArray(orders) && orders.length === 0)) {
+  // 2. Consulta de contingência direta ao Supabase REST API apenas se a API do backend estiver totalmente inacessível
+  if (orders === null) {
     try {
       const SUPABASE_REST_URL = 'https://wkqngvfyffzcqgnoahri.supabase.co/rest/v1/orders?select=*,customers(*),order_items(*),payments(*)&order=created_at.desc';
       const SUPABASE_KEY = atob('c2Jfc2VjcmV0X284aVBleXJOSlVUaUZiTDkwM1ZnVWdfZFhfV2s5dW4=');
