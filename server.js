@@ -200,7 +200,8 @@ const pages = [
   'palestras',
   'depoimentos',
   'contato',
-  'rastreio'
+  'rastreio',
+  'acompanhar-pedido'
 ];
 
 // Rota raiz

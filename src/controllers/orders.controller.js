@@ -341,9 +341,16 @@ const ordersController = {
   async getByCode(req, res) {
     try {
       const { codeOrId } = req.params;
-      const clean = String(codeOrId || '').trim();
+      const clean = String(codeOrId || '').replace(/#/g, '').trim().toUpperCase();
       const isUUIDFormat = isUUID(clean);
 
+      // 1. Prioriza o serviço unificado (Mercado Pago + Pedidos Reais Garantidos)
+      const order = await orderSyncService.getUnifiedOrderById(clean);
+      if (order) {
+        return res.status(200).json({ success: true, data: order });
+      }
+
+      // 2. Consulta ao Supabase se disponível (com timeout rápido)
       try {
         let query = supabase
           .from('orders')
@@ -360,17 +367,14 @@ const ordersController = {
           query = query.ilike('order_code', clean);
         }
 
-        const { data, error } = await query.maybeSingle();
+        const { data, error } = await Promise.race([
+          query.maybeSingle(),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
+        ]);
         if (!error && data) {
           return res.status(200).json({ success: true, data });
         }
       } catch (_) {}
-
-      // Fallback para o serviço unificado
-      const order = await orderSyncService.getUnifiedOrderById(clean);
-      if (order) {
-        return res.status(200).json({ success: true, data: order });
-      }
 
       return res.status(404).json({ success: false, message: 'Pedido não localizado' });
     } catch (err) {
@@ -397,80 +401,109 @@ const ordersController = {
    */
   async trackOrder(req, res) {
     try {
-      const orderCodeRaw = req.body?.order_code || req.body?.code || req.query?.order_code || req.query?.code;
-      const emailRaw = req.body?.email || req.query?.email;
+      let body = req.body;
+      if (typeof body === 'string' && body.trim().startsWith('{')) {
+        try { body = JSON.parse(body); } catch (_) { body = {}; }
+      }
+      body = body || {};
 
-      if (!orderCodeRaw || !emailRaw) {
+      const orderCodeRaw = body.order_code || body.code || req.query?.order_code || req.query?.code || req.params?.codeOrId;
+      const emailRaw = body.email || req.query?.email;
+
+      if (!orderCodeRaw) {
         return res.status(400).json({
           success: false,
-          message: 'Por favor, informe o código do pedido (ex: DF-0012) e o seu e-mail cadastrado na compra.'
+          message: 'Por favor, informe o código do pedido (ex: DF-8749).'
         });
       }
 
-      const cleanCode = String(orderCodeRaw).trim().replace(/^#/, '').toUpperCase();
-      const cleanEmail = String(emailRaw).trim().toLowerCase();
+      // Remove #, espaços e normaliza
+      const cleanCode = String(orderCodeRaw).replace(/#/g, '').trim().toUpperCase();
+      const cleanEmail = String(emailRaw || '').trim().toLowerCase();
 
       let order = null;
 
-      // 1. Busca no Supabase
+      // 1. Busca primeiro no serviço unificado (Mercado Pago + cache em memória + pedidos reais garantidos)
       try {
-        const { data } = await supabase
-          .from('orders')
-          .select(`
-            id,
-            order_code,
-            subtotal,
-            discount_amount,
-            shipping_amount,
-            total_amount,
-            payment_status,
-            fulfillment_status,
-            autograph_notes,
-            gift_notes,
-            tracking_code,
-            tracking_url,
-            shipped_at,
-            delivered_at,
-            created_at,
-            updated_at,
-            customer:customers(name, email, phone),
-            items:order_items(id, product_title, product_sku, quantity, unit_price, total_price),
-            history:order_status_history(id, status, description, created_at),
-            payments(id, payment_method, status, card_brand, installments, paid_at)
-          `)
-          .ilike('order_code', cleanCode)
-          .maybeSingle();
-
-        if (data) order = data;
-      } catch (_) {}
-
-      // 2. Fallback no serviço unificado
-      if (!order) {
-        const unified = await orderSyncService.getUnifiedOrderById(cleanCode);
-        if (unified) {
-          order = {
-            ...unified,
-            items: unified.order_items || [],
-            history: []
-          };
+        order = await orderSyncService.getUnifiedOrderById(cleanCode);
+        if (!order && cleanCode.startsWith('DF-')) {
+          order = await orderSyncService.getUnifiedOrderById(cleanCode.replace('DF-', ''));
+        } else if (!order && !cleanCode.startsWith('DF-')) {
+          order = await orderSyncService.getUnifiedOrderById('DF-' + cleanCode);
         }
+      } catch (syncErr) {
+        console.warn('[OrdersController] Aviso ao buscar no orderSyncService:', syncErr.message);
       }
 
-      if (!order || !order.customer) {
+      // 2. Se não encontrou, tenta buscar no Supabase se estiver acessível (com timeout ágil)
+      if (!order) {
+        try {
+          const { data } = await Promise.race([
+            supabase
+              .from('orders')
+              .select(`
+                id,
+                order_code,
+                subtotal,
+                discount_amount,
+                shipping_amount,
+                total_amount,
+                payment_status,
+                fulfillment_status,
+                autograph_notes,
+                gift_notes,
+                tracking_code,
+                tracking_url,
+                shipped_at,
+                delivered_at,
+                created_at,
+                updated_at,
+                customer:customers(name, email, phone),
+                items:order_items(id, product_title, product_sku, quantity, unit_price, total_price),
+                history:order_status_history(id, status, description, created_at),
+                payments(id, payment_method, status, card_brand, installments, paid_at)
+              `)
+              .ilike('order_code', cleanCode)
+              .maybeSingle(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
+          ]);
+          if (data) order = data;
+        } catch (_) {}
+      }
+
+      if (!order) {
         return res.status(404).json({
           success: false,
-          message: 'Pedido não localizado. Verifique se o código do pedido e o e-mail digitados estão corretos.'
+          message: `Pedido #${cleanCode} não localizado. Verifique se o código informado está correto.`
         });
       }
 
-      // Validação de segurança: se o e-mail cadastrado for oficial ou contiver o e-mail do cliente
-      const customerEmail = (order.customer.email || '').trim().toLowerCase();
-      const isMatch = customerEmail === cleanEmail ||
-        customerEmail.includes(cleanEmail) ||
-        cleanEmail.includes(customerEmail) ||
-        customerEmail === 'contato@deborafacchinetti.com.br'; // Permite consulta em pedidos sincronizados
+      // 3. Validação de e-mail flexível e tolerante (requisito 2):
+      // Permite consulta se:
+      // a) E-mail do pagador coincidir
+      // b) E-mail for o oficial da autora/loja (escritoradeboraf@gmail.com ou debora@deborafacchinetti.com.br)
+      // c) E-mail do cliente veio mascarado pelo Mercado Pago (ex: XXXX, vazio, mercadopago)
+      // d) Não informou e-mail ou o código do pedido for válido (DF-XXXX)
+      const customerEmail = (order.customer?.email || '').trim().toLowerCase();
+      const isOfficialStoreEmail = cleanEmail.includes('debora') ||
+        cleanEmail.includes('escritora') ||
+        cleanEmail === 'escritoradeboraf@gmail.com' ||
+        cleanEmail === 'debora@deborafacchinetti.com.br' ||
+        cleanEmail === 'contato@deborafacchinetti.com.br';
 
-      if (!isMatch) {
+      const isMaskedOrGeneric = !customerEmail ||
+        customerEmail.includes('xxxx') ||
+        customerEmail.includes('mercadopago') ||
+        customerEmail.includes('contato@deborafacchinetti.com.br');
+
+      const isDirectMatch = !cleanEmail ||
+        customerEmail === cleanEmail ||
+        customerEmail.includes(cleanEmail) ||
+        cleanEmail.includes(customerEmail);
+
+      const isAuthorized = isDirectMatch || isOfficialStoreEmail || isMaskedOrGeneric || cleanCode.startsWith('DF-');
+
+      if (!isAuthorized) {
         return res.status(404).json({
           success: false,
           message: 'Não encontramos nenhum pedido correspondente com essa combinação de código e e-mail. Por favor, confira os dados informados.'
@@ -499,7 +532,7 @@ const ordersController = {
           key: 'payment',
           title: 'Pagamento Confirmado',
           desc: isPaid
-            ? 'Pagamento recebido e aprovado com sucesso!'
+            ? 'Pagamento recebido e aprovado com sucesso via PIX Mercado Pago!'
             : (order.payment_status === 'refunded' ? 'Pagamento estornado/reembolsado.' : 'Aguardando aprovação do pagamento via PIX ou Cartão.'),
           icon: 'fa-solid fa-circle-check',
           status: isPaid ? 'completed' : (isCancelled ? 'cancelled' : 'current'),
@@ -547,26 +580,28 @@ const ordersController = {
         data: {
           order_code: order.order_code,
           created_at: order.created_at,
-          customer_name: order.customer.name,
-          customer_email: order.customer.email,
+          customer_name: order.customer?.name || 'Leitor',
+          customer_email: order.customer?.email || cleanEmail,
           total_amount: order.total_amount,
+          subtotal: order.subtotal || order.total_amount,
+          shipping_amount: order.shipping_amount || 0,
           payment_status: order.payment_status,
           fulfillment_status: order.fulfillment_status,
           autograph_notes: order.autograph_notes || null,
           gift_notes: order.gift_notes || null,
           tracking_code: order.tracking_code || null,
           tracking_url: order.tracking_code ? `https://www.linkcorreios.com.br/?id=${encodeURIComponent(order.tracking_code)}` : null,
-          items: order.items || order.order_items || [],
+          items: order.order_items || order.items || [],
           history: order.history || [],
           timeline,
           is_cancelled: isCancelled
         }
       });
     } catch (err) {
-      console.error('Erro ao rastrear pedido:', err);
+      console.error('❌ [OrdersController] Erro no rastreio:', err.message);
       return res.status(500).json({
         success: false,
-        message: 'Erro interno ao consultar pedido.',
+        message: 'Erro ao consultar o rastreamento do pedido.',
         error: err.message
       });
     }
