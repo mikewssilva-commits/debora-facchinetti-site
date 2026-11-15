@@ -103,3 +103,4 @@ main().catch(err => {
   console.error('Erro na execução do script:', err);
   process.exit(1);
 });
+

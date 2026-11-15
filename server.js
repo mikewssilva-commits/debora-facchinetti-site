@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   try {
     const parsedUrl = new URL(req.url, 'http://localhost');
 
-    // 1.1 Checa query params de rewrite (_apiPath, __path, path)
+    // 1.1 Checa query params de rewrite (_apiPath, __path, path, 1)
     if (parsedUrl.searchParams.has('_apiPath')) {
       originalPath = parsedUrl.searchParams.get('_apiPath');
       parsedUrl.searchParams.delete('_apiPath');
@@ -26,6 +26,12 @@ app.use((req, res, next) => {
       const p = parsedUrl.searchParams.get('path');
       originalPath = p.startsWith('/') ? p : '/' + p;
       parsedUrl.searchParams.delete('path');
+    } else if (parsedUrl.searchParams.has('1')) {
+      const p1 = parsedUrl.searchParams.get('1');
+      if (p1 && !p1.includes('index.js')) {
+        originalPath = p1.startsWith('/') ? '/api' + p1 : '/api/' + p1;
+      }
+      parsedUrl.searchParams.delete('1');
     }
 
     // 1.2 Checa headers da Vercel (x-matched-path, x-forwarded-uri, x-original-uri)
