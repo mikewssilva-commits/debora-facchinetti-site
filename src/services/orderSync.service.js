@@ -59,9 +59,10 @@ const GUARANTEED_SALE_DF8749 = {
   updated_at: '2026-11-13T18:30:22.000Z',
   customer: {
     id: 'cust_DF-8749',
-    name: 'Cliente (Banco do Brasil S.A.)',
-    email: 'escritoradeboraf@gmail.com',
-    phone: '86988891466'
+    name: 'Cliente Titular (Banco do Brasil S.A.)',
+    email: '',
+    phone: '',
+    bank_info: 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284'
   },
   payments: [
     {
@@ -72,7 +73,8 @@ const GUARANTEED_SALE_DF8749 = {
       paid_at: '2026-11-13T18:30:22.000Z',
       card_brand: null,
       card_last_four: null,
-      installments: 1
+      installments: 1,
+      bank_info: 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284'
     }
   ],
   order_items: [
@@ -87,13 +89,13 @@ const GUARANTEED_SALE_DF8749 = {
     }
   ],
   shipping_address: {
-    street: 'Rua Principal / Entrega Correios',
-    number: 'S/N',
-    neighborhood: 'Centro',
-    city: 'Teresina',
-    state: 'PI',
-    zip_code: '64000-000',
-    shipping_method: 'Correios (Impresso Módico R$ 14,90)'
+    street: 'Aguardando confirmação de endereço',
+    number: '',
+    neighborhood: '',
+    city: '',
+    state: '',
+    zip_code: '',
+    shipping_method: 'A definir / Correios'
   }
 };
 
@@ -192,26 +194,60 @@ const orderSyncService = {
         fulfillmentStatus = 'cancelled';
       }
 
-      // Dados do Pagador / Cliente
-      let customerName = 'Cliente Débora Facchinetti';
-      let customerEmail = 'contato@deborafacchinetti.com.br';
-      let customerPhone = '';
+      // Dados do Pagador / Cliente (extraídos com prioridade do metadata gravado no checkout)
+      let customerName = (p.metadata?.customer_name || '').trim();
+      let customerEmail = (p.metadata?.customer_email || '').trim();
+      let customerPhone = (p.metadata?.customer_phone || '').trim();
+      let customerCpf = (p.metadata?.customer_cpf || '').trim();
 
-      if (p.payer) {
-        if (p.payer.first_name || p.payer.last_name) {
-          customerName = `${p.payer.first_name || ''} ${p.payer.last_name || ''}`.trim();
-        }
-        if (p.payer.email && !p.payer.email.includes('XXXX') && p.payer.email.includes('@')) {
-          customerEmail = p.payer.email;
-        }
-        if (p.payer.phone?.number) {
-          customerPhone = p.payer.phone.number;
+      // Se não veio no metadata, tenta ler de additional_info.payer
+      if (!customerName && p.additional_info?.payer) {
+        const pName = `${p.additional_info.payer.first_name || ''} ${p.additional_info.payer.last_name || ''}`.trim();
+        if (pName) customerName = pName;
+        if (!customerPhone && p.additional_info.payer.phone?.number) {
+          customerPhone = String(p.additional_info.payer.phone.number).trim();
         }
       }
 
-      const bankPayer = p.point_of_interaction?.transaction_data?.bank_info?.payer;
-      if (bankPayer && bankPayer.long_name && customerName === 'Cliente Débora Facchinetti') {
-        customerName = `Cliente (${bankPayer.long_name})`;
+      // Se não veio, tenta ler de payer direto se não for mascarado
+      if (p.payer) {
+        if (!customerName && (p.payer.first_name || p.payer.last_name)) {
+          customerName = `${p.payer.first_name || ''} ${p.payer.last_name || ''}`.trim();
+        }
+        if (!customerEmail && p.payer.email && !p.payer.email.includes('XXXX') && p.payer.email.includes('@')) {
+          customerEmail = p.payer.email.trim();
+        }
+        if (!customerPhone && p.payer.phone?.number) {
+          customerPhone = String(p.payer.phone.number).trim();
+        }
+        if (!customerCpf && p.payer.identification?.number) {
+          customerCpf = String(p.payer.identification.number).trim();
+        }
+      }
+
+      // Dados bancários específicos (quando pago via PIX/Transferência bancária)
+      const bankData = p.point_of_interaction?.transaction_data?.bank_info;
+      let bankInfoStr = '';
+      if (bankData) {
+        const bName = bankData.payer?.long_name || bankData.payer?.id || '';
+        const bBank = bankData.origin_bank_id || '';
+        const bAcc = bankData.account_id || '';
+        bankInfoStr = `Banco: ${bBank} | Conta: ${bAcc} ${bName ? '| ' + bName : ''}`.trim();
+        if (!customerName && bName) {
+          customerName = `Cliente (${bName})`;
+        }
+      }
+
+      // Caso específico para a venda real confirmada DF-8749 (origem Banco do Brasil)
+      if (orderCode === 'DF-8749' || String(p.id) === '188388798915') {
+        if (!customerName || customerName.includes('Débora Facchinetti')) {
+          customerName = 'Cliente Titular (Banco do Brasil S.A.)';
+        }
+        bankInfoStr = 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284';
+      }
+
+      if (!customerName) {
+        customerName = 'Cliente';
       }
 
       // Produto adquirido
@@ -248,6 +284,51 @@ const orderSyncService = {
       const currentFulfillment = existingInCache?.fulfillment_status || fulfillmentStatus;
       const currentTracking = existingInCache?.tracking_code || null;
 
+      // Itens do pedido (recuperados do metadata ou additional_info)
+      let parsedOrderItems = [];
+      if (p.metadata?.items) {
+        try {
+          const rawItems = typeof p.metadata.items === 'string' ? JSON.parse(p.metadata.items) : p.metadata.items;
+          if (Array.isArray(rawItems) && rawItems.length > 0) {
+            parsedOrderItems = rawItems.map((it, idx) => ({
+              id: deterministicUUID(`item_${orderCode}_${idx}`),
+              order_id: orderId,
+              product_title: it.title || it.product_title || 'Livro Débora Facchinetti',
+              product_sku: it.sku || it.product_sku || 'LIV',
+              unit_price: Number(it.unit_price || it.price || amount),
+              quantity: Number(it.quantity || 1),
+              total_price: Number(it.unit_price || it.price || amount) * Number(it.quantity || 1)
+            }));
+          }
+        } catch (_) {}
+      }
+      if (parsedOrderItems.length === 0 && p.additional_info?.items && Array.isArray(p.additional_info.items)) {
+        parsedOrderItems = p.additional_info.items.map((it, idx) => ({
+          id: deterministicUUID(`item_${orderCode}_${idx}`),
+          order_id: orderId,
+          product_title: it.title || productTitle,
+          product_sku: it.id || productSku,
+          unit_price: Number(it.unit_price || amount),
+          quantity: Number(it.quantity || 1),
+          total_price: Number(it.unit_price || amount) * Number(it.quantity || 1)
+        }));
+      }
+
+      // Endereço de entrega (do metadata gravado no checkout)
+      let shippingAddressObj = null;
+      if (p.metadata?.shipping_address) {
+        shippingAddressObj = {
+          street: p.metadata.shipping_address || '',
+          number: p.metadata.shipping_number || '',
+          complement: p.metadata.shipping_complement || '',
+          neighborhood: p.metadata.shipping_bairro || '',
+          city: p.metadata.shipping_city || '',
+          state: p.metadata.shipping_state || '',
+          zip_code: p.metadata.shipping_cep || '',
+          shipping_method: p.metadata.shipping_method || 'Correios'
+        };
+      }
+
       const unifiedOrder = {
         id: orderId,
         order_code: orderCode,
@@ -264,11 +345,12 @@ const orderSyncService = {
         updated_at: p.date_approved || p.date_last_updated || p.date_created,
         customer: {
           id: customerId,
-          name: existingInCache?.customer?.name && existingInCache.customer.name !== 'Cliente Débora Facchinetti'
+          name: existingInCache?.customer?.name && !existingInCache.customer.name.includes('Débora Facchinetti')
             ? existingInCache.customer.name
             : customerName,
           email: existingInCache?.customer?.email || customerEmail,
-          phone: existingInCache?.customer?.phone || customerPhone
+          phone: existingInCache?.customer?.phone || customerPhone,
+          bank_info: bankInfoStr || existingInCache?.customer?.bank_info || null
         },
         payments: [
           {
@@ -279,27 +361,33 @@ const orderSyncService = {
             paid_at: p.date_approved || null,
             card_brand: p.payment_method_id === 'pix' ? null : p.payment_method_id,
             card_last_four: p.card?.last_four_digits || null,
-            installments: p.installments || 1
+            installments: p.installments || 1,
+            bank_info: bankInfoStr || null
           }
         ],
-        order_items: existingInCache?.order_items && existingInCache.order_items.length > 0
+        order_items: (existingInCache?.order_items && existingInCache.order_items.length > 0)
           ? existingInCache.order_items
-          : [
-            {
-              id: deterministicUUID('item_' + orderCode),
-              order_id: orderId,
-              product_title: productTitle,
-              product_sku: productSku,
-              unit_price: amount,
-              quantity: 1,
-              total_price: amount
-            }
-          ],
-        shipping_address: existingInCache?.shipping_address || {
-          street: 'Endereço registrado pelo cliente',
-          city: 'Teresina',
-          state: 'PI',
-          zip_code: '64000-000',
+          : (parsedOrderItems.length > 0
+            ? parsedOrderItems
+            : [
+              {
+                id: deterministicUUID('item_' + orderCode),
+                order_id: orderId,
+                product_title: productTitle,
+                product_sku: productSku,
+                unit_price: amount,
+                quantity: 1,
+                total_price: amount
+              }
+            ]),
+        shipping_address: existingInCache?.shipping_address || shippingAddressObj || {
+          street: (orderCode === 'DF-8749') ? 'Aguardando confirmação de endereço' : 'Endereço registrado pelo cliente',
+          number: '',
+          complement: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          zip_code: '',
           shipping_method: 'Correios'
         }
       };
@@ -322,26 +410,28 @@ const orderSyncService = {
 
       // 1. Cliente
       let custId = order.customer.id;
-      const { data: existingCust } = await supabase
-        .from('customers')
-        .select('id')
-        .eq('email', order.customer.email)
-        .maybeSingle();
-
-      if (existingCust && existingCust.id) {
-        custId = existingCust.id;
-      } else {
-        const { data: newCust } = await supabase
+      if (order.customer.email) {
+        const { data: existingCust } = await supabase
           .from('customers')
-          .insert({
-            id: custId,
-            name: order.customer.name,
-            email: order.customer.email,
-            phone: order.customer.phone || '86988891466'
-          })
           .select('id')
-          .single();
-        if (newCust && newCust.id) custId = newCust.id;
+          .eq('email', order.customer.email)
+          .maybeSingle();
+
+        if (existingCust && existingCust.id) {
+          custId = existingCust.id;
+        } else {
+          const { data: newCust } = await supabase
+            .from('customers')
+            .insert({
+              id: custId,
+              name: order.customer.name,
+              email: order.customer.email,
+              phone: order.customer.phone || null
+            })
+            .select('id')
+            .single();
+          if (newCust && newCust.id) custId = newCust.id;
+        }
       }
 
       // 2. Pedido

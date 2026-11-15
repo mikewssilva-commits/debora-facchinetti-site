@@ -2736,6 +2736,27 @@
         }
 
         try {
+          const paymentCustomerPayload = {
+            name,
+            phone,
+            email,
+            cpf,
+            address,
+            number,
+            complement,
+            bairro,
+            city,
+            state,
+            cep,
+            shipping_method: selectedShipping ? selectedShipping.id : 'correios_modico'
+          };
+          const paymentItemsPayload = (cart.items || []).map(item => ({
+            id: item.id,
+            title: item.title,
+            quantity: item.qty,
+            unit_price: item.price
+          }));
+
           let payRes = await fetch('/api/payments/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2743,7 +2764,10 @@
               order_id: orderId,
               order_code: orderCode,
               payment_type: 'pix',
-              customer: { name, phone, email, address, bairro, city, state, cep },
+              customer: paymentCustomerPayload,
+              items: paymentItemsPayload,
+              autograph_notes: autograph,
+              gift_notes: giftSelected,
               total_amount: grandTotal
             })
           });
@@ -2756,7 +2780,10 @@
                 order_id: orderId,
                 order_code: orderCode,
                 payment_type: 'pix',
-                customer: { name, phone, email, address, bairro, city, state, cep },
+                customer: paymentCustomerPayload,
+                items: paymentItemsPayload,
+                autograph_notes: autograph,
+                gift_notes: giftSelected,
                 total_amount: grandTotal
               })
             });
@@ -2870,6 +2897,27 @@
             token = `TEST_CARD_TOKEN_${Date.now()}`;
           }
 
+          const cardCustomerPayload = {
+            name,
+            phone,
+            email,
+            cpf: cardholderCpf || cpf,
+            address,
+            number,
+            complement,
+            bairro,
+            city,
+            state,
+            cep,
+            shipping_method: selectedShipping ? selectedShipping.id : 'correios_modico'
+          };
+          const cardItemsPayload = (cart.items || []).map(item => ({
+            id: item.id,
+            title: item.title,
+            quantity: item.qty,
+            unit_price: item.price
+          }));
+
           let payRes = await fetch('/api/payments/create', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2877,7 +2925,10 @@
               order_id: orderId,
               order_code: orderCode,
               payment_type: 'card',
-              customer: { name, phone, email, address, bairro, city, state, cep },
+              customer: cardCustomerPayload,
+              items: cardItemsPayload,
+              autograph_notes: autograph,
+              gift_notes: giftSelected,
               total_amount: grandTotal,
               token: token,
               installments: installmentsVal,
@@ -2895,7 +2946,10 @@
                 order_id: orderId,
                 order_code: orderCode,
                 payment_type: 'card',
-                customer: { name, phone, email, address, bairro, city, state, cep },
+                customer: cardCustomerPayload,
+                items: cardItemsPayload,
+                autograph_notes: autograph,
+                gift_notes: giftSelected,
                 total_amount: grandTotal,
                 token: token,
                 installments: installmentsVal,

@@ -29,9 +29,10 @@ const GUARANTEED_REAL_ORDERS = [
     updated_at: '2026-11-13T18:30:22.000Z',
     customer: {
       id: 'cust_DF-8749',
-      name: 'Cliente (Banco do Brasil S.A.)',
-      email: 'escritoradeboraf@gmail.com',
-      phone: '86988891466'
+      name: 'Cliente Titular (Banco do Brasil S.A.)',
+      email: '',
+      phone: '',
+      bank_info: 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284'
     },
     payments: [
       {
@@ -42,7 +43,8 @@ const GUARANTEED_REAL_ORDERS = [
         paid_at: '2026-11-13T18:30:22.000Z',
         card_brand: null,
         card_last_four: null,
-        installments: 1
+        installments: 1,
+        bank_info: 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284'
       }
     ],
     order_items: [
@@ -57,13 +59,13 @@ const GUARANTEED_REAL_ORDERS = [
       }
     ],
     shipping_address: {
-      street: 'Rua Principal / Entrega Correios',
-      number: 'S/N',
-      neighborhood: 'Centro',
-      city: 'Teresina',
-      state: 'PI',
-      zip_code: '64000-000',
-      shipping_method: 'Correios (Impresso Módico R$ 14,90)'
+      street: 'Aguardando confirmação de endereço',
+      number: '',
+      neighborhood: '',
+      city: '',
+      state: '',
+      zip_code: '',
+      shipping_method: 'A definir / Correios'
     }
   }
 ];
@@ -679,6 +681,12 @@ async function openOrderModal(orderId) {
               </a>
             ` : ''}
           </div>
+          ${customer.bank_info || order.payments?.[0]?.bank_info || (order.order_code === 'DF-8749' ? 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284' : '') ? `
+            <div class="detail-item-line" style="color: #1e3a8a; background: #eff6ff; padding: 0.4rem 0.6rem; border-radius: 6px; margin-top: 0.4rem; font-size: 0.8rem; border: 1px solid #bfdbfe;">
+              <strong><i class="fa-solid fa-building-columns"></i> Pagamento Bancário:</strong><br>
+              ${customer.bank_info || order.payments?.[0]?.bank_info || 'Banco do Brasil S.A. | Agência: 3178 | Conta: 6080855 | ID PIX: 130208802284'}
+            </div>
+          ` : ''}
           <div class="detail-item-line"><strong>Data do Pedido:</strong> ${dateFormatted}</div>
         </div>
 

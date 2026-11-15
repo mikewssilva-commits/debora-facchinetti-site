@@ -77,14 +77,19 @@ const paymentsController = {
               name: order.customer.name,
               email: order.customer.email,
               phone: order.customer.phone,
+              cpf: order.customer.cpf,
               ...orderCustomer
             };
           }
           if (order.shipping_address) {
             orderCustomer.address = orderCustomer.address || order.shipping_address.street;
+            orderCustomer.number = orderCustomer.number || order.shipping_address.number;
+            orderCustomer.complement = orderCustomer.complement || order.shipping_address.complement;
+            orderCustomer.bairro = orderCustomer.bairro || order.shipping_address.bairro;
             orderCustomer.cep = orderCustomer.cep || order.shipping_address.zip_code;
             orderCustomer.city = orderCustomer.city || order.shipping_address.city;
             orderCustomer.state = orderCustomer.state || order.shipping_address.state;
+            orderCustomer.shipping_method = orderCustomer.shipping_method || order.shipping_address.shipping_method;
           }
 
           // Busca os itens do pedido no Supabase se não foram passados
@@ -105,7 +110,9 @@ const paymentsController = {
         order = {
           id: order_id || `temp_${Date.now()}`,
           order_code: order_code || `DF-TEMP-${Date.now().toString().slice(-4)}`,
-          total_amount: Number(req.body.total_amount || 0)
+          total_amount: Number(req.body.total_amount || 0),
+          autograph_notes: req.body.autograph_notes || null,
+          gift_notes: req.body.gift_notes || null
         };
       } else if (req.body.total_amount && (!order.total_amount || Number(order.total_amount) === 0)) {
         order.total_amount = Number(req.body.total_amount);
@@ -116,6 +123,7 @@ const paymentsController = {
         const pixResult = await mercadopagoService.createPixPayment({
           order,
           customer: orderCustomer,
+          items: orderItems,
           description
         });
 
@@ -159,6 +167,7 @@ const paymentsController = {
         const cardResult = await mercadopagoService.createCardPayment({
           order,
           customer: orderCustomer,
+          items: orderItems,
           token,
           installments,
           paymentMethodId: payment_method_id,

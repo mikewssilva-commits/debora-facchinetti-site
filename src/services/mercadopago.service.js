@@ -163,7 +163,7 @@ class MercadoPagoService {
     // Separa nome e sobrenome do cliente
     const nameParts = (customer.name || 'Cliente').trim().split(' ');
     const firstName = nameParts[0] || 'Cliente';
-    const lastName = nameParts.slice(1).join(' ') || 'Facchinetti';
+    const lastName = nameParts.slice(1).join(' ') || '';
 
     // No Mercado Pago, auto_return só é aceito se back_urls.success for uma URL HTTPS válida
     const isHttpsSuccess = urls.success && urls.success.startsWith('https://');
@@ -173,7 +173,7 @@ class MercadoPagoService {
       items: formattedItems,
       payer: {
         name: firstName,
-        surname: lastName,
+        ...(lastName ? { surname: lastName } : {}),
         email: customer.email || 'comprador@exemplo.com',
         phone: {
           number: customer.phone ? String(customer.phone).replace(/\D/g, '') : ''
@@ -193,10 +193,22 @@ class MercadoPagoService {
       },
       statement_descriptor: 'DEBORAFACCHINETTI',
       metadata: {
-        order_id: order.id,
-        order_code: order.order_code,
-        autograph_notes: order.autograph_notes || null,
-        gift_notes: order.gift_notes || null
+        order_id: String(order.id || ''),
+        order_code: String(order.order_code || ''),
+        customer_name: String(customer.name || ''),
+        customer_email: String(customer.email || ''),
+        customer_phone: String(customer.phone || ''),
+        customer_cpf: String(customer.cpf ? String(customer.cpf).replace(/\D/g, '') : ''),
+        shipping_street: String(customer.address || customer.street || ''),
+        shipping_number: String(customer.number || ''),
+        shipping_complement: String(customer.complement || ''),
+        shipping_neighborhood: String(customer.bairro || customer.neighborhood || ''),
+        shipping_city: String(customer.city || ''),
+        shipping_state: String(customer.state || ''),
+        shipping_cep: String(customer.cep || customer.zip_code || ''),
+        shipping_method: String(customer.shipping_method || order.shipping_method || ''),
+        autograph_notes: order.autograph_notes || customer.autograph_notes || null,
+        gift_notes: order.gift_notes || customer.gift_notes || null
       }
     };
 
@@ -236,21 +248,52 @@ class MercadoPagoService {
    * 
    * @param {Object} params
    * @param {Object} params.order Pedido com order_code, id, total_amount, etc.
-   * @param {Object} params.customer Dados do pagador { name, email, phone, cpf }
+   * @param {Object} params.customer Dados do pagador { name, email, phone, cpf, address, number, complement, bairro, city, state, cep }
+   * @param {Array} [params.items] Itens adquiridos no pedido
    * @param {string} [params.description] Descrição que aparecerá no extrato do PIX
    * @returns {Promise<Object>} Dados do PIX gerado (QR Code, Copia e Cola, ID da transação)
    */
-  async createPixPayment({ order, customer, description }) {
+  async createPixPayment({ order, customer, items, description }) {
+    order = order || {};
+    customer = customer || {};
+    items = items || order.items || order.order_items || [];
+
     const amount = Number(order.total_amount || 0);
     const externalReference = order.id || order.order_code;
     const cleanCpf = customer.cpf ? String(customer.cpf).replace(/\D/g, '') : '';
+    const cleanPhone = customer.phone ? String(customer.phone).replace(/\D/g, '') : '';
     const notificationUrl = `${this.siteUrl}/api/payments/webhook`;
 
     const nameParts = (customer.name || 'Cliente').trim().split(' ');
     const firstName = nameParts[0] || 'Cliente';
-    const lastName = nameParts.slice(1).join(' ') || 'Facchinetti';
+    const lastName = nameParts.slice(1).join(' ') || '';
 
     const isHttpsNotification = notificationUrl && notificationUrl.startsWith('https://');
+
+    // Endereço completo formatado
+    const fullAddress = [
+      customer.address || customer.street || '',
+      customer.number ? `nº ${customer.number}` : '',
+      customer.complement ? `(${customer.complement})` : '',
+      customer.bairro || customer.neighborhood ? `Bairro: ${customer.bairro || customer.neighborhood}` : '',
+      customer.city ? `${customer.city} - ${customer.state || ''}` : '',
+      (customer.cep || customer.zip_code) ? `CEP: ${customer.cep || customer.zip_code}` : ''
+    ].filter(Boolean).join(' • ');
+
+    const formattedItems = Array.isArray(items) && items.length > 0 ? items.map(it => ({
+      id: String(it.id || it.product_id || it.sku || 'LIVRO-DF'),
+      title: String(it.title || it.product_title || 'Livro Débora Facchinetti'),
+      description: String(it.description || it.title || 'Literatura Infantil'),
+      quantity: Number(it.quantity || 1),
+      unit_price: Number(it.unit_price || it.price || amount)
+    })) : [
+      {
+        id: 'LIVRO-DF',
+        title: description || `Livro — Pedido ${order.order_code || ''}`,
+        quantity: 1,
+        unit_price: amount
+      }
+    ];
 
     const paymentBody = {
       transaction_amount: amount,
@@ -259,17 +302,61 @@ class MercadoPagoService {
       payer: {
         email: customer.email || 'comprador@exemplo.com',
         first_name: firstName,
-        last_name: lastName,
-        identification: cleanCpf.length === 11 ? {
-          type: 'CPF',
-          number: cleanCpf
-        } : undefined
+        ...(lastName ? { last_name: lastName } : {}),
+        ...(cleanPhone ? {
+          phone: {
+            area_code: cleanPhone.slice(0, 2),
+            number: cleanPhone.slice(2)
+          }
+        } : {}),
+        ...(cleanCpf.length === 11 ? {
+          identification: {
+            type: 'CPF',
+            number: cleanCpf
+          }
+        } : {})
       },
       external_reference: String(externalReference),
       ...(isHttpsNotification ? { notification_url: notificationUrl } : {}),
+      // Metadata oficial gravado no Mercado Pago:
+      // Garante que mesmo com Supabase fora do ar, o Mercado Pago preserva TODOS os dados do comprador!
       metadata: {
-        order_id: order.id,
-        order_code: order.order_code
+        order_id: String(order.id || ''),
+        order_code: String(order.order_code || ''),
+        customer_name: String(customer.name || ''),
+        customer_email: String(customer.email || ''),
+        customer_phone: String(customer.phone || ''),
+        customer_cpf: String(cleanCpf || ''),
+        shipping_address: String(fullAddress || ''),
+        shipping_street: String(customer.address || customer.street || ''),
+        shipping_number: String(customer.number || ''),
+        shipping_complement: String(customer.complement || ''),
+        shipping_neighborhood: String(customer.bairro || customer.neighborhood || ''),
+        shipping_city: String(customer.city || ''),
+        shipping_state: String(customer.state || ''),
+        shipping_cep: String(customer.cep || customer.zip_code || ''),
+        shipping_method: String(customer.shipping_method || order.shipping_method || ''),
+        autograph_notes: String(order.autograph_notes || customer.autograph_notes || ''),
+        gift_notes: String(order.gift_notes || customer.gift_notes || ''),
+        items_summary: formattedItems.map(i => `${i.quantity}x ${i.title}`).join(', ')
+      },
+      additional_info: {
+        payer: {
+          first_name: firstName,
+          ...(lastName ? { last_name: lastName } : {}),
+          ...(cleanPhone ? {
+            phone: {
+              area_code: cleanPhone.slice(0, 2),
+              number: cleanPhone.slice(2)
+            }
+          } : {}),
+          address: {
+            zip_code: customer.cep || customer.zip_code || undefined,
+            street_name: customer.address || customer.street || undefined,
+            street_number: Number(customer.number) || undefined
+          }
+        },
+        items: formattedItems
       }
     };
 
@@ -372,6 +459,7 @@ class MercadoPagoService {
   async createCardPayment({
     order,
     customer,
+    items,
     token,
     installments = 1,
     paymentMethodId,
@@ -379,15 +467,45 @@ class MercadoPagoService {
     cardholderName,
     cardholderCpf
   }) {
+    order = order || {};
+    customer = customer || {};
+    items = items || order.items || order.order_items || [];
+
     const amount = Number(order.total_amount || 0);
     const externalReference = order.id || order.order_code;
     const cleanCpf = (cardholderCpf || customer.cpf || '').replace(/\D/g, '');
+    const cleanPhone = customer.phone ? String(customer.phone).replace(/\D/g, '') : '';
     const notificationUrl = `${this.siteUrl}/api/payments/webhook`;
     const isHttpsNotification = notificationUrl.startsWith('https://');
 
     const nameParts = (cardholderName || customer.name || 'Cliente').trim().split(' ');
     const firstName = nameParts[0] || 'Cliente';
-    const lastName = nameParts.slice(1).join(' ') || 'Facchinetti';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Endereço completo formatado
+    const fullAddress = [
+      customer.address || customer.street || '',
+      customer.number ? `nº ${customer.number}` : '',
+      customer.complement ? `(${customer.complement})` : '',
+      customer.bairro || customer.neighborhood ? `Bairro: ${customer.bairro || customer.neighborhood}` : '',
+      customer.city ? `${customer.city} - ${customer.state || ''}` : '',
+      (customer.cep || customer.zip_code) ? `CEP: ${customer.cep || customer.zip_code}` : ''
+    ].filter(Boolean).join(' • ');
+
+    const formattedItems = Array.isArray(items) && items.length > 0 ? items.map(it => ({
+      id: String(it.id || it.product_id || it.sku || 'LIVRO-DF'),
+      title: String(it.title || it.product_title || 'Livro Débora Facchinetti'),
+      description: String(it.description || it.title || 'Literatura Infantil'),
+      quantity: Number(it.quantity || 1),
+      unit_price: Number(it.unit_price || it.price || amount)
+    })) : [
+      {
+        id: 'LIVRO-DF',
+        title: `Livro — Pedido ${order.order_code || ''}`,
+        quantity: 1,
+        unit_price: amount
+      }
+    ];
 
     const paymentBody = {
       transaction_amount: amount,
@@ -398,19 +516,61 @@ class MercadoPagoService {
       payer: {
         email: customer.email || 'comprador@exemplo.com',
         first_name: firstName,
-        last_name: lastName,
-        identification: cleanCpf.length === 11 ? {
-          type: 'CPF',
-          number: cleanCpf
-        } : undefined
+        ...(lastName ? { last_name: lastName } : {}),
+        ...(cleanPhone ? {
+          phone: {
+            area_code: cleanPhone.slice(0, 2),
+            number: cleanPhone.slice(2)
+          }
+        } : {}),
+        ...(cleanCpf.length === 11 ? {
+          identification: {
+            type: 'CPF',
+            number: cleanCpf
+          }
+        } : {})
       },
       external_reference: String(externalReference),
       ...(issuerId ? { issuer_id: issuerId } : {}),
       ...(isHttpsNotification ? { notification_url: notificationUrl } : {}),
       statement_descriptor: 'DEBORAFACCHINETTI',
       metadata: {
-        order_id: order.id,
-        order_code: order.order_code
+        order_id: String(order.id || ''),
+        order_code: String(order.order_code || ''),
+        customer_name: String(customer.name || cardholderName || ''),
+        customer_email: String(customer.email || ''),
+        customer_phone: String(customer.phone || ''),
+        customer_cpf: String(cleanCpf || ''),
+        shipping_address: String(fullAddress || ''),
+        shipping_street: String(customer.address || customer.street || ''),
+        shipping_number: String(customer.number || ''),
+        shipping_complement: String(customer.complement || ''),
+        shipping_neighborhood: String(customer.bairro || customer.neighborhood || ''),
+        shipping_city: String(customer.city || ''),
+        shipping_state: String(customer.state || ''),
+        shipping_cep: String(customer.cep || customer.zip_code || ''),
+        shipping_method: String(customer.shipping_method || order.shipping_method || ''),
+        autograph_notes: String(order.autograph_notes || customer.autograph_notes || ''),
+        gift_notes: String(order.gift_notes || customer.gift_notes || ''),
+        items_summary: formattedItems.map(i => `${i.quantity}x ${i.title}`).join(', ')
+      },
+      additional_info: {
+        payer: {
+          first_name: firstName,
+          ...(lastName ? { last_name: lastName } : {}),
+          ...(cleanPhone ? {
+            phone: {
+              area_code: cleanPhone.slice(0, 2),
+              number: cleanPhone.slice(2)
+            }
+          } : {}),
+          address: {
+            zip_code: customer.cep || customer.zip_code || undefined,
+            street_name: customer.address || customer.street || undefined,
+            street_number: Number(customer.number) || undefined
+          }
+        },
+        items: formattedItems
       }
     };
 
